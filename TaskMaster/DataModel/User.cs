@@ -29,4 +29,8 @@ public class User
     {
         /* Edit existed user */
     }
+    public void Remove()
+    {
+        /* Remove existed user */
+    }
 }
