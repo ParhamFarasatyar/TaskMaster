@@ -21,11 +21,11 @@ public class User
         Level = level;
         Score = score;
     }
-    public void AddUser()
+    public void Add()
     {
         /* Add new user */
     }
-    public void EditUser()
+    public void Edit()
     {
         /* Edit existed user */
     }
