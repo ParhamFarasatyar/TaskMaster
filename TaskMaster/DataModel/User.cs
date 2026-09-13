@@ -21,4 +21,8 @@ public class User
         Level = level;
         Score = score;
     }
+    public void AddUser()
+    {
+        /* Add new user */
+    }
 }
