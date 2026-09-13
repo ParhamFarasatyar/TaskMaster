@@ -25,4 +25,8 @@ public class User
     {
         /* Add new user */
     }
+    public void EditUser()
+    {
+        /* Edit existed user */
+    }
 }
