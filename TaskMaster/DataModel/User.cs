@@ -11,4 +11,14 @@ public class User
     public string? Password { get; private set; }
     public Level Level { get; private set; }
     public float Score { get; private set; }
+    public User(Role role, string name, string lastName, string userName, string password, Level level, float score)
+    {
+        Role = role;
+        Name = name;
+        LastName = lastName;
+        UserName = userName;
+        Password = password;
+        Level = level;
+        Score = score;
+    }
 }
