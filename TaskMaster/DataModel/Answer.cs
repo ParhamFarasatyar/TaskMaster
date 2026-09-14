@@ -1,4 +1,5 @@
 ﻿using System;
+using DataBase;
 
 namespace Answer;
 
@@ -23,10 +24,10 @@ public class Answer
         ApprovalStatus = State.Pending;
     }
 
-
-    public void AnswerQuestion()
+    
+    public void AnswerQuestion(Answer answer)
     {
-        /*submit answer in database*/
+        Database.Save(answer,DataType.Answers);
     }
 
     public void UpdateApprovalStatus(State state)
