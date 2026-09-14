@@ -30,6 +30,10 @@ public class Question
     {
         //---------- Edit Question ----------
     }
+    public static void Delete()
+    {
+        //---------- Delete Question ----------
+    }
     public override string ToString()
     {
         return $"""
