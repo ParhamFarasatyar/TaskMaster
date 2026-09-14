@@ -1,19 +1,18 @@
-namespace TaskMaster.Model.Question;
+namespace Question;
 
-public enum Dificulty { Begginer, Midlevel, Advanced }
+public enum Difficulty { Beginner, MidLevel, Advanced }
 
 public class Question
 {
     public string? Description { get; private set; }
-
     public int Grade { get; private set; }
     public string? Id { get; init; }
     public string? Hint { get; private set; }    
     public DateTime CreatedAt { get; init; }
     public DateTime UpdatedAt { get;private set; }
-    public Dificulty Dificulty { get; private set;}
+    public Difficulty Difficulty { get; private set;}
 
-    public Question(string description, int grade, string hint, Dificulty dificulty )
+    public Question(string description, int grade, string hint, Difficulty difficulty )
     {
         Id = Guid.NewGuid().ToString("N");
         CreatedAt = DateTime.Now;
@@ -21,7 +20,7 @@ public class Question
         Description = description;
         Grade = grade;
         Hint = hint;
-        Dificulty = dificulty;
+        Difficulty = difficulty;
     }
     public override string ToString()
     {
@@ -31,7 +30,7 @@ public class Question
         ├─────────────────────────────
         │ Description : {Description}
         │ Hint   : {Hint}
-        │ Difficulty  : {Dificulty}
+        │ Difficulty  : {Difficulty}
         │ Score  : {Grade}
         │ ID     : {Id}
         | Created at : {CreatedAt}
