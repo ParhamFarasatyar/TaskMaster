@@ -14,13 +14,13 @@ public class Answer
     public int Grade{get; private set;}
 
 
-    public Answer(string questionId, string code, State approvalStatus)
+    public Answer(string questionId, string code)
     {
         AnswerId = Guid.NewGuid().ToString("N");
         QuestionId = questionId;
         CreatedDate = DateTime.Now;
         Code = code;
-        ApprovalStatus = approvalStatus;
+        ApprovalStatus = State.Pending;
     }
 
 
