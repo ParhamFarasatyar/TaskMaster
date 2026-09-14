@@ -1,3 +1,4 @@
+using DataBase;
 namespace UserModel;
 
 public enum Level { Beginner, MidLevel, Advanced }
@@ -21,9 +22,13 @@ public class User
         Level = level;
         Score = score;
     }
-    public void Add()
+    public bool Add()
     {
-        /* Add new user */
+        List<User> users = Database.Load<User>(DataType.Users);
+        if (users.Any(u => u.UserName == UserName)) return false;
+        
+        Database.Save(this, DataType.Users);
+        return true;
     }
     public void Edit()
     {
