@@ -1,4 +1,6 @@
-namespace Question;
+using System.Security.Cryptography.X509Certificates;
+using DataBase;
+namespace QuestionDatatype;
 
 public enum Difficulty { Beginner, MidLevel, Advanced }
 
@@ -11,7 +13,7 @@ public class Question
     public DateTime UpdatedAt { get;private set; }
     public Difficulty Difficulty { get; private set;}
 
-    public Question(string description, int grade, string hint, Difficulty difficulty )
+    public Question(string description, int grade, Difficulty difficulty )
     {
         Id = Guid.NewGuid().ToString("N");
         CreatedAt = DateTime.Now;
@@ -20,9 +22,11 @@ public class Question
         Grade = grade;
         Difficulty = difficulty;
     }
-    public void Add()
+    public bool Add()
     {
-        //---------- Add Question ----------
+        //---------- Input validating ----------
+        Database.Save(this, DataType.Questions);
+        return true;
     }
     public void Edit()
     {
