@@ -7,7 +7,6 @@ public class Question
     public string? Description { get; private set; }
     public int Grade { get; private set; }
     public string? Id { get; init; }
-    public string? Hint { get; private set; }    
     public DateTime CreatedAt { get; init; }
     public DateTime UpdatedAt { get;private set; }
     public Difficulty Difficulty { get; private set;}
@@ -19,7 +18,6 @@ public class Question
         UpdatedAt = DateTime.Now;
         Description = description;
         Grade = grade;
-        Hint = hint;
         Difficulty = difficulty;
     }
     public void Add()
@@ -41,7 +39,6 @@ public class Question
         │ Task
         ├─────────────────────────────
         │ Description : {Description}
-        │ Hint   : {Hint}
         │ Difficulty  : {Difficulty}
         │ Score  : {Grade}
         │ ID     : {Id}
