@@ -1,7 +1,6 @@
 namespace TaskMaster.Model.Question;
-using Enum;
 
-
+public enum Dificulty { Begginer, Midlevel, Advanced }
 
 public class Question
 {
