@@ -1,22 +1,24 @@
 ﻿using System;
 
-namespace TaskMaster.DataModel;
+namespace Answer;
+
+public enum State { Pending, Approve, Reject}
 
 public class Answer
 {
-    public string ApprovalStatus;
-    public DateTime CreatedDate;
-    public int AnswerId;
-    public int QuestionId;
-    public string Code;
-    public int Point;
+    public string AnswerId{get;}
+    public State ApprovalStatus{get;private set;}
+    public DateTime CreatedDate{get;}
+    public string QuestionId{get; private set;}
+    public string Code{get; private set;}
+    public int Grade{get; private set;}
 
 
-    public Answer(int answerId, int questionId, DateTime createdDate, string code, string approvalStatus)
+    public Answer(string questionId, string code, State approvalStatus)
     {
-        AnswerId = answerId;
+        AnswerId = Guid.NewGuid().ToString("N");
         QuestionId = questionId;
-        CreatedDate = createdDate;
+        CreatedDate = DateTime.Now;
         Code = code;
         ApprovalStatus = approvalStatus;
     }
