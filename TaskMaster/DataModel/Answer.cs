@@ -28,4 +28,9 @@ public class Answer
     {
         /*submit answer in database*/
     }
+
+    public void UpdateApprovalStatus(State state)
+    {
+        ApprovalStatus = state;
+    }
 }
