@@ -22,15 +22,15 @@ public class Question
         Hint = hint;
         Difficulty = difficulty;
     }
-    public static void Add()
+    public void Add()
     {
         //---------- Add Question ----------
     }
-    public static void Edit()
+    public void Edit()
     {
         //---------- Edit Question ----------
     }
-    public static void Delete()
+    public void Delete()
     {
         //---------- Delete Question ----------
     }
