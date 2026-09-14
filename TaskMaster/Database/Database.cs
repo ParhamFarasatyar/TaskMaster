@@ -1,0 +1,101 @@
+﻿using System.Text.Json;
+namespace DataBase;
+
+public enum DataType { Users, Questions, Answers }
+
+public static class Database
+{
+    private static readonly JsonSerializerOptions options = new()
+    {
+        WriteIndented = true
+    };
+    private static string GetPath(DataType type)
+    {
+        string projectDirectory = Directory.GetParent(
+            Directory.GetCurrentDirectory()
+        )!
+        .Parent!
+        .Parent!
+        .FullName;
+        
+        string dataFolder = Path.Combine(
+            projectDirectory,
+            "Data"
+        );
+        
+        if (!Directory.Exists(dataFolder))
+        {
+            Directory.CreateDirectory(dataFolder);
+        }
+        
+        return Path.Combine(
+            dataFolder,
+            $"{type}.json"
+        );
+    }
+    
+    public static void Save<T>(T data, DataType type)
+    {
+        string path = GetPath(type);
+        
+        List<T> dataList;
+        
+        if (File.Exists(path))
+        {
+            dataList = Load<T>(type);
+        }
+        else
+        {
+            dataList = new List<T>();
+        }
+        
+        dataList.Add(data);
+        
+        string json = JsonSerializer.Serialize(
+            dataList,
+            options
+        );
+        
+        File.WriteAllText(
+            path,
+            json
+        );
+    }
+    
+    public static List<T> Load<T>(DataType type)
+    {
+        string path = GetPath(type);
+        
+        if (!File.Exists(path))
+        {
+            return new List<T>();
+        }
+        
+        string json = File.ReadAllText(path);
+        
+        if (string.IsNullOrWhiteSpace(json))
+        {
+            return new List<T>();
+        }
+        
+        return JsonSerializer.Deserialize<List<T>>(json)
+               ?? new List<T>();
+    }
+    
+    public static void Update<T>(
+        List<T> data,
+        DataType type)
+    {
+        string path = GetPath(type);
+        
+        string json = JsonSerializer.Serialize(
+            data,
+            options
+        );
+        
+        File.WriteAllText(
+            path,
+            json
+        );
+    }
+}
