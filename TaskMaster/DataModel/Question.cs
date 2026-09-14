@@ -22,6 +22,10 @@ public class Question
         Hint = hint;
         Difficulty = difficulty;
     }
+    public static void Add()
+    {
+        //---------- Add Question ----------
+    }
     public override string ToString()
     {
         return $"""
