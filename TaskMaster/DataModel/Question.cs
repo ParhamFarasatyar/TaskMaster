@@ -26,6 +26,10 @@ public class Question
     {
         //---------- Add Question ----------
     }
+    public static void Edit()
+    {
+        //---------- Edit Question ----------
+    }
     public override string ToString()
     {
         return $"""
