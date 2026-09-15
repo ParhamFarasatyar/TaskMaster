@@ -1,2 +1,6 @@
 TaskMaster/bin/
 TaskMaster/obj/
+
+.idea/
+bin/
+obj/
