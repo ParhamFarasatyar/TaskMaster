@@ -25,9 +25,9 @@ public class Answer
     }
 
     
-    public void AnswerQuestion(Answer answer)
+    public void AnswerQuestion()
     {
-        Database.Save(answer,DataType.Answers);
+        Database.Save(this,DataType.Answers);
     }
 
     public void SetApprovalStatus(State state)
