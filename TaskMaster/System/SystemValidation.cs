@@ -8,7 +8,7 @@ public static class System
     {
         if (string.IsNullOrWhiteSpace(input))
         {
-            errorMassage = "Enter something GENIUS!!";
+            errorMassage = "Invalid input!\nEnter something GENIUS!!";
             return false;
         }
 
@@ -21,7 +21,7 @@ public static class System
     {
         if ((State)state != State.Pending || (State)state != State.Approve || (State)state != State.Reject)
         {
-            errorMassage = "Enter Pending, Approve or Reject.";
+            errorMassage = "Invalid input!\nEnter Pending, Approve or Reject.";
             return false;
         }
 
