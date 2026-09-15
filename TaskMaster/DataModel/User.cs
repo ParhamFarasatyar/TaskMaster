@@ -30,9 +30,33 @@ public class User
         Database.Save(this, DataType.Users);
         return true;
     }
-    public void Edit()
+    public bool Edit(string field, string data)
     {
-        /* Edit existed user */
+        List<User> users = Database.Load<User>(DataType.Users);
+        int selectedUserIndex = users.FindIndex(u => u.UserName == UserName);
+
+        switch (field)
+        {
+            case "Name":
+                users[selectedUserIndex].Name = data;
+            break;
+
+            case "LastName":
+                users[selectedUserIndex].LastName = data;
+            break;
+
+            case "UserName":
+                if (users.Any(u => u.UserName != data)) users[selectedUserIndex].UserName = data;
+                else return false;
+            break;
+
+            case "Password":
+                users[selectedUserIndex].Password = data;
+            break;
+        }
+
+        Database.Update(users, DataType.Users);
+        return true;
     }
     public void Remove()
     {
