@@ -16,32 +16,6 @@
     "Password": "1234",
     "Level": "Beginner",
     "Score": 0
-  },
-  {
-    "Role": "Designer",
-    "Name": "Aryan",
-    "LastName": "Ebrahimi",
-    "UserName": "arynebrahimi",
-    "Password": "1234",
-    "Level": "Beginner",
-    "Score": 0
-  },
-  {
-    "Role": "Designer",
-    "Name": "dsfgrhrtjy",
-    "LastName": "ddfbgfh",
-    "UserName": "dfsbgfnhg",
-    "Password": "123546",
-    "Level": "Beginner",
-    "Score": 0
-  },
-  {
-    "Role": "Designer",
-    "Name": "",
-    "LastName": "",
-    "UserName": "",
-    "Password": "",
-    "Level": "Beginner",
-    "Score": 0
   }
+  
 ]

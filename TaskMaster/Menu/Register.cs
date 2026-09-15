@@ -74,10 +74,8 @@ public class Register
 
         Console.WriteLine();
         Console.WriteLine("Register Successful!");
-
-        Console.ReadLine();
-
-
+        Thread.Sleep(2000);
+        
         return user;
     }
 }
