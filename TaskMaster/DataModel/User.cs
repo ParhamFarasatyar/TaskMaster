@@ -1,3 +1,4 @@
+using DataBase;
 namespace UserModel;
 
 public enum Level { Beginner, MidLevel, Advanced }
@@ -21,16 +22,51 @@ public class User
         Level = level;
         Score = score;
     }
-    public void Add()
+    public bool Add()
     {
-        /* Add new user */
+        List<User> users = Database.Load<User>(DataType.Users);
+        if (users.Any(u => u.UserName == UserName)) return false;
+        
+        Database.Save(this, DataType.Users);
+        return true;
     }
-    public void Edit()
+    public bool Edit(string field, string data)
     {
-        /* Edit existed user */
+        List<User> users = Database.Load<User>(DataType.Users);
+        int selectedUserIndex = users.FindIndex(u => u.UserName == UserName);
+        if (selectedUserIndex == -1) return false;
+
+        switch (field)
+        {
+            case "Name":
+                users[selectedUserIndex].Name = data;
+            break;
+
+            case "LastName":
+                users[selectedUserIndex].LastName = data;
+            break;
+
+            case "UserName":
+                if (users.Any(u => u.UserName != data)) users[selectedUserIndex].UserName = data;
+                else return false;
+            break;
+
+            case "Password":
+                users[selectedUserIndex].Password = data;
+            break;
+        }
+
+        Database.Update(users, DataType.Users);
+        return true;
     }
-    public void Remove()
+    public bool Remove()
     {
-        /* Remove existed user */
+        List<User> users = Database.Load<User>(DataType.Users);
+        int selectedUserIndex = users.FindIndex(u => u.UserName == UserName);
+        if (selectedUserIndex == -1) return false;
+
+        users.RemoveAt(selectedUserIndex);
+        Database.Update(users, DataType.Users);
+        return true;
     }
 }
