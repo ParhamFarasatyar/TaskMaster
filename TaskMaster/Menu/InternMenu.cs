@@ -1,5 +1,4 @@
 ﻿using UserModel;
-
 namespace Menu;
 
 public class InternMenu
