@@ -81,4 +81,21 @@ public static class Database
         return JsonSerializer.Deserialize<List<T>>(json)
                ?? new List<T>();
     }
+    
+    public static void Update<T>(
+        List<T> data,
+        DataType type)
+    {
+        string path = GetPath(type);
+        
+        string json = JsonSerializer.Serialize(
+            data,
+            options
+        );
+        
+        File.WriteAllText(
+            path,
+            json
+        );
+    }
 }
