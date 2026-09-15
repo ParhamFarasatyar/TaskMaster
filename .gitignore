@@ -1,2 +1,25 @@
-TaskMaster/bin/
-TaskMaster/obj/
+# IDE settings
+
+# JetBrains Rider / IntelliJ
+.idea/
+*.sln.iml
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+
+# Visual Studio Code
+.vscode/
+
+# .NET build files
+bin/
+obj/
+
+# IDE settings
+.idea/
+*.sln.iml
+.vs/
+.vscode/
+*.user
+*.suo
