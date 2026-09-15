@@ -34,5 +34,14 @@
     "Password": "123546",
     "Level": "Beginner",
     "Score": 0
+  },
+  {
+    "Role": "Designer",
+    "Name": "",
+    "LastName": "",
+    "UserName": "",
+    "Password": "",
+    "Level": "Beginner",
+    "Score": 0
   }
 ]

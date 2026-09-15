@@ -1,4 +1,4 @@
-﻿using Question;
+﻿using QuestionDatatype;
 namespace Menu;
 
 public class QuestionCreator
@@ -49,10 +49,9 @@ public class QuestionCreator
         };
 
         
-        Question.Question question = new Question.Question(
+        Question question = new Question(
             description,
             grade,
-            "",
             difficulty
         );
 
