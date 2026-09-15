@@ -23,13 +23,12 @@ public class Question
         Grade = grade;
         Difficulty = difficulty;
     }
-    public bool Add()
+    public void Add()
     {
         //---------- Input validating ----------
         Database.Save(this, DataType.Questions);
-        return true;
     }
-    public static bool Edit(string Id, Question values, int data)
+    public static void Edit(string Id, Question values, int data)
     {
         List<Question> questions = Database.Load<Question>(DataType.Questions);
 
@@ -57,9 +56,8 @@ public class Question
         newquestion.UpdatedAt = DateTime.Now;
         questions[index] = newquestion;
         DataBase.Database.Update(questions, DataType.Questions);
-        return true;
     }
-    public static bool Delete(int array)
+    public static void Delete(int array)
     {
         List<Question> questions = Database.Load<Question>(DataType.Questions);
 
@@ -68,7 +66,6 @@ public class Question
         questions.Remove(question!);
 
         Database.Update(questions, DataType.Questions);
-        return true;
     }
     public static void ShowQuestions()
     {
