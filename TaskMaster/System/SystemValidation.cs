@@ -17,9 +17,9 @@ public static class System
     }
     
     
-    static bool StateValidationInput(string state, out string? errorMassage)
+    static bool StateValidationInput(int state, out string? errorMassage)
     {
-        if (state.ToLower() != "pending" || state.ToLower() != "approve" || state.ToLower() != "reject")
+        if ((State)state != State.Pending || (State)state != State.Approve || (State)state != State.Reject)
         {
             errorMassage = "Enter Pending, Approve or Reject.";
             return false;
