@@ -58,9 +58,15 @@ public class Question
         DataBase.Database.Update(questions, DataType.Questions);
         return true;
     }
-    public void Delete()
+    public static void Delete(int array)
     {
-        //---------- Delete Question ----------
+        List<Question> questions = Database.Load<Question>(DataType.Questions);
+
+        Question? question = questions[array];
+
+        questions.Remove(question!);
+
+        Database.Update(questions, DataType.Questions);
     }
     public override string ToString()
     {
