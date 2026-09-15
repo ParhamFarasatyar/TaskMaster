@@ -8,13 +8,14 @@ public static class System
     {
         if (string.IsNullOrWhiteSpace(input))
         {
-            errorMassage = "Enter something GENIUS!!";
+            errorMassage = "Invalid input!\nEnter something GENIUS!!";
             return false;
         }
 
         errorMassage = null;
         return true;
     }
+    
     public static bool Grade(string input, out string? errorMessage)
     {
         int Input;
@@ -29,7 +30,7 @@ public static class System
                 Input > 5)
         {
             isValid = false;
-            errorMessage = "the grade must be from 1 to 5";
+            errorMessage = "Invalid input!\nthe grade must be from 1 to 5";
         }
 
         errorMessage = null;
