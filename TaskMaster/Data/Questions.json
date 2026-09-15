@@ -1,12 +1,10 @@
 [
   {
-    "Description": "find the max num of array",
-    "Grade": 2,
+    "Description": "test",
+    "Grade": 0,
     "Id": "33e174b4fbfe4b648133d3c34e793723",
-
-    
     "CreatedAt": "2026-09-14T21:49:42.1657282-07:00",
-    "UpdatedAt": "2026-09-14T21:49:42.1758771-07:00",
+    "UpdatedAt": "2026-09-14T23:15:26.4633553-07:00",
     "Difficulty": 0
   }
 ]

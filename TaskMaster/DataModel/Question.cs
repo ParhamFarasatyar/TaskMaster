@@ -29,11 +29,13 @@ public class Question
         Database.Save(this, DataType.Questions);
         return true;
     }
-    public bool Edit(Question values, int data)
+    public static bool Edit(string Id, Question values, int data)
     {
         List<Question> questions = Database.Load<Question>(DataType.Questions);
 
-        Question? question = questions.FirstOrDefault(t => t.Id == values.Id);
+        Question? question = questions.FirstOrDefault(t => t.Id == Id);
+
+        int index = questions.IndexOf(question!);
 
         Question newquestion = new Question("", 0, Difficulty.Beginner);
         newquestion = question!;
@@ -52,6 +54,8 @@ public class Question
                 break;
 
         }
+        questions[index] = newquestion;
+        DataBase.Database.Update(questions, DataType.Questions);
         return true;
     }
     public void Delete()
