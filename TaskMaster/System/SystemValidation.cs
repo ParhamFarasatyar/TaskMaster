@@ -29,7 +29,7 @@ public static class System
                 Input > 5)
         {
             isValid = false;
-            errorMessage = "the grade must be from 1 to 5";
+            errorMessage = "Invalid input!\nthe grade must be from 1 to 5";
         }
 
         errorMessage = null;
