@@ -1,6 +1,6 @@
 namespace SystemValidation;
 
-class System
+public static class System
 {
     
 }
