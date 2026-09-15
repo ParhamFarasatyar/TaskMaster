@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using System.Text.Json.Serialization;
 namespace DataBase;
 
 public enum DataType { Users, Questions, Answers }
@@ -7,7 +8,11 @@ public static class Database
 {
     private static readonly JsonSerializerOptions options = new()
     {
-        WriteIndented = true
+        WriteIndented = true,
+        Converters =
+        {
+            new JsonStringEnumConverter()
+        }
     };
     private static string GetPath(DataType type)
     {
@@ -78,7 +83,7 @@ public static class Database
             return new List<T>();
         }
         
-        return JsonSerializer.Deserialize<List<T>>(json)
+        return JsonSerializer.Deserialize<List<T>>(json, options)
                ?? new List<T>();
     }
     
