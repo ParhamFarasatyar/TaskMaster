@@ -30,7 +30,7 @@ public class Answer
         Database.Save(answer,DataType.Answers);
     }
 
-    public void UpdateApprovalStatus(State state)
+    public void SetApprovalStatus(State state)
     {
         ApprovalStatus = state;
     }
