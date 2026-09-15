@@ -35,4 +35,30 @@ public static class System
         errorMessage = null;
         return isValid;
     }
+    public static bool ValidateUsername(string? input, out string? errorMessage)
+    {
+        bool isValid = StringValidationInput(input, out errorMessage);
+        if (!isValid) return false;
+        if (input!.Length < 5)
+        {
+            errorMessage = "Invalid input!\nYour username is too short.";
+            return false;
+        }
+        if (input.Length > 20)
+        {
+            errorMessage = "Invalid input\nYour username is too long.";
+            return false;
+        }
+        if (input.All(c => c == input[0]))
+        {
+            errorMessage = "Invalid input!\nYour username contain repeated characters";
+            return false;
+        }
+        if (input.Any(c => !char.IsLetterOrDigit(c)))
+        {
+            errorMessage = "Invalid input!\nOnly use letters and numbers.";
+            return false;
+        }
+        return true;
+    }
 }
