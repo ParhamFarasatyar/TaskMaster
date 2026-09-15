@@ -1,6 +1,4 @@
-﻿using QuestionDatatype;
-using DataBase;
-namespace TaskMaster;
+﻿namespace TaskMaster;
 
 class Program
 {
