@@ -54,11 +54,12 @@ public class Question
                 break;
 
         }
+        newquestion.UpdatedAt = DateTime.Now;
         questions[index] = newquestion;
         DataBase.Database.Update(questions, DataType.Questions);
         return true;
     }
-    public static void Delete(int array)
+    public static bool Delete(int array)
     {
         List<Question> questions = Database.Load<Question>(DataType.Questions);
 
@@ -67,6 +68,26 @@ public class Question
         questions.Remove(question!);
 
         Database.Update(questions, DataType.Questions);
+        return true;
+    }
+    public static void ShowQuestions()
+    {
+       List<Question> questions = Database.Load<Question>(DataType.Questions);
+       foreach(Question question in questions)
+        {
+            string log = $"""
+        ┌─────────────────────────────
+        │ Task
+        ├─────────────────────────────
+        │ Description : {question.Description}
+        │ Difficulty  : {question.Difficulty}
+        │ Score  : {question.Grade}
+        | Created at : {question.CreatedAt}
+        | Updated at : {question.UpdatedAt}
+        └─────────────────────────────
+        """;
+        Console.WriteLine(log);
+        }
     }
     public override string ToString()
     {
