@@ -34,6 +34,7 @@ public class User
     {
         List<User> users = Database.Load<User>(DataType.Users);
         int selectedUserIndex = users.FindIndex(u => u.UserName == UserName);
+        if (selectedUserIndex == -1) return false;
 
         switch (field)
         {
@@ -58,8 +59,14 @@ public class User
         Database.Update(users, DataType.Users);
         return true;
     }
-    public void Remove()
+    public bool Remove()
     {
-        /* Remove existed user */
+        List<User> users = Database.Load<User>(DataType.Users);
+        int selectedUserIndex = users.FindIndex(u => u.UserName == UserName);
+        if (selectedUserIndex == -1) return false;
+
+        users.RemoveAt(selectedUserIndex);
+        Database.Update(users, DataType.Users);
+        return true;
     }
 }
