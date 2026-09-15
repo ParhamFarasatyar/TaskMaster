@@ -11,10 +11,10 @@ public class Question
     public int Grade { get; private set; }
     public string? Id { get; init; }
     public DateTime CreatedAt { get; init; }
-    public DateTime UpdatedAt { get;private set; }
-    public Difficulty Difficulty { get; private set;}
+    public DateTime UpdatedAt { get; private set; }
+    public Difficulty Difficulty { get; private set; }
 
-    public Question(string description, int grade, Difficulty difficulty )
+    public Question(string description, int grade, Difficulty difficulty)
     {
         Id = Guid.NewGuid().ToString("N");
         CreatedAt = DateTime.Now;
@@ -29,23 +29,29 @@ public class Question
         Database.Save(this, DataType.Questions);
         return true;
     }
-    public bool Edit()
+    public bool Edit(Question values, int data)
     {
-        List<Question> questions = Database.Load<Question>( DataType.Questions);
-        // return true;
-        Question? question = questions.FirstOrDefault(t => t.Id == this.Id);
-            Console.WriteLine($"ID entered: {this.Id}");
-        //---------- Input validating ----------
-        foreach (Question item in questions)
-            {
-                Console.WriteLine($"ID in JSON: {item.Id}");
-            }
+        List<Question> questions = Database.Load<Question>(DataType.Questions);
 
-            if (question == null)
-            {
-                Console.WriteLine("Task not found.");
-                return false;
-            }
+        Question? question = questions.FirstOrDefault(t => t.Id == values.Id);
+
+        Question newquestion = new Question("", 0, Difficulty.Beginner);
+        newquestion = question!;
+        Console.WriteLine(question);
+        Console.WriteLine(newquestion);
+        switch (data)
+        {
+            case 1:
+                newquestion.Description = values.Description;
+                break;
+            case 2:
+                newquestion.Grade = values.Grade;
+                break;
+            case 3:
+                newquestion.Difficulty = values.Difficulty;
+                break;
+
+        }
         return true;
     }
     public void Delete()
