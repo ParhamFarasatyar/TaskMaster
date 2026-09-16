@@ -16,8 +16,8 @@ public class Register
 
         string[] roles =
         {
-            "Intern",
-            "Designer"
+            Role.Intern.ToString(),
+            Role.Designer.ToString()
         };
 
 
