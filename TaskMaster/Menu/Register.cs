@@ -40,18 +40,50 @@ public class Register
 
         Console.Write("Name: ");
         string name = Console.ReadLine()!;
+        bool isValid = SystemValidation.System.StringValidationInput(name, out string? errorMessage);
+        while (!isValid)
+        {
+            SystemValidation.System.PrintColorizeMessage(errorMessage!, ConsoleColor.Red);
+            Console.Write("Name: ");
+            name = Console.ReadLine()!;
+            isValid = SystemValidation.System.StringValidationInput(name, out errorMessage);
+        }
 
 
         Console.Write("Last Name: ");
         string lastName = Console.ReadLine()!;
+        isValid = SystemValidation.System.StringValidationInput(lastName, out errorMessage);
+        while (!isValid)
+        {
+            SystemValidation.System.PrintColorizeMessage(errorMessage!, ConsoleColor.Red);
+            Console.Write("Last Name: ");
+            lastName = Console.ReadLine()!;
+            isValid = SystemValidation.System.StringValidationInput(lastName, out errorMessage);
+        }
 
 
         Console.Write("Username: ");
         string username = Console.ReadLine()!;
+        isValid = SystemValidation.System.ValidateUsername(username, out errorMessage);
+        while (!isValid)
+        {
+            SystemValidation.System.PrintColorizeMessage(errorMessage!, ConsoleColor.Red);
+            Console.Write("Username: ");
+            username = Console.ReadLine()!;
+            isValid = SystemValidation.System.ValidateUsername(username, out errorMessage);
+        }
 
 
         Console.Write("Password: ");
         string password = Console.ReadLine()!;
+        isValid = SystemValidation.System.ValidateUserPassword(password, out errorMessage);
+        while (!isValid)
+        {
+            SystemValidation.System.PrintColorizeMessage(errorMessage!, ConsoleColor.Red);
+            Console.Write("Password: ");
+            password = Console.ReadLine()!;
+            isValid = SystemValidation.System.ValidateUserPassword(username, out errorMessage);
+        }
 
 
 
