@@ -28,13 +28,11 @@ public class Question
         //---------- Input validating ----------
         Database.Save(this, DataType.Questions);
     }
-    public static void Edit(string Id, Question values, int data)
+    public static void Edit(int index, Question values, int data)
     {
         List<Question> questions = Database.Load<Question>(DataType.Questions);
 
-        Question? question = questions.FirstOrDefault(t => t.Id == Id);
-
-        int index = questions.IndexOf(question!);
+        Question question = questions[index];
 
         Question newquestion = new Question("", 0, Difficulty.Beginner);
         newquestion = question!;
@@ -57,11 +55,11 @@ public class Question
         questions[index] = newquestion;
         DataBase.Database.Update(questions, DataType.Questions);
     }
-    public static void Delete(int array)
+    public static void Delete(int index)
     {
         List<Question> questions = Database.Load<Question>(DataType.Questions);
 
-        Question? question = questions[array];
+        Question? question = questions[index];
 
         questions.Remove(question!);
 
@@ -85,6 +83,26 @@ public class Question
         """;
         Console.WriteLine(log);
         }
+    }
+    public static List<string> MenuQuestions()
+    {
+        List<string> stringifiedQuestion = new();
+        //---------- stringify questions ----------
+        List<Question> questions = Database.Load<Question>(DataType.Questions);
+
+        foreach(Question question in questions)
+        {
+           string questionItem = $"""
+        ├─────────────────────────────
+        │ Description : {question.Description}
+        │ Difficulty  : {question.Difficulty}
+        │ Score  : {question.Grade}
+        └─────────────────────────────
+        """;
+        stringifiedQuestion.Add(questionItem);
+        }
+
+        return stringifiedQuestion;
     }
     public override string ToString()
     {
