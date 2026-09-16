@@ -55,7 +55,7 @@ public class QuestionCreator
             difficulty
         );
 
-
+        question.Add();
         Console.WriteLine();
         Console.WriteLine("Question Created Successfully!");
 
