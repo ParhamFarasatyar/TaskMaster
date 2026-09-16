@@ -4,15 +4,15 @@ namespace SystemValidation;
 
 public static class System
 {
-    static bool StringValidationInput(string? input, out string? errorMassage)
+    static bool StringValidationInput(string? input, out string? errorMessage)
     {
         if (string.IsNullOrWhiteSpace(input))
         {
-            errorMassage = "Invalid input!\nEnter something GENIUS!!";
+            errorMessage = "Invalid input!\nEnter something GENIUS!!";
             return false;
         }
 
-        errorMassage = null;
+        errorMessage = null;
         return true;
     }
     
