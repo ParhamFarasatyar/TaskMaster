@@ -1,7 +1,7 @@
 ﻿using System;
 using DataBase;
 
-namespace Answer;
+namespace AnswerDataModel;
 
 public enum State { Pending, Approve, Reject}
 
