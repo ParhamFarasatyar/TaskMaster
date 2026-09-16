@@ -1,0 +1,76 @@
+﻿namespace Menu;
+using UserModel;
+public class MainMenu
+{
+    public void Show()
+    {
+        string[] options =
+        {
+            "Login",
+            "Register",
+            "Exit"
+        };
+
+
+        int selected = ConsoleMenu.Show(
+            "    Task Master",
+            options
+        );
+
+
+        switch (selected)
+        {
+            case 0:
+                Login();
+                break;
+
+
+            case 1:
+                Register();
+                break;
+
+
+            case 2:
+                Exit();
+                break;
+        }
+    }
+
+
+
+    private void Login()
+    {
+        Login login = new();
+
+        User? user = login.Enter();
+
+
+        if(user != null)
+        {
+            MenuManager manager = new();
+
+            manager.Show(user);
+        }
+    }
+
+
+
+    private void Register()
+    {
+        Register register = new();
+
+        User user = register.Create();
+
+
+        MenuManager manager = new();
+
+        manager.Show(user);
+    }
+
+
+
+    private void Exit()
+    {
+        Console.WriteLine("Goodbye!");
+    }
+}
