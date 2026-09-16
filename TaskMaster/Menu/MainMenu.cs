@@ -69,7 +69,7 @@ public class MainMenu
 
         MenuManager manager = new();
 
-        manager.Show(user);
+        manager.Show(user!);
     }
 
 
