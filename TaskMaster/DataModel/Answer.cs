@@ -15,15 +15,33 @@ public class Answer
     public int Grade{ get; private set; }
 
 
-    public Answer(string questionId, string code)
+    public Answer(string answerId, State approvalStatus, DateTime createdDate, string questionId, string code, int grade)
     {
-        AnswerId = Guid.NewGuid().ToString("N");
+        AnswerId = answerId == null ? Guid.NewGuid().ToString("N") : answerId;
         QuestionId = questionId;
-        CreatedDate = DateTime.Now;
+
+        if (createdDate == null)
+        {
+            DateTime utcNow = DateTime.UtcNow;
+
+            TimeZoneInfo tehranZone = TimeZoneInfo.FindSystemTimeZoneById("Iran Standard Time");
+        
+            DateTime CreatedDate = TimeZoneInfo.ConvertTimeFromUtc(utcNow, tehranZone);
+        }
+        else
+        {
+            CreatedDate = createdDate;
+        }
+        
         Code = code;
-        ApprovalStatus = State.Pending;
+        ApprovalStatus = approvalStatus == null ? State.Pending : approvalStatus;
     }
 
+    
+    public void AnswerQuestion()
+    {
+        Database.Save(this,DataType.Answers);
+    }
     
     public void SetApprovalStatus(int state, string answerId)
     {
