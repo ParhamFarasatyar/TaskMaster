@@ -25,14 +25,16 @@ public class Answer
     }
 
     
-    public void AnswerQuestion()
+    public void SetApprovalStatus(int state, string answerId)
     {
-        Database.Save(this,DataType.Answers);
-    }
-    
-    public void SetApprovalStatus(int state)
-    {
-        ApprovalStatus = (State)state;
-        Database.Update<Answer>([this],DataType.Answers);
+        List<Answer> loadData = Database.Load<Answer>(DataType.Answers);
+        foreach (Answer answer in loadData)
+        {
+            if (answer.AnswerId == answerId)
+            {
+                answer.ApprovalStatus = (State)state;
+                Database.Save(answer,DataType.Answers);
+            }
+        }
     }
 }
