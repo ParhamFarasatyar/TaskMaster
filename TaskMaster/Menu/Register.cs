@@ -5,7 +5,7 @@ namespace Menu;
 
 public class Register
 {
-    public User Create()
+    public User? Create()
     {
         Console.Clear();
 
@@ -66,10 +66,15 @@ public class Register
         );
 
 
-        Database.Save(
-            user,
-            DataType.Users
-        );
+        bool isRegistered = user.Add();
+
+        if (!isRegistered)
+        {
+            Console.WriteLine();
+            Console.WriteLine("Register failed!\nYour username is exist already.");
+            Thread.Sleep(2000);
+            return null;
+        }
 
 
         Console.WriteLine();
