@@ -4,7 +4,7 @@ namespace SystemValidation;
 
 public static class System
 {
-    static bool StringValidationInput(string? input, out string? errorMessage)
+    public static bool StringValidationInput(string? input, out string? errorMessage)
     {
         if (string.IsNullOrWhiteSpace(input))
         {
