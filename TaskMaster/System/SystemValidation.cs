@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using Answer;
 
 namespace SystemValidation;
@@ -58,6 +59,46 @@ public static class System
         if (input.Any(c => !char.IsLetterOrDigit(c)))
         {
             errorMessage = "Invalid input!\nOnly use letters and numbers.";
+            return false;
+        }
+        return true;
+    }
+    public static bool ValidateUserPassword(string? input, out string? errorMessage)
+    {
+        bool isValid = StringValidationInput(input, out errorMessage);
+        if (!isValid) return false;
+        if (input!.Length < 8)
+        {
+            errorMessage = "Invalid Input!\nYour password must be 8 character at least.";
+            return false;
+        }
+        bool hasDigit = false;
+        bool hasUpper = false;
+        bool hasLower = false;
+        bool hasSpecialCharacter = false;
+        foreach (char character in input)
+        {
+            if (char.IsDigit(character)) hasDigit = true;
+            if (char.IsLower(character)) hasLower = true;
+            if (char.IsUpper(character)) hasUpper = true;
+            if (char.IsWhiteSpace(character))
+            {
+                errorMessage = "Invalid input!\nWhite space isn't allowed in password.";
+                return false;
+            }
+            if (char.IsPunctuation(character) && !(character == '@'))
+            {
+                errorMessage = "Invalid input!\nPunctuation isn't allowed in password.(Except '@')";
+            }
+        }
+        if (input.Contains('@') || input.Contains('#') || input.Contains('$')) hasSpecialCharacter = true;
+
+        if (!hasDigit && !hasUpper && !hasLower && !hasSpecialCharacter)
+        {
+            errorMessage = $"""
+            Invalid input!Your password must contain digit,
+            lowercase character, uppercase character and special characters(@, #, $).
+            """;
             return false;
         }
         return true;
