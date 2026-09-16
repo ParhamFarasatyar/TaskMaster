@@ -1,10 +1,13 @@
 ﻿namespace TaskMaster;
+using Menu;
+using UserModel;
 
 class Program
 {
     static void Main(string[] args)
     {
-        Console.WriteLine("Hello, World!");
+        MainMenu mainMenu = new();
+        mainMenu.Show();
     }
 }
 

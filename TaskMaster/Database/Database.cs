@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using System.Text.Json.Serialization;
 namespace DataBase;
 using System.Text.Json.Serialization;
 
@@ -83,7 +84,7 @@ public static class Database
             return new List<T>();
         }
         
-        return JsonSerializer.Deserialize<List<T>>(json)
+        return JsonSerializer.Deserialize<List<T>>(json, options)
                ?? new List<T>();
     }
     
