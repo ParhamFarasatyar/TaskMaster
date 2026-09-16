@@ -102,4 +102,10 @@ public static class System
         }
         return true;
     }
+    public static void PrintColorizeMessage(string message, ConsoleColor color)
+    {
+        Console.ForegroundColor = color;
+        Console.WriteLine(message);
+        Console.ResetColor();
+    }
 }
