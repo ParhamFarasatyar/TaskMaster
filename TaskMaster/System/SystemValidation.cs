@@ -92,7 +92,7 @@ public static class System
         }
         if (input.Contains('@') || input.Contains('#') || input.Contains('$')) hasSpecialCharacter = true;
 
-        if (!hasDigit && !hasUpper && !hasLower && !hasSpecialCharacter)
+        if (!hasDigit || !hasUpper || !hasLower || !hasSpecialCharacter)
         {
             errorMessage = $"""
             Invalid input!Your password must contain digit,
