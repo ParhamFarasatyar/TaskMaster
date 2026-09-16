@@ -1,4 +1,6 @@
-﻿namespace Menu;
+﻿using QuestionDatatype;
+
+namespace Menu;
 
 public class RemoveQuestion
 {
@@ -14,7 +16,7 @@ public class RemoveQuestion
         // Questions will be loaded from Database
         // by responsible module
 
-        string[] questions = Array.Empty<string>();
+        string[] questions = Question.MenuQuestions();
 
 
         if (questions.Length == 0)
@@ -58,8 +60,7 @@ public class RemoveQuestion
 
         if (confirm == 0)
         {
-            // Delete logic will be implemented
-            // by Database/Question module
+            Question.Delete(selected);
 
             Console.WriteLine(
                 "Question Removed Successfully!"
