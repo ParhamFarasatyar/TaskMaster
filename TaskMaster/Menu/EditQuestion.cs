@@ -15,7 +15,7 @@ public class EditQuestion
 
         // Questions will be loaded from Database by responsible module
         // Temporary empty list
-        
+
         string[] questions = Question.MenuQuestions();
 
         if (questions.Length == 0)
@@ -45,13 +45,19 @@ public class EditQuestion
 
         Difficulty difficulty = Difficulty.Beginner;
         string description = "";
-        int grade = 0;
+        string grade = "";
 
         switch (fieldSelected)
         {
             case 0:
                 Console.Write("New Description: ");
                 description = Console.ReadLine()!;
+                while (!SystemValidation.System.StringValidationInput(description, out string? ErrorMesege))
+                {
+                    SystemValidation.System.PrintColorizeMessage(ErrorMesege!, ConsoleColor.Red);
+                    Console.Write("Enter Question Description: ");
+                    description = Console.ReadLine()!;
+                }
                 break;
             case 1:
                 string[] difficultyOptions =
@@ -81,7 +87,13 @@ public class EditQuestion
                 break;
             case 2:
                 Console.Write("New Grade: ");
-                grade = int.Parse(Console.ReadLine()!);
+                grade = Console.ReadLine()!;
+                while (!SystemValidation.System.Grade(grade, out string? ErrorMesege))
+                {
+                    SystemValidation.System.PrintColorizeMessage(ErrorMesege!, ConsoleColor.Red);
+                    Console.Write("Enter Question Grade: ");
+                    grade = Console.ReadLine()!;
+                }
                 break;
         }
 
@@ -89,7 +101,7 @@ public class EditQuestion
 
 
 
-        Question newquestion = new Question(description, grade, difficulty);
+        Question newquestion = new Question(description, int.Parse(grade), difficulty);
 
         Question.Edit(selected, newquestion, fieldSelected);
         Console.WriteLine();

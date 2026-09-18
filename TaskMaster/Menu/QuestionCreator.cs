@@ -1,4 +1,5 @@
 ﻿using QuestionDatatype;
+using SystemValidation;
 namespace Menu;
 
 public class QuestionCreator
@@ -14,10 +15,24 @@ public class QuestionCreator
 
         Console.Write("Enter Question Description: ");
         string description = Console.ReadLine()!;
+        while (!SystemValidation.System.StringValidationInput(description, out string? ErrorMesege))
+        {
+            SystemValidation.System.PrintColorizeMessage(ErrorMesege!, ConsoleColor.Red);
+            Console.Write("Enter Question Description: ");
+            description = Console.ReadLine()!;
+        }
 
 
         Console.Write("Enter Question Grade: ");
-        int grade = int.Parse(Console.ReadLine()!);
+        string grade = "";
+        grade = Console.ReadLine()!;
+        while (!SystemValidation.System.Grade(grade, out string? ErrorMesege))
+        {
+            SystemValidation.System.PrintColorizeMessage(ErrorMesege!, ConsoleColor.Red);
+            Console.Write("Enter Question Grade: ");
+            grade = Console.ReadLine()!;
+        }
+
 
 
         Console.WriteLine();
@@ -48,10 +63,10 @@ public class QuestionCreator
             _ => Difficulty.Beginner
         };
 
-        
+
         Question question = new Question(
             description,
-            grade,
+            int.Parse(grade),
             difficulty
         );
 
