@@ -14,26 +14,29 @@ public class Answer
     public int Grade{ get; private set; }
 
 
-    public Answer(string? answerId, State approvalStatus, DateTime createdDate, string questionId, string code, int grade)
+    public Answer(string? answerId, State approvalStatus, string questionId, string code, int grade)
     {
         AnswerId = answerId == null ? Guid.NewGuid().ToString("N") : answerId;
         QuestionId = questionId;
 
-        List<Answer> answers = new List<Answer>();
-        answers = Database.Load<Answer>(DataType.Answers);
+        // List<Answer> answers = new List<Answer>();
+        // answers = Database.Load<Answer>(DataType.Answers);
         
-        if (answers.Any(a => a.AnswerId == answerId))
-        {
-            CreatedDate = createdDate;
-        }
-        else
-        {
-            DateTime utcNow = DateTime.UtcNow;
+        // if (answers.Any(a => a.AnswerId == answerId))
+        // {
+        //     CreatedDate = createdDate;
+        // }
+        // else
+        // {
+        //     DateTime utcNow = DateTime.UtcNow;
+        //
+        //     TimeZoneInfo tehranZone = TimeZoneInfo.FindSystemTimeZoneById("Iran Standard Time");
+        //
+        //     CreatedDate = TimeZoneInfo.ConvertTimeFromUtc(utcNow, tehranZone);
+        // }
+        
+        CreatedDate = DateTime.Now;
 
-            TimeZoneInfo tehranZone = TimeZoneInfo.FindSystemTimeZoneById("Iran Standard Time");
-        
-            CreatedDate = TimeZoneInfo.ConvertTimeFromUtc(utcNow, tehranZone);
-        }
         
         Code = code;
         ApprovalStatus = approvalStatus == null ? State.Pending : approvalStatus;
@@ -45,16 +48,10 @@ public class Answer
         Database.Save(this,DataType.Answers);
     }
     
-    public void SetApprovalStatus(int state, string answerId)
+    public void SetApprovalStatus(int state, int answerIndex)
     {
         List<Answer> loadData = Database.Load<Answer>(DataType.Answers);
-        foreach (Answer answer in loadData)
-        {
-            if (answer.AnswerId == answerId)
-            {
-                answer.ApprovalStatus = (State)state;
-                Database.Save(answer,DataType.Answers);
-            }
-        }
+        loadData[answerIndex].ApprovalStatus = (State)state;
+        Database.Update(loadData, DataType.Answers);
     }
 }
