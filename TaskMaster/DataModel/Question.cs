@@ -28,40 +28,32 @@ public class Question
         //---------- Input validating ----------
         Database.Save(this, DataType.Questions);
     }
-    public static void Edit(string Id, Question values, int data)
+    public static void Edit(int index, Question values, int data)
     {
         List<Question> questions = Database.Load<Question>(DataType.Questions);
 
-        Question? question = questions.FirstOrDefault(t => t.Id == Id);
-
-        int index = questions.IndexOf(question!);
-
-        Question newquestion = new Question("", 0, Difficulty.Beginner);
-        newquestion = question!;
-        Console.WriteLine(question);
-        Console.WriteLine(newquestion);
+        Question question = questions[index];
         switch (data)
         {
+            case 0:
+                question.Description = values.Description;
+                break;
             case 1:
-                newquestion.Description = values.Description;
+                question.Difficulty = values.Difficulty;
                 break;
             case 2:
-                newquestion.Grade = values.Grade;
-                break;
-            case 3:
-                newquestion.Difficulty = values.Difficulty;
+                question.Grade = values.Grade;
                 break;
 
         }
-        newquestion.UpdatedAt = DateTime.Now;
-        questions[index] = newquestion;
+        question.UpdatedAt = DateTime.Now;
         DataBase.Database.Update(questions, DataType.Questions);
     }
-    public static void Delete(int array)
+    public static void Delete(int index)
     {
         List<Question> questions = Database.Load<Question>(DataType.Questions);
 
-        Question? question = questions[array];
+        Question? question = questions[index];
 
         questions.Remove(question!);
 
@@ -69,8 +61,8 @@ public class Question
     }
     public static void ShowQuestions()
     {
-       List<Question> questions = Database.Load<Question>(DataType.Questions);
-       foreach(Question question in questions)
+        List<Question> questions = Database.Load<Question>(DataType.Questions);
+        foreach (Question question in questions)
         {
             string log = $"""
         ┌─────────────────────────────
@@ -83,8 +75,27 @@ public class Question
         | Updated at : {question.UpdatedAt}
         └─────────────────────────────
         """;
-        Console.WriteLine(log);
+            Console.WriteLine(log);
         }
+    }
+    public static string[] MenuQuestions()
+    {
+        List<string> stringifiedQuestion = new();
+        //---------- stringify questions ----------
+        List<Question> questions = Database.Load<Question>(DataType.Questions);
+        string[] Questions = new string[questions.Count];
+        for (int i = 0; i < questions.Count; i++)
+        {
+            string questionItem = $"""
+         ────────────────────────────
+        │ Description : {questions[i].Description}
+        │ Difficulty  : {questions[i].Difficulty}
+        │ Score  : {questions[i].Grade}
+        └─────────────────────────────
+        """;
+            Questions[i] = questionItem;
+        }
+        return Questions;
     }
     public override string ToString()
     {
@@ -96,8 +107,8 @@ public class Question
         │ Difficulty  : {Difficulty}
         │ Score  : {Grade}
         │ ID     : {Id}
-        | Created at : {CreatedAt}
-        | Updated at : {UpdatedAt}
+        | Created at : {CreatedAt.ToString("dd/mm/yyyy HH:mm")}
+        | Updated at : {UpdatedAt.ToString("dd/mm/yyyy HH:mm")}
         └─────────────────────────────
         """;
     }
