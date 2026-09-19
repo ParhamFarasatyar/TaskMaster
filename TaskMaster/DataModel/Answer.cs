@@ -1,7 +1,6 @@
-﻿using System;
-using DataBase;
+﻿using DataBase;
 
-namespace AnswerDataModel;
+namespace TaskMaster.DataModel;
 
 public enum State { Pending, Approve, Reject}
 
@@ -15,22 +14,25 @@ public class Answer
     public int Grade{ get; private set; }
 
 
-    public Answer(string answerId, State approvalStatus, DateTime createdDate, string questionId, string code, int grade)
+    public Answer(string? answerId, State approvalStatus, DateTime createdDate, string questionId, string code, int grade)
     {
         AnswerId = answerId == null ? Guid.NewGuid().ToString("N") : answerId;
         QuestionId = questionId;
 
-        if (createdDate == null)
+        List<Answer> answers = new List<Answer>();
+        answers = Database.Load<Answer>(DataType.Answers);
+        
+        if (answers.Any(a => a.AnswerId == answerId))
+        {
+            CreatedDate = createdDate;
+        }
+        else
         {
             DateTime utcNow = DateTime.UtcNow;
 
             TimeZoneInfo tehranZone = TimeZoneInfo.FindSystemTimeZoneById("Iran Standard Time");
         
-            DateTime CreatedDate = TimeZoneInfo.ConvertTimeFromUtc(utcNow, tehranZone);
-        }
-        else
-        {
-            CreatedDate = createdDate;
+            CreatedDate = TimeZoneInfo.ConvertTimeFromUtc(utcNow, tehranZone);
         }
         
         Code = code;
