@@ -12,7 +12,6 @@ public static class System
             PrintColorizeMessage(errorMessage, ConsoleColor.Red);
             return false;
         }
-
         errorMessage = null;
         return true;
     }
@@ -20,6 +19,7 @@ public static class System
     public static bool Grade(string input, out string? errorMessage)
     {
         int Input;
+        errorMessage = null;
         bool isValid = int.TryParse(input, out Input);
         if (!isValid)
         {
@@ -34,7 +34,6 @@ public static class System
             errorMessage = "Invalid input!\nthe grade must be from 1 to 5";
         }
 
-        errorMessage = null;
         return isValid;
     }
     public static bool ValidateUsername(string? input, out string? errorMessage)
