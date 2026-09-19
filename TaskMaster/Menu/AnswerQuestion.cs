@@ -1,28 +1,51 @@
-﻿namespace Menu;
+﻿using TaskMaster.DataModel;
+
+namespace Menu;
 
 public class AnswerQuestion
 {
-    public void Answer()
+
+    public string GetQuestionId()
     {
-        Console.Clear();
+        bool status = false;
+        string questionId = "";
+        
+        while (status)
+        {
+            Console.WriteLine("QuestionId: ");
+            questionId = Console.ReadLine();
 
-        Console.WriteLine("====================");
-        Console.WriteLine("   ANSWER QUESTION  ");
-        Console.WriteLine("====================");
+            status = SystemValidation.System.ValidateUsername(questionId, out string? errorMessage);
+
+            if (status == false)
+            {
+                SystemValidation.System.PrintColorizeMessage(errorMessage!, ConsoleColor.Red);
+            }
+        }
+
+        return questionId;
+    }
 
 
-        // Question loading and answer logic
-        // will be implemented by responsible module
+    public string GetCode()
+    {
+        bool status = false;
+        string code = "";
+        
+        while (status)
+        {
+            
+            Console.WriteLine("Code: ");
+            code = Console.ReadLine();
 
+            status = SystemValidation.System.StringValidationInput(code, out string? errorMessage);
+            
+            if (status == false)
+            {
+                SystemValidation.System.PrintColorizeMessage(errorMessage!, ConsoleColor.Red);
+            }
+        }
 
-        Console.WriteLine();
-        Console.WriteLine("Question section is ready.");
-        Console.WriteLine("Waiting for question module...");
-
-
-        Console.WriteLine();
-        Console.WriteLine("Press Enter to return...");
-
-        Console.ReadLine();
+        return code;
     }
 }
