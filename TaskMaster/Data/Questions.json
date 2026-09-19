@@ -1,18 +1,1 @@
-[
-  {
-    "Description": "asdfghjk",
-    "Grade": 5,
-    "Id": "06aea76d45244fe98c80168a730b587e",
-    "CreatedAt": "2026-09-19T12:31:59.2327242+03:30",
-    "UpdatedAt": "2026-09-19T12:32:55.9524575+03:30",
-    "Difficulty": "Advanced"
-  },
-  {
-    "Description": "sadfhgjhkyjuk",
-    "Grade": 5,
-    "Id": "46daf7e723d944b9a02348bd5bf9e441",
-    "CreatedAt": "2026-09-19T12:32:55.9213514+03:30",
-    "UpdatedAt": "2026-09-19T12:32:55.922816+03:30",
-    "Difficulty": "Advanced"
-  }
-]
+[]
