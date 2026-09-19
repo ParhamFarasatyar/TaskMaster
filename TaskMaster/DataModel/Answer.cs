@@ -36,4 +36,27 @@ public class Answer
         loadData[answerIndex].ApprovalStatus = (State)state;
         Database.Update(loadData, DataType.Answers);
     }
+
+
+    public static string[] MenuAnswers()
+    {
+        List<Answer> answers = Database.Load<Answer>(DataType.Answers);
+        string[] answersArr = new string[answers.Count];
+
+        for (int i = 0; i < answers.Count; i++)
+        {
+            string answerItem = $"""
+             ┌────────────────────────────
+             │ QuestionId: {answers[i].QuestionId}
+             │ State: {answers[i].ApprovalStatus}
+             │ Score: {answers[i].Grade}
+             │ Date/Time: {answers[i].CreatedDate:dd/mm/yyyy HH:mm}
+             │ Code: {answers[i].Code}
+             └─────────────────────────────
+           """;
+            answersArr[i] = answerItem;
+        }
+
+        return answersArr;
+    }
 }
