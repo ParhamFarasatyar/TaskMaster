@@ -92,7 +92,7 @@ public class Question
         ┌────────────────────────────
           │ Description : {description}
           │ Difficulty  : {questions[i].Difficulty}
-          │ Score  : {questions[i].Grade}
+          │ Score       : {questions[i].Grade}
           └─────────────────────────────
         """;
             Questions[i] = questionItem;
@@ -107,10 +107,10 @@ public class Question
         ├─────────────────────────────
         │ Description : {Description}
         │ Difficulty  : {Difficulty}
-        │ Score  : {Grade}
-        │ ID     : {Id}
-        | Created at : {CreatedAt:dd/mm/yyyy HH:mm}
-        | Updated at : {UpdatedAt:dd/mm/yyyy HH:mm}
+        │ Score       : {Grade}
+        │ ID          : {Id}
+        | Created at  : {CreatedAt:dd/mm/yyyy HH:mm}
+        | Updated at  : {UpdatedAt:dd/mm/yyyy HH:mm}
         └─────────────────────────────
         """;
     }
