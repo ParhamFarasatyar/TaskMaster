@@ -86,12 +86,14 @@ public class Question
         string[] Questions = new string[questions.Count];
         for (int i = 0; i < questions.Count; i++)
         {
+            string? description = questions[i].Description?.Length > 20 ? 
+            questions[i].Description?[..20] + "..." : questions[i].Description;
             string questionItem = $"""
-         ────────────────────────────
-        │ Description : {questions[i].Description}
-        │ Difficulty  : {questions[i].Difficulty}
-        │ Score  : {questions[i].Grade}
-        └─────────────────────────────
+        ┌────────────────────────────
+          │ Description : {description}
+          │ Difficulty  : {questions[i].Difficulty}
+          │ Score  : {questions[i].Grade}
+          └─────────────────────────────
         """;
             Questions[i] = questionItem;
         }
@@ -107,8 +109,8 @@ public class Question
         │ Difficulty  : {Difficulty}
         │ Score  : {Grade}
         │ ID     : {Id}
-        | Created at : {CreatedAt.ToString("dd/mm/yyyy HH:mm")}
-        | Updated at : {UpdatedAt.ToString("dd/mm/yyyy HH:mm")}
+        | Created at : {CreatedAt:dd/mm/yyyy HH:mm}
+        | Updated at : {UpdatedAt:dd/mm/yyyy HH:mm}
         └─────────────────────────────
         """;
     }
