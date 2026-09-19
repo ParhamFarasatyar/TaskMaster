@@ -15,32 +15,74 @@ public class Login
         Console.WriteLine("====================");
 
 
+
         Console.Write("Username: ");
         string username = Console.ReadLine()!;
-        bool isValid = SystemValidation.System.ValidateUsername(username, out string? errorMessage);
+
+        bool isValid = SystemValidation.System.ValidateUsername(
+            username,
+            out string? errorMessage
+        );
+
+
         while (!isValid)
         {
-            SystemValidation.System.PrintColorizeMessage(errorMessage!, ConsoleColor.Red);
+            SystemValidation.System.PrintColorizeMessage(
+                errorMessage!,
+                ConsoleColor.Red
+            );
+
+
             Console.Write("Username: ");
+
             username = Console.ReadLine()!;
-            isValid = SystemValidation.System.ValidateUsername(username, out errorMessage);
+
+
+            isValid = SystemValidation.System.ValidateUsername(
+                username,
+                out errorMessage
+            );
         }
+
+
 
 
         Console.Write("Password: ");
+
         string password = Console.ReadLine()!;
-        isValid = SystemValidation.System.ValidateUserPassword(password, out errorMessage);
+
+
+        isValid = SystemValidation.System.ValidateUserPassword(
+            password,
+            out errorMessage
+        );
+
+
         while (!isValid)
         {
-            SystemValidation.System.PrintColorizeMessage(errorMessage!, ConsoleColor.Red);
+            SystemValidation.System.PrintColorizeMessage(
+                errorMessage!,
+                ConsoleColor.Red
+            );
+
+
             Console.Write("Password: ");
+
             password = Console.ReadLine()!;
-            isValid = SystemValidation.System.ValidateUserPassword(password, out errorMessage);
+
+
+            isValid = SystemValidation.System.ValidateUserPassword(
+                password,
+                out errorMessage
+            );
         }
+
+
 
 
         List<User> users =
             Database.Load<User>(DataType.Users);
+
 
 
         User? user = users.FirstOrDefault(
@@ -50,17 +92,25 @@ public class Login
         );
 
 
-        if(user == null)
+
+        if (user == null)
         {
             ConsoleHelper.PrintColorizeMessage(
                 "Wrong username or password",
                 ConsoleColor.Red
             );
 
+
+            Console.WriteLine(
+                "Press Enter to try again..."
+            );
+
             Console.ReadLine();
+
 
             return Enter();
         }
+
 
 
         return user;
