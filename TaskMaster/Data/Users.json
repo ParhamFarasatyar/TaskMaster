@@ -52,5 +52,14 @@
     "Password": "A@a123456",
     "Level": "Beginner",
     "Score": 0
+  },
+  {
+    "Role": "Designer",
+    "Name": "Aryan",
+    "LastName": "Ebrahimi",
+    "UserName": "arynebrahimii",
+    "Password": "Aa@12345",
+    "Level": "Beginner",
+    "Score": 0
   }
 ]

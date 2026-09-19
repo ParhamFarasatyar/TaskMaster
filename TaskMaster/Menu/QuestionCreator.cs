@@ -49,10 +49,12 @@ public class QuestionCreator
 
 
 
-        if (!int.TryParse(gradeInput, out int grade))
+        if (!SystemValidation.System.Grade(
+                gradeInput,
+                out string? errorMessage))
         {
             ConsoleHelper.PrintColorizeMessage(
-                "Invalid Grade",
+                errorMessage!,
                 ConsoleColor.Red
             );
 
@@ -62,6 +64,9 @@ public class QuestionCreator
 
             return;
         }
+
+
+        int grade = int.Parse(gradeInput);
 
 
 
