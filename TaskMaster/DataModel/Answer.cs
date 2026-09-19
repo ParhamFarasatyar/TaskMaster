@@ -18,26 +18,7 @@ public class Answer
     {
         AnswerId = answerId == null ? Guid.NewGuid().ToString("N") : answerId;
         QuestionId = questionId;
-
-        // List<Answer> answers = new List<Answer>();
-        // answers = Database.Load<Answer>(DataType.Answers);
-        
-        // if (answers.Any(a => a.AnswerId == answerId))
-        // {
-        //     CreatedDate = createdDate;
-        // }
-        // else
-        // {
-        //     DateTime utcNow = DateTime.UtcNow;
-        //
-        //     TimeZoneInfo tehranZone = TimeZoneInfo.FindSystemTimeZoneById("Iran Standard Time");
-        //
-        //     CreatedDate = TimeZoneInfo.ConvertTimeFromUtc(utcNow, tehranZone);
-        // }
-        
         CreatedDate = DateTime.Now;
-
-        
         Code = code;
         ApprovalStatus = approvalStatus == null ? State.Pending : approvalStatus;
     }
