@@ -65,6 +65,7 @@ public class MainMenu
         {
             MainMenu mainMenu = new();
             mainMenu.Show();
+            return;
         }
 
         MenuManager manager = new();

@@ -85,8 +85,6 @@ public class Register
             isValid = SystemValidation.System.ValidateUserPassword(password, out errorMessage);
         }
 
-
-
         User user = new User(
             role,
             name,
