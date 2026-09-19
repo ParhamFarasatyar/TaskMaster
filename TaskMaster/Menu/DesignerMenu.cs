@@ -13,7 +13,6 @@ public class DesignerMenu
         {
             string[] options =
             {
-                "Back to Main Menu",
                 "Add Question",
                 "Edit Question",
                 "Remove Question",
@@ -31,11 +30,6 @@ public class DesignerMenu
             switch (selected)
             {
                 case 0:
-                    exit  = true;
-                    break;
-                
-                
-                case 1:
 
                     QuestionCreator creator = new();
 
@@ -45,7 +39,7 @@ public class DesignerMenu
 
 
 
-                case 2:
+                case 1:
 
                     EditQuestion editQuestion = new();
 
@@ -55,7 +49,7 @@ public class DesignerMenu
 
 
 
-                case 3:
+                case 2:
 
                     RemoveQuestion removeQuestion = new();
 
@@ -65,7 +59,7 @@ public class DesignerMenu
 
 
 
-                case 4:
+                case 3:
 
                     ReviewAnswers reviewAnswers = new();
 
@@ -75,7 +69,7 @@ public class DesignerMenu
 
 
 
-                case 5:
+                case 4:
 
                     exit = true;
 

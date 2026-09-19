@@ -13,7 +13,6 @@ public class InternMenu
         {
             string[] options =
             {
-                "Back to Main Menu",
                 "Profile Info",
                 "Answer Question",
                 "Answers Status",
@@ -30,11 +29,6 @@ public class InternMenu
             switch(selected)
             {
                 case 0:
-                    exit = true;
-                    break;
-                
-                
-                case 1:
 
                     InternProfile profile = new();
 
@@ -43,7 +37,8 @@ public class InternMenu
                     break;
 
 
-                case 2:
+
+                case 1:
 
                     AnswerQuestion answerQuestion = new();
 
@@ -52,7 +47,8 @@ public class InternMenu
                     break;
 
 
-                case 3:
+
+                case 2:
 
                     AnswersStatus answersStatus = new();
 
@@ -61,7 +57,8 @@ public class InternMenu
                     break;
 
 
-                case 4:
+
+                case 3:
 
                     exit = true;
 
