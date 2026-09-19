@@ -59,12 +59,18 @@ public class MainMenu
     {
         Register register = new();
 
-        User user = register.Create();
+        User? user = register.Create();
 
+        if (user == null)
+        {
+            MainMenu mainMenu = new();
+            mainMenu.Show();
+            return;
+        }
 
         MenuManager manager = new();
 
-        manager.Show(user);
+        manager.Show(user!);
     }
 
 

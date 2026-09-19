@@ -1,4 +1,6 @@
-﻿namespace Menu;
+﻿using QuestionDatatype;
+
+namespace Menu;
 
 public class EditQuestion
 {
@@ -14,8 +16,7 @@ public class EditQuestion
         // Questions will be loaded from Database by responsible module
         // Temporary empty list
 
-        string[] questions = Array.Empty<string>();
-
+        string[] questions = Question.MenuQuestions();
 
         if (questions.Length == 0)
         {
@@ -24,8 +25,6 @@ public class EditQuestion
             Console.ReadLine();
             return;
         }
-
-
 
         int selected = ConsoleMenu.Show(
             "Select Question",
@@ -40,32 +39,69 @@ public class EditQuestion
         Console.WriteLine(
             $"Editing Question: {questions[selected]}"
         );
+        string[] questionfields = { "Description", "Difficulty", "Grade" };
 
+        int fieldSelected = ConsoleMenu.Show("Select field", questionfields);
 
-        Console.Write("New Description: ");
-        string description = Console.ReadLine()!;
+        Difficulty difficulty = Difficulty.Beginner;
+        string description = "";
+        string grade = "-1";
 
-
-        Console.Write("New Grade: ");
-        int grade = int.Parse(Console.ReadLine()!);
-
-
-
-        string[] difficultyOptions =
+        switch (fieldSelected)
         {
-            "Beginner",
-            "MidLevel",
-            "Advanced"
-        };
+            case 0:
+                Console.Write("New Description: ");
+                description = Console.ReadLine()!;
+                while (!SystemValidation.System.StringValidationInput(description, out string? ErrorMesege))
+                {
+                    SystemValidation.System.PrintColorizeMessage(ErrorMesege!, ConsoleColor.Red);
+                    Console.Write("Enter Question Description: ");
+                    description = Console.ReadLine()!;
+                }
+                break;
+            case 1:
+                string[] difficultyOptions =
+                {
+                "Beginner",
+                "MidLevel",
+                "Advanced"
+                };
 
 
-        int difficultySelected = ConsoleMenu.Show(
-            "Select Difficulty",
-            difficultyOptions
-        );
+                int difficultySelected = ConsoleMenu.Show(
+                    "Select Difficulty",
+                    difficultyOptions
+                );
+                switch (difficultySelected)
+                {
+                    case 0:
+                        difficulty = Difficulty.Beginner;
+                        break;
+                    case 1:
+                        difficulty = Difficulty.MidLevel;
+                        break;
+                    case 2:
+                        difficulty = Difficulty.Advanced;
+                        break;
+                }
+                break;
+            case 2:
+                Console.Write("New Grade: ");
+                grade = Console.ReadLine()!;
+                while (!SystemValidation.System.Grade(grade, out string? ErrorMesege))
+                {
+                    SystemValidation.System.PrintColorizeMessage(ErrorMesege!, ConsoleColor.Red);
+                    Console.Write("Enter Question Grade: ");
+                    grade = Console.ReadLine()!;
+                }
+                break;
+        }
 
 
 
+        Question newquestion = new Question(description, int.Parse(grade), difficulty);
+
+        Question.Edit(selected, newquestion, fieldSelected);
         Console.WriteLine();
 
         Console.WriteLine(
