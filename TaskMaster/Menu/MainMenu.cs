@@ -51,6 +51,10 @@ public class MainMenu
 
             manager.Show(user);
         }
+        else
+        {
+            Show();
+        }
     }
 
 

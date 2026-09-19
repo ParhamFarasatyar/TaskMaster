@@ -11,16 +11,31 @@ public class Login
 
 
         Console.WriteLine("====================");
-        Console.WriteLine("        LOGIN       ");
+        Console.WriteLine("       LOGIN       ");
         Console.WriteLine("====================");
 
 
         Console.Write("Username: ");
-        string username = Console.ReadLine()!;
+        string? username = Console.ReadLine();
 
 
         Console.Write("Password: ");
-        string password = Console.ReadLine()!;
+        string? password = Console.ReadLine();
+
+
+
+        if (string.IsNullOrWhiteSpace(username) ||
+            string.IsNullOrWhiteSpace(password))
+        {
+            ConsoleHelper.PrintColorizeMessage(
+                "Username and Password cannot be empty!",
+                ConsoleColor.Red
+            );
+
+            Console.ReadLine();
+
+            return null;
+        }
 
 
 
@@ -38,8 +53,9 @@ public class Login
 
         if(user == null)
         {
-            Console.WriteLine(
-                "Wrong username or password"
+            ConsoleHelper.PrintColorizeMessage(
+                "Wrong username or password",
+                ConsoleColor.Red
             );
 
             Console.ReadLine();
