@@ -47,7 +47,7 @@ public class Question
 
         }
         question.UpdatedAt = DateTime.Now;
-        DataBase.Database.Update(questions, DataType.Questions);
+        Database.Update(questions, DataType.Questions);
     }
     public static void Delete(int index)
     {
