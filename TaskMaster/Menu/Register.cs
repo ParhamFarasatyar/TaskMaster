@@ -82,7 +82,7 @@ public class Register
             SystemValidation.System.PrintColorizeMessage(errorMessage!, ConsoleColor.Red);
             Console.Write("Password: ");
             password = Console.ReadLine()!;
-            isValid = SystemValidation.System.ValidateUserPassword(username, out errorMessage);
+            isValid = SystemValidation.System.ValidateUserPassword(password, out errorMessage);
         }
 
 

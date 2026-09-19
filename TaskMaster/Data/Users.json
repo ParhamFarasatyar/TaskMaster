@@ -16,6 +16,23 @@
     "Password": "1234",
     "Level": "Beginner",
     "Score": 0
+  },
+  {
+    "Role": "Intern",
+    "Name": "Parham",
+    "LastName": "Farasatyar",
+    "UserName": "prhm82",
+    "Password": "Parham@1382",
+    "Level": "Beginner",
+    "Score": 0
+  },
+  {
+    "Role": "Intern",
+    "Name": "arad",
+    "LastName": "alma",
+    "UserName": "aradalm213",
+    "Password": "Arad@1323",
+    "Level": "Beginner",
+    "Score": 0
   }
-  
 ]
