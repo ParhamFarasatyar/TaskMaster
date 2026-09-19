@@ -45,7 +45,7 @@ public class EditQuestion
 
         Difficulty difficulty = Difficulty.Beginner;
         string description = "";
-        string grade = "0";
+        string grade = "-1";
 
         switch (fieldSelected)
         {
