@@ -36,6 +36,7 @@ public class InternMenu
                     break;
 
 
+
                 case 1:
 
                     AnswerQuestion answerQuestion = new();
@@ -45,6 +46,7 @@ public class InternMenu
                     break;
 
 
+
                 case 2:
 
                     AnswersStatus answersStatus = new();
@@ -52,6 +54,7 @@ public class InternMenu
                     answersStatus.Show();
 
                     break;
+
 
 
                 case 3:

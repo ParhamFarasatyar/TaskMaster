@@ -23,8 +23,19 @@ public class ConsoleMenu
             {
                 if (i == selectedIndex)
                 {
-                    Console.ForegroundColor = ConsoleColor.Cyan;
+                    if (options[i] == "Logout")
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                    }
+                    else
+                    {
+                        Console.ForegroundColor = ConsoleColor.Cyan;
+                    }
+
+
                     Console.WriteLine($"> {options[i]}");
+
+
                     Console.ResetColor();
                 }
                 else
@@ -34,7 +45,9 @@ public class ConsoleMenu
             }
 
 
+
             key = Console.ReadKey(true).Key;
+
 
 
             if (key == ConsoleKey.DownArrow)
@@ -60,6 +73,7 @@ public class ConsoleMenu
 
 
         } while (key != ConsoleKey.Enter);
+
 
 
         return selectedIndex;
