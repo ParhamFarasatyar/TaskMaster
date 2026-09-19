@@ -80,8 +80,6 @@ public class Question
     }
     public static string[] MenuQuestions()
     {
-        List<string> stringifiedQuestion = new();
-        //---------- stringify questions ----------
         List<Question> questions = Database.Load<Question>(DataType.Questions);
         string[] Questions = new string[questions.Count];
         for (int i = 0; i < questions.Count; i++)
