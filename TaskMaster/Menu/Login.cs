@@ -38,13 +38,14 @@ public class Login
 
         if(user == null)
         {
-            Console.WriteLine(
-                "Wrong username or password"
+            ConsoleHelper.PrintColorizeMessage(
+                "Wrong username or password",
+                ConsoleColor.Red
             );
 
             Console.ReadLine();
 
-            return null;
+            return Enter();
         }
 
 
