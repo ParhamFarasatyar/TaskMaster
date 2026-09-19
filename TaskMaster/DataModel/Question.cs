@@ -87,7 +87,7 @@ public class Question
         for (int i = 0; i < questions.Count; i++)
         {
             string questionItem = $"""
-        ├─────────────────────────────
+         ────────────────────────────
         │ Description : {questions[i].Description}
         │ Difficulty  : {questions[i].Difficulty}
         │ Score  : {questions[i].Grade}
@@ -107,8 +107,8 @@ public class Question
         │ Difficulty  : {Difficulty}
         │ Score  : {Grade}
         │ ID     : {Id}
-        | Created at : {CreatedAt.ToString("yyyy/mm/dd HH : mm")}
-        | Updated at : {UpdatedAt.ToString("yyyy/mm/dd HH : mm")}
+        | Created at : {CreatedAt.ToString("dd/mm/yyyy HH:mm")}
+        | Updated at : {UpdatedAt.ToString("dd/mm/yyyy HH:mm")}
         └─────────────────────────────
         """;
     }
