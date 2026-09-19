@@ -38,11 +38,11 @@ public class Question
             case 0:
                 question.Description = values.Description;
                 break;
-            case 2:
-                question.Grade = values.Grade;
-                break;
             case 1:
                 question.Difficulty = values.Difficulty;
+                break;
+            case 2:
+                question.Grade = values.Grade;
                 break;
 
         }

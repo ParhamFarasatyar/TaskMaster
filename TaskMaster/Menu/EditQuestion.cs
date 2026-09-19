@@ -45,7 +45,7 @@ public class EditQuestion
 
         Difficulty difficulty = Difficulty.Beginner;
         string description = "";
-        string grade = "";
+        string grade = "0";
 
         switch (fieldSelected)
         {
@@ -61,11 +61,11 @@ public class EditQuestion
                 break;
             case 1:
                 string[] difficultyOptions =
-            {
-            "Beginner",
-            "MidLevel",
-            "Advanced"
-            };
+                {
+                "Beginner",
+                "MidLevel",
+                "Advanced"
+                };
 
 
                 int difficultySelected = ConsoleMenu.Show(
@@ -96,8 +96,6 @@ public class EditQuestion
                 }
                 break;
         }
-
-
 
 
 
