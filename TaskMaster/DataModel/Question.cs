@@ -1,7 +1,7 @@
 using System.Security.Cryptography.X509Certificates;
 using DataBase;
 using UserModel;
-namespace QuestionDatatype;
+namespace TaskMaster.DataModel;
 
 public enum Difficulty { Beginner, MidLevel, Advanced }
 
