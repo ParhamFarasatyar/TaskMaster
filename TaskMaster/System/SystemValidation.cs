@@ -7,7 +7,6 @@ public static class System
         if (string.IsNullOrWhiteSpace(input))
         {
             errorMessage = "Invalid input!\nEnter something GENIUS!!";
-            PrintColorizeMessage(errorMessage, ConsoleColor.Red);
             return false;
         }
 
