@@ -14,9 +14,9 @@ public class Answer
     public int Grade{ get; private set; }
 
 
-    public Answer(string? answerId, string questionId, string code)
+    public Answer(string questionId, string code)
     {
-        AnswerId = answerId == null ? Guid.NewGuid().ToString("N") : answerId;
+        AnswerId = Guid.NewGuid().ToString("N");
         QuestionId = questionId;
         CreatedDate = DateTime.Now;
         Code = code;
