@@ -86,13 +86,7 @@ public class DesignerMenu
 
 
                 case 5:
-
-                    Console.Clear();
-
-                    MainMenu mainMenu = new();
-
-                    mainMenu.Show();
-
+                    
                     return;
             }
         }

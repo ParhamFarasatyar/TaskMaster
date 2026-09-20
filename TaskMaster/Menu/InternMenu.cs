@@ -37,9 +37,17 @@ public class InternMenu
 
                     Profile profile = new();
 
-                    profile.Show(user);
+                    bool deleted = profile.Show(user);
+
+
+                    if(deleted)
+                    {
+                        return;
+                    }
+
 
                     break;
+
 
 
                 case 1:
@@ -51,6 +59,7 @@ public class InternMenu
                     break;
 
 
+
                 case 2:
 
                     AnswersStatus answersStatus = new();
@@ -60,13 +69,8 @@ public class InternMenu
                     break;
 
 
+
                 case 3:
-
-                    Console.Clear();
-
-                    MainMenu mainMenu = new();
-
-                    mainMenu.Show();
 
                     return;
             }

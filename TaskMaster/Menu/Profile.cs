@@ -4,7 +4,7 @@ namespace Menu;
 
 public class Profile
 {
-    public void Show(User user)
+    public bool Show(User user)
     {
         while (true)
         {
@@ -91,7 +91,7 @@ public class Profile
 
                 if (key == ConsoleKey.F2)
                 {
-                    return;
+                    return false;
                 }
 
 
@@ -138,7 +138,7 @@ public class Profile
 
                     if(DeleteAccount(user))
                     {
-                        return;
+                        return false;
                     }
 
                     break;
@@ -147,7 +147,7 @@ public class Profile
 
                 case 2:
 
-                    return;
+                    return false;
             }
         }
     }
@@ -262,21 +262,12 @@ public class Profile
                 "Account Deleted Successfully!",
                 ConsoleColor.Green
             );
-
-
+            
             Console.ReadLine();
-
-
-            MainMenu mainMenu = new();
-
-            mainMenu.Show();
-
-
+            
             return true;
         }
-
-
-
+        
         return false;
     }
 }
