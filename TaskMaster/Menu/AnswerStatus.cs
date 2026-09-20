@@ -44,18 +44,8 @@ public class AnswersStatus
 
     public int GetGrade(State state, Answer answer)
     {
-        int grade = 0;
+        int grade = state == State.Approve ? answer.GoalGrade : 0;
         
-        switch (state)
-        {
-            case State.Approve:
-                grade = answer.GoalGrade;
-                break;
-            case State.Reject:
-                grade = 0;
-                break;
-        }
-
         return grade;
     }
 }
