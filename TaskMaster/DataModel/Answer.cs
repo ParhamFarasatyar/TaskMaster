@@ -12,9 +12,10 @@ public class Answer
     public string QuestionId{ get; private set; }
     public string Code{ get; private set; }
     public int Grade{ get; private set; }
+    public int GoleGrade { get; private set; }
 
 
-    public Answer(string questionId, string code)
+    public Answer(string questionId, string code, int goleGrade)
     {
         AnswerId = Guid.NewGuid().ToString("N");
         QuestionId = questionId;
@@ -22,6 +23,7 @@ public class Answer
         Code = code;
         ApprovalStatus = State.Pending;
         Grade = -1;
+        GoleGrade = goleGrade;
     }
 
     
