@@ -10,7 +10,7 @@ public class User
     public string? LastName { get; private set; }
     public string? UserName { get; private set; }
     public string? Password { get; private set; }
-    public Level? Level { get; private set; }
+    public Level Level { get; private set; }
     public int Score { get; private set; }
     private List<User> GetUsers() => Database.Load<User>(DataType.Users);
     public User(Role role, string name, string lastName, string userName, string password, Level level, int score)
@@ -20,8 +20,8 @@ public class User
         LastName = lastName;
         UserName = userName;
         Password = password;
-        Level = Role == Role.Intern ? level : null;
-        Score = Role == Role.Intern ? score : -1;
+        Level = level;
+        Score = score;
     }
     public bool Add()
     {
@@ -40,14 +40,16 @@ public class User
         var properties = typeof(User).GetProperties();
         foreach (var property in properties)
         {
-            if (property.Name == field && property.Name != "UserName") property.SetValue(user, data);
-            else if (field == "Username" && property.Name is "UserName")
+            if (property.Name == field)
             {
-                if(users.FirstOrDefault(u => u.UserName == data) is null)
-                user.UserName = data;
-                else return false;
+                if (field is "UserName")
+                {
+                    if(users.FirstOrDefault(u => u.UserName == data) is null)
+                    user.UserName = data;
+                    return false;
+                }
+                else property.SetValue(user, data);
             }
-            else return false;
         }
 
         Database.Update(users, DataType.Users);

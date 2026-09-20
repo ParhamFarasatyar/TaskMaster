@@ -104,10 +104,38 @@ public class Profile
             string field = fields[selected];
 
             string? value = ConsoleHelper.ReadInput($"New {field} (F2 = Back): ");
+            if (field is "UserName")
+            {
+                bool isValid = SystemValidation.System.ValidateUsername(value, out string? errorMessage);
+                while (!isValid)
+                {
+                    SystemValidation.System.PrintColorizeMessage(errorMessage!, ConsoleColor.Red);
+                    value = ConsoleHelper.ReadInput($"New {field} (F2 = Back): ");
+                    isValid = SystemValidation.System.ValidateUsername(value, out errorMessage);
+                }
+            }
+            else if (field is "Password")
+            {
+                bool isValid = SystemValidation.System.ValidateUserPassword(value, out string? errorMessage);
+                while (!isValid)
+                {
+                    SystemValidation.System.PrintColorizeMessage(errorMessage!, ConsoleColor.Red);
+                    value = ConsoleHelper.ReadInput($"New {field} (F2 = Back): ");
+                    isValid = SystemValidation.System.ValidateUserPassword(value, out errorMessage);
+                }
+            }
+            else
+            {
+                bool isValid = SystemValidation.System.StringValidationInput(value, out string? errorMessage);
+                while (!isValid)
+                {
+                    SystemValidation.System.PrintColorizeMessage(errorMessage!, ConsoleColor.Red);
+                    value = ConsoleHelper.ReadInput($"New {field} (F2 = Back): ");
+                    isValid = SystemValidation.System.StringValidationInput(value, out errorMessage);
+                }
+            }
 
-            if(value == null) continue;
-
-            bool result = user.Edit(field, value);
+            bool result = user.Edit(field, value!);
 
             if(result)
             {
