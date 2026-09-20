@@ -1,4 +1,5 @@
 using DataBase;
+using Microsoft.VisualBasic;
 namespace TaskMaster.DataModel;
 
 public enum Difficulty { Beginner, MidLevel, Advanced }
@@ -62,14 +63,14 @@ public class Question
             question.Description?[..20] + "..." : question.Description;
         string questionItem = $"""
         ┌─────────────────────────────
-        │ Task
-        ├─────────────────────────────
-        │ Description : {description}
-        │ Difficulty  : {question.Difficulty}
-        │ Score  : {question.Grade}
-        | Created at : {question.CreatedAt}
-        | Updated at : {question.UpdatedAt}
-        └─────────────────────────────
+         │ Task
+         ├─────────────────────────────
+         │ Description : {description}
+         │ Difficulty  : {question.Difficulty}
+         │ Score  : {question.Grade}
+         | Created at : {question.CreatedAt}
+         | Updated at : {question.UpdatedAt}
+         └─────────────────────────────
         """;
         return questionItem;
     }
