@@ -11,6 +11,7 @@ public class Question
     public string? Id { get; init; }
     public DateTime CreatedAt { get; init; }
     public DateTime UpdatedAt { get; private set; }
+    private static List<Question> GetQuestions() => Database.Load<Question>(DataType.Questions);
 
     public Question(string description, int grade, Difficulty difficulty)
     {
@@ -27,8 +28,7 @@ public class Question
     }
     public static void Edit<T>(int index, T value, int selectedfield)
     {
-        List<Question> questions = Database.Load<Question>(DataType.Questions);
-
+        List<Question> questions = GetQuestions();
         Question question = questions[index];
         switch (selectedfield)
         {
@@ -48,7 +48,7 @@ public class Question
     }
     public static void Delete(int index)
     {
-        List<Question> questions = Database.Load<Question>(DataType.Questions);
+        List<Question> questions = GetQuestions();
 
         Question? question = questions[index];
 
@@ -75,7 +75,7 @@ public class Question
     }
     public static string[] MenuQuestions()
     {
-        List<Question> questions = Database.Load<Question>(DataType.Questions);
+        List<Question> questions = GetQuestions();
         string[] Questions = new string[questions.Count];
         for (int i = 0; i < questions.Count; i++)
         {
