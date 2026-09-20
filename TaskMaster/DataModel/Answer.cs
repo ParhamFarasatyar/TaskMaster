@@ -71,13 +71,13 @@ public class Answer
         {
             string answer = $"""
              ┌─────────────────────────────
-             │ Answer
-             ├─────────────────────────────
-             │ code: {ans.Code}
-             │ Date/Time: {ans.CreatedDate}
-             | Status: {ans.ApprovalStatus}
-             | Score: {ans.Grade}
-             └─────────────────────────────
+               │ Answer
+               ├─────────────────────────────
+               │ code: {ans.Code}
+               │ Date/Time: {ans.CreatedDate}
+               | Status: {ans.ApprovalStatus}
+               | Score: {ans.Grade}
+               └─────────────────────────────
              """;
             Console.WriteLine(answer);
         }
