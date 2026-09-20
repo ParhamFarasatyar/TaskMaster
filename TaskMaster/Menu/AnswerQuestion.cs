@@ -8,9 +8,9 @@ public class AnswerQuestion
 {
     public void SubmitAnswer()
     {
-        string[] answers = Answer.ShowAnswers();
+        string[] savedQuestions = Question.MenuQuestions();
 
-        int selectedIndex = ConsoleMenu.Show("Answers", answers);
+        int selectedIndex = ConsoleMenu.Show("Questions", savedQuestions);
 
         string code = GetCode();
 
