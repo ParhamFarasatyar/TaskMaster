@@ -2,7 +2,10 @@
 
 public class ConsoleMenu
 {
-    public static int Show(string title, string[] options)
+    public static int Show(
+        string title,
+        string[] options,
+        bool allowBack = true)
     {
         int selectedIndex = 0;
 
@@ -14,16 +17,21 @@ public class ConsoleMenu
             Console.Clear();
 
 
-            Console.WriteLine("====================");
-            Console.WriteLine(title);
-            Console.WriteLine("====================");
+            if (!string.IsNullOrWhiteSpace(title))
+            {
+                Console.WriteLine("====================");
+                Console.WriteLine(title);
+                Console.WriteLine("====================");
+            }
+
 
 
             for (int i = 0; i < options.Length; i++)
             {
                 if (i == selectedIndex)
                 {
-                    if (options[i] == "Logout")
+                    if (options[i] == "Logout" ||
+                        options[i] == "Delete Account")
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
                     }
@@ -35,7 +43,6 @@ public class ConsoleMenu
 
                     Console.WriteLine($"> {options[i]}");
 
-
                     Console.ResetColor();
                 }
                 else
@@ -46,7 +53,17 @@ public class ConsoleMenu
 
 
 
-            key = Console.ReadKey(true).Key;
+            ConsoleKeyInfo keyInfo = Console.ReadKey(true);
+
+            key = keyInfo.Key;
+
+
+
+            // F2 = Back
+            if (key == ConsoleKey.F2 && allowBack)
+            {
+                return -1;
+            }
 
 
 
