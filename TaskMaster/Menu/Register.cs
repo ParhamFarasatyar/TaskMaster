@@ -7,17 +7,21 @@ public class Register
 {
     public User? Create()
     {
-        Console.Clear();
+        return SelectRole();
+    }
 
-        Console.WriteLine("====================");
-        Console.WriteLine("      REGISTER      ");
-        Console.WriteLine("====================");
+
+
+    private User? SelectRole()
+    {
+        Console.Clear();
 
 
         string[] roles =
         {
             Role.Intern.ToString(),
-            Role.Designer.ToString()
+            Role.Designer.ToString(),
+            "Back"
         };
 
 
@@ -25,6 +29,13 @@ public class Register
             "    Select Role",
             roles
         );
+
+
+        if(selectedRole == -1 || selectedRole == 2)
+        {
+            return null;
+        }
+
 
 
         Role role = selectedRole switch
@@ -35,55 +46,208 @@ public class Register
         };
 
 
+        return GetName(role);
+    }
+
+
+
+
+    private User? GetName(Role role)
+    {
         Console.Clear();
 
 
-        Console.Write("Name: ");
-        string name = Console.ReadLine()!;
-        bool isValid = SystemValidation.System.StringValidationInput(name, out string? errorMessage);
-        while (!isValid)
+        string? name = ConsoleHelper.ReadInput(
+            "Name (F2 = Back): "
+        );
+
+
+        if(name == null)
         {
-            SystemValidation.System.PrintColorizeMessage(errorMessage!, ConsoleColor.Red);
-            Console.Write("Name: ");
-            name = Console.ReadLine()!;
-            isValid = SystemValidation.System.StringValidationInput(name, out errorMessage);
+            return SelectRole();
         }
 
 
-        Console.Write("Last Name: ");
-        string lastName = Console.ReadLine()!;
-        isValid = SystemValidation.System.StringValidationInput(lastName, out errorMessage);
-        while (!isValid)
+
+        if(!SystemValidation.System.StringValidationInput(
+            name,
+            out string? errorMessage))
         {
-            SystemValidation.System.PrintColorizeMessage(errorMessage!, ConsoleColor.Red);
-            Console.Write("Last Name: ");
-            lastName = Console.ReadLine()!;
-            isValid = SystemValidation.System.StringValidationInput(lastName, out errorMessage);
+            ConsoleHelper.PrintColorizeMessage(
+                errorMessage!,
+                ConsoleColor.Red
+            );
+
+
+            Console.ReadLine();
+
+            return GetName(role);
         }
 
 
-        Console.Write("Username: ");
-        string username = Console.ReadLine()!;
-        isValid = SystemValidation.System.ValidateUsername(username, out errorMessage);
-        while (!isValid)
+
+        return GetLastName(
+            role,
+            name
+        );
+    }
+
+
+
+
+
+    private User? GetLastName(
+        Role role,
+        string name)
+    {
+        Console.Clear();
+
+
+        string? lastName = ConsoleHelper.ReadInput(
+            "Last Name (F2 = Back): "
+        );
+
+
+        if(lastName == null)
         {
-            SystemValidation.System.PrintColorizeMessage(errorMessage!, ConsoleColor.Red);
-            Console.Write("Username: ");
-            username = Console.ReadLine()!;
-            isValid = SystemValidation.System.ValidateUsername(username, out errorMessage);
+            return GetName(role);
         }
 
 
-        Console.Write("Password: ");
-        string password = Console.ReadLine()!;
-        isValid = SystemValidation.System.ValidateUserPassword(password, out errorMessage);
-        while (!isValid)
+
+        if(!SystemValidation.System.StringValidationInput(
+            lastName,
+            out string? errorMessage))
         {
-            SystemValidation.System.PrintColorizeMessage(errorMessage!, ConsoleColor.Red);
-            Console.Write("Password: ");
-            password = Console.ReadLine()!;
-            isValid = SystemValidation.System.ValidateUserPassword(password, out errorMessage);
+            ConsoleHelper.PrintColorizeMessage(
+                errorMessage!,
+                ConsoleColor.Red
+            );
+
+
+            Console.ReadLine();
+
+            return GetLastName(
+                role,
+                name
+            );
         }
+
+
+
+        return GetUsername(
+            role,
+            name,
+            lastName
+        );
+    }
+
+
+
+
+
+    private User? GetUsername(
+        Role role,
+        string name,
+        string lastName)
+    {
+        Console.Clear();
+
+
+        string? username = ConsoleHelper.ReadInput(
+            "Username (F2 = Back): "
+        );
+
+
+        if(username == null)
+        {
+            return GetLastName(
+                role,
+                name
+            );
+        }
+
+
+
+        if(!SystemValidation.System.ValidateUsername(
+            username,
+            out string? errorMessage))
+        {
+            ConsoleHelper.PrintColorizeMessage(
+                errorMessage!,
+                ConsoleColor.Red
+            );
+
+
+            Console.ReadLine();
+
+            return GetUsername(
+                role,
+                name,
+                lastName
+            );
+        }
+
+
+
+        return GetPassword(
+            role,
+            name,
+            lastName,
+            username
+        );
+    }
+
+
+
+
+
+    private User? GetPassword(
+        Role role,
+        string name,
+        string lastName,
+        string username)
+    {
+        Console.Clear();
+
+
+        string? password = ConsoleHelper.ReadInput(
+            "Password (F2 = Back): "
+        );
+
+
+        if(password == null)
+        {
+            return GetUsername(
+                role,
+                name,
+                lastName
+            );
+        }
+
+
+
+        if(!SystemValidation.System.ValidateUserPassword(
+            password,
+            out string? errorMessage))
+        {
+            ConsoleHelper.PrintColorizeMessage(
+                errorMessage!,
+                ConsoleColor.Red
+            );
+
+
+            Console.ReadLine();
+
+            return GetPassword(
+                role,
+                name,
+                lastName,
+                username
+            );
+        }
+
+
 
         User user = new User(
             role,
@@ -96,21 +260,35 @@ public class Register
         );
 
 
+
         bool isRegistered = user.Add();
 
-        if (!isRegistered)
+
+
+        if(!isRegistered)
         {
-            Console.WriteLine();
-            Console.WriteLine("Register failed!\nYour username is exist already.");
-            Thread.Sleep(2000);
+            ConsoleHelper.PrintColorizeMessage(
+                "Register failed!\nUsername already exists.",
+                ConsoleColor.Red
+            );
+
+
+            Console.ReadLine();
+
             return null;
         }
 
 
-        Console.WriteLine();
-        Console.WriteLine("Register Successful!");
-        Thread.Sleep(2000);
-        
+
+        ConsoleHelper.PrintColorizeMessage(
+            "Register Successful!",
+            ConsoleColor.Green
+        );
+
+
+        Console.ReadLine();
+
+
         return user;
     }
 }
