@@ -225,8 +225,8 @@ public class EditQuestion
                 );
                 break;
         }
-        
-        
+
+        Console.WriteLine();
 
         ConsoleHelper.PrintColorizeMessage(
             "Question Updated Successfully!",

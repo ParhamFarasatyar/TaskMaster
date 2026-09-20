@@ -19,14 +19,14 @@ public static class System
         bool isValid = int.TryParse(input, out int Input);
         if (!isValid)
         {
-            errorMessage = "Invalid input!\nPlease enter a number.";
+            errorMessage = "Please enter a number.";
             return false;
         }
         if (
                 Input < 1 ||
                 Input > 5)
         {
-            errorMessage = "Invalid input!\nthe grade must be from 1 to 5";
+            errorMessage = "the grade must be from 1 to 5";
             return false;
         }
 
