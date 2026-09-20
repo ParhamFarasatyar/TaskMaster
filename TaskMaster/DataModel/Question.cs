@@ -58,24 +58,22 @@ public class Question
 
         Database.Update(questions, DataType.Questions);
     }
-    public static void ShowQuestions()
+    public static string ShowQuestions(Question question)
     {
-        List<Question> questions = Database.Load<Question>(DataType.Questions);
-        foreach (Question question in questions)
-        {
-            string log = $"""
+        string? description = question.Description?.Length > 20 ?
+            question.Description?[..20] + "..." : question.Description;
+        string _question = $"""
         ┌─────────────────────────────
         │ Task
         ├─────────────────────────────
-        │ Description : {question.Description}
+        │ Description : {description}
         │ Difficulty  : {question.Difficulty}
         │ Score  : {question.Grade}
         | Created at : {question.CreatedAt}
         | Updated at : {question.UpdatedAt}
         └─────────────────────────────
         """;
-            Console.WriteLine(log);
-        }
+        return _question;
     }
     public static string[] MenuQuestions()
     {
@@ -83,16 +81,7 @@ public class Question
         string[] Questions = new string[questions.Count];
         for (int i = 0; i < questions.Count; i++)
         {
-            string? description = questions[i].Description?.Length > 20 ? 
-            questions[i].Description?[..20] + "..." : questions[i].Description;
-            string questionItem = $"""
-        ┌────────────────────────────
-          │ Description : {description}
-          │ Difficulty  : {questions[i].Difficulty}
-          │ Score       : {questions[i].Grade}
-          └─────────────────────────────
-        """;
-            Questions[i] = questionItem;
+            Questions[i] = ShowQuestions(questions[i]);
         }
         return Questions;
     }
@@ -100,15 +89,15 @@ public class Question
     {
         return $"""
         ┌─────────────────────────────
-        │ Task
-        ├─────────────────────────────
-        │ Description : {Description}
-        │ Difficulty  : {Difficulty}
-        │ Score       : {Grade}
-        │ ID          : {Id}
-        | Created at  : {CreatedAt:dd/mm/yyyy HH:mm}
-        | Updated at  : {UpdatedAt:dd/mm/yyyy HH:mm}
-        └─────────────────────────────
+         │ Task
+         ├─────────────────────────────
+         │ Description : {Description}
+         │ Difficulty  : {Difficulty}
+         │ Score       : {Grade}
+         │ ID          : {Id}
+         | Created at  : {CreatedAt:dd/mm/yyyy HH:mm}
+         | Updated at  : {UpdatedAt:dd/mm/yyyy HH:mm}
+         └─────────────────────────────
         """;
     }
 }
