@@ -41,14 +41,13 @@ public class User
         foreach (var property in properties)
         {
             if (property.Name == field && property.Name != "UserName") property.SetValue(user, data);
-            else if (property.Name is "UserName" && field == "Username")
+            else if (field == "Username" && property.Name is "UserName")
             {
                 if(users.FirstOrDefault(u => u.UserName == data) is null)
-                {
-                    user.UserName = data;
-                }
+                user.UserName = data;
                 else return false;
             }
+            else return false;
         }
 
         Database.Update(users, DataType.Users);
