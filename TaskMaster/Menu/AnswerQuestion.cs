@@ -1,28 +1,46 @@
-﻿namespace Menu;
+﻿using DataBase;
+using QuestionDatatype;
+using TaskMaster.DataModel;
+using UserModel;
+
+namespace Menu;
 
 public class AnswerQuestion
 {
-    public void Answer()
+    public void SubmitAnswer(string userName)
     {
-        Console.Clear();
+        string[] savedQuestions = Question.MenuQuestions();
 
-        Console.WriteLine("====================");
-        Console.WriteLine("   ANSWER QUESTION  ");
-        Console.WriteLine("====================");
+        int selectedIndex = ConsoleMenu.Show("Questions", savedQuestions);
 
+        string code = GetCode();
 
-        // Question loading and answer logic
-        // will be implemented by responsible module
+        List<Question> questions = Database.Load<Question>(DataType.Questions);
 
+        Answer answer = new Answer(userName, questions[selectedIndex].Id!, code, questions[selectedIndex].Grade);
 
-        Console.WriteLine();
-        Console.WriteLine("Question section is ready.");
-        Console.WriteLine("Waiting for question module...");
+        Database.Save(answer, DataType.Answers);
+    }
 
 
-        Console.WriteLine();
-        Console.WriteLine("Press Enter to return...");
+    public string GetCode()
+    {
+        bool status = false;
+        string code = "";
 
-        Console.ReadLine();
+        while (!status)
+        {
+            Console.WriteLine("Code: ");
+            code = Console.ReadLine();
+
+            status = SystemValidation.System.StringValidationInput(code, out string? errorMessage);
+
+            if (status == false)
+            {
+                SystemValidation.System.PrintColorizeMessage(errorMessage!, ConsoleColor.Red);
+            }
+        }
+
+        return code;
     }
 }
