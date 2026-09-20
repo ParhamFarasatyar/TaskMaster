@@ -16,10 +16,8 @@ public class InternMenu
                 "Logout"
             };
 
-            int selected = ConsoleMenu.Show(
-                "Intern Menu",
-                options
-            );
+
+            int selected = ConsoleMenu.Show("Intern Menu", options);
 
             if(selected == -1) return;
 
@@ -33,12 +31,16 @@ public class InternMenu
 
                 case 1:
                     AnswerQuestion answerQuestion = new();
-                    answerQuestion.Answer();
+
+                    answerQuestion.SubmitAnswer(user.UserName!);
+
                     break;
 
                 case 2:
                     AnswersStatus answersStatus = new();
-                    answersStatus.Show();
+
+                    answersStatus.UpdateAnswerStatus();
+
                     break;
 
                 case 3:
