@@ -35,7 +35,7 @@ public class InternMenu
             {
                 case 0:
 
-                    InternProfile profile = new();
+                    Profile profile = new();
 
                     profile.Show(user);
 

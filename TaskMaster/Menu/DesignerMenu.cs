@@ -10,6 +10,7 @@ public class DesignerMenu
         {
             string[] options =
             {
+                "Profile Info",
                 "Add Question",
                 "Edit Question",
                 "Remove Question",
@@ -36,6 +37,16 @@ public class DesignerMenu
             {
                 case 0:
 
+                    Profile profile = new();
+
+                    profile.Show(user);
+
+                    break;
+
+
+
+                case 1:
+
                     QuestionCreator creator = new();
 
                     creator.Create();
@@ -43,7 +54,8 @@ public class DesignerMenu
                     break;
 
 
-                case 1:
+
+                case 2:
 
                     EditQuestion editQuestion = new();
 
@@ -52,7 +64,8 @@ public class DesignerMenu
                     break;
 
 
-                case 2:
+
+                case 3:
 
                     RemoveQuestion removeQuestion = new();
 
@@ -61,7 +74,8 @@ public class DesignerMenu
                     break;
 
 
-                case 3:
+
+                case 4:
 
                     ReviewAnswers reviewAnswers = new();
 
@@ -70,7 +84,8 @@ public class DesignerMenu
                     break;
 
 
-                case 4:
+
+                case 5:
 
                     Console.Clear();
 
