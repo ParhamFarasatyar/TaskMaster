@@ -1,14 +1,12 @@
 ﻿using UserModel;
+
 namespace Menu;
 
 public class InternMenu
 {
     public void Show(User user)
     {
-        bool exit = false;
-
-
-        while (!exit)
+        while(true)
         {
             string[] options =
             {
@@ -20,9 +18,17 @@ public class InternMenu
 
 
             int selected = ConsoleMenu.Show(
-                "    Intern Menu",
+                "Intern Menu",
                 options
             );
+
+
+            // F2 = Back
+            if(selected == -1)
+            {
+                return;
+            }
+
 
 
             switch(selected)
@@ -36,7 +42,6 @@ public class InternMenu
                     break;
 
 
-
                 case 1:
 
                     AnswerQuestion answerQuestion = new();
@@ -44,7 +49,6 @@ public class InternMenu
                     answerQuestion.Answer();
 
                     break;
-
 
 
                 case 2:
@@ -56,20 +60,16 @@ public class InternMenu
                     break;
 
 
-
                 case 3:
 
-                    exit = true;
+                    Console.Clear();
 
-                    break;
+                    MainMenu mainMenu = new();
+
+                    mainMenu.Show();
+
+                    return;
             }
         }
-
-
-        Console.Clear();
-
-        MainMenu mainMenu = new();
-
-        mainMenu.Show();
     }
 }

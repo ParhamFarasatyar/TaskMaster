@@ -6,10 +6,7 @@ public class DesignerMenu
 {
     public void Show(User user)
     {
-        bool exit = false;
-
-
-        while (!exit)
+        while (true)
         {
             string[] options =
             {
@@ -27,7 +24,15 @@ public class DesignerMenu
             );
 
 
-            switch (selected)
+            // F2 = Back
+            if(selected == -1)
+            {
+                return;
+            }
+
+
+
+            switch(selected)
             {
                 case 0:
 
@@ -36,7 +41,6 @@ public class DesignerMenu
                     creator.Create();
 
                     break;
-
 
 
                 case 1:
@@ -48,7 +52,6 @@ public class DesignerMenu
                     break;
 
 
-
                 case 2:
 
                     RemoveQuestion removeQuestion = new();
@@ -56,7 +59,6 @@ public class DesignerMenu
                     removeQuestion.Remove();
 
                     break;
-
 
 
                 case 3:
@@ -68,21 +70,16 @@ public class DesignerMenu
                     break;
 
 
-
                 case 4:
 
-                    exit = true;
+                    Console.Clear();
 
-                    break;
+                    MainMenu mainMenu = new();
+
+                    mainMenu.Show();
+
+                    return;
             }
         }
-
-
-        Console.Clear();
-
-
-        MainMenu mainMenu = new();
-
-        mainMenu.Show();
     }
 }
