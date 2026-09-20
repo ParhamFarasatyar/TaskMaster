@@ -1,28 +1,61 @@
-﻿namespace Menu;
+﻿using TaskMaster.DataModel;
+using DataBase;
+
+namespace Menu;
 
 public class AnswersStatus
 {
-    public void Show()
+    public void UpdateAnswerStatus()
     {
-        Console.Clear();
+        List<Answer> answers = Database.Load<Answer>(DataType.Answers);
 
-        Console.WriteLine("====================");
-        Console.WriteLine("   ANSWERS STATUS   ");
-        Console.WriteLine("====================");
+        string[] savedAnswers = Answer.ShowAnswers();
+
+        int selectedIndex = ConsoleMenu.Show("Answer Status", savedAnswers);
+
+        State state = GetState();
+
+        int grade = GetGrade(state, answers[selectedIndex]);
+        
+        answers[selectedIndex].SetGrade(grade);
+        
+        Database.Save(answers[selectedIndex], DataType.Answers);
+    }
 
 
-        // Answer status loading
-        // will be implemented by responsible module
+    public State GetState()
+    {
+        int selectedIndex = 0;
+        State state = 0;
+
+        string[] options =
+        {
+            "Approve",
+            "Reject"
+        };
+
+        Console.WriteLine("State: ");
+        selectedIndex = ConsoleMenu.Show("Select State", options);
+        state = (State)(selectedIndex + 1);
+
+        return state;
+    }
 
 
-        Console.WriteLine();
-        Console.WriteLine("No answer status available.");
-        Console.WriteLine("Waiting for answer module...");
+    public int GetGrade(State state, Answer answer)
+    {
+        int grade = 0;
+        
+        switch (state)
+        {
+            case State.Approve:
+                grade = answer.GoalGrade;
+                break;
+            case State.Reject:
+                grade = 0;
+                break;
+        }
 
-
-        Console.WriteLine();
-        Console.WriteLine("Press Enter to return...");
-
-        Console.ReadLine();
+        return grade;
     }
 }
