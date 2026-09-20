@@ -39,7 +39,8 @@ public class DesignerMenu
 
                     Profile profile = new();
 
-                    profile.Show(user);
+                    bool deleted = profile.Show(user);
+                    if (deleted) return;
 
                     break;
 

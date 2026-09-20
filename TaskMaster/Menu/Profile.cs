@@ -73,7 +73,7 @@ public class Profile
                     break;
 
                 case 1:
-                    if(DeleteAccount(user)) return false;
+                    if(DeleteAccount(user)) return true;
                     break;
 
                 case 2:
@@ -160,7 +160,7 @@ public class Profile
 
         int selected = ConsoleMenu.Show("Delete Account?", confirm);
 
-        if(selected == -1 || selected == 1) return false;
+        if(selected is -1 || selected is 1) return false;
 
         bool result = user.Remove();
 
