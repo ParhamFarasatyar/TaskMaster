@@ -40,7 +40,15 @@ public class User
         var properties = typeof(User).GetProperties();
         foreach (var property in properties)
         {
-            if (property.Name == field) property.SetValue(user, data);
+            if (property.Name == field && property.Name != "UserName") property.SetValue(user, data);
+            if (property.Name is "UserName")
+            {
+                if(users.FirstOrDefault(u => u.UserName == data) is null)
+                {
+                    user.UserName = data;
+                }
+                else return false;
+            }
         }
 
         Database.Update(users, DataType.Users);
