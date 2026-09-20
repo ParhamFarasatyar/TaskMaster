@@ -16,7 +16,7 @@ public class QuestionCreator
         Console.Clear();
 
         string? description = ConsoleHelper.ReadInput(
-            "Description (F2 = Back): "
+            "Description (B + Enter = Back): "
         );
 
 
@@ -37,7 +37,7 @@ public class QuestionCreator
 
 
         string? gradeInput = ConsoleHelper.ReadInput(
-            "Grade (F2 = Back): "
+            "Grade (B + Enter = Back): "
         );
 
 

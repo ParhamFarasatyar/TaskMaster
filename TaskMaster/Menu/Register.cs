@@ -58,7 +58,7 @@ public class Register
 
 
         string? name = ConsoleHelper.ReadInput(
-            "Name (F2 = Back): "
+            "Name (B + Enter = Back): "
         );
 
 
@@ -104,7 +104,7 @@ public class Register
 
 
         string? lastName = ConsoleHelper.ReadInput(
-            "Last Name (F2 = Back): "
+            "Last Name (B + Enter = Back): "
         );
 
 
@@ -155,7 +155,7 @@ public class Register
 
 
         string? username = ConsoleHelper.ReadInput(
-            "Username (F2 = Back): "
+            "Username (B + Enter = Back): "
         );
 
 
@@ -212,7 +212,7 @@ public class Register
 
 
         string? password = ConsoleHelper.ReadInput(
-            "Password (F2 = Back): "
+            "Password (B + Enter = Back): "
         );
 
 

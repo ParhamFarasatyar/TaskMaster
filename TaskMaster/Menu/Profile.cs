@@ -8,6 +8,40 @@ public class Profile
     {
         while (true)
         {
+            Console.Clear();
+
+            Console.WriteLine("====================");
+            Console.WriteLine("       PROFILE      ");
+            Console.WriteLine("====================");
+
+
+            Console.WriteLine(
+                $"Full Name : {user.Name} {user.LastName}"
+            );
+
+
+            Console.WriteLine(
+                $"Username  : {user.UserName}"
+            );
+
+
+            if (user.Role == Role.Intern)
+            {
+                Console.WriteLine(
+                    $"Level     : {user.Level}"
+                );
+
+
+                Console.WriteLine(
+                    $"Score     : {user.Score}"
+                );
+            }
+
+
+            Console.WriteLine();
+
+
+
             string[] options =
             {
                 "Edit Profile",
@@ -15,75 +49,55 @@ public class Profile
                 "Back"
             };
 
-            int selected = 0;
-            ConsoleKey key;
 
-            do
+
+            int selected = ConsoleMenu.Show(
+                "",
+                options
+            );
+
+
+
+            if (selected == -1 || selected == 2)
             {
-                Console.Clear();
-                Console.WriteLine("====================");
-                Console.WriteLine("       PROFILE      ");
-                Console.WriteLine("====================");
+                return false;
+            }
 
-                Console.WriteLine($"Full Name : {user.Name} {user.LastName}");
 
-                Console.WriteLine($"Username  : {user.UserName}");
-
-                if (user.Role == Role.Intern)
-                {
-                    Console.WriteLine($"Level     : {user.Level}");
-
-                    Console.WriteLine($"Score     : {user.Score}");
-                }
-                Console.WriteLine();
-
-                for (int i = 0; i < options.Length; i++)
-                {
-                    if (i == selected)
-                    {
-                        if (options[i] == "Delete Account") Console.ForegroundColor = ConsoleColor.Red;
-                        else Console.ForegroundColor = ConsoleColor.Cyan;
-
-                        Console.WriteLine($"> {options[i]}");
-                        Console.ResetColor();
-                    }
-                    else Console.WriteLine($"  {options[i]}");
-                }
-
-                ConsoleKeyInfo keyInfo = Console.ReadKey(true);
-                key = keyInfo.Key;
-
-                if (key == ConsoleKey.F2) return false;
-                if (key == ConsoleKey.DownArrow)
-                {
-                    selected++;
-                    if (selected >= options.Length) selected = 0;
-                }
-                else if (key == ConsoleKey.UpArrow)
-                {
-                    selected--;
-                    if (selected < 0) selected = options.Length - 1;
-                }
-            } while (key != ConsoleKey.Enter);
 
             switch (selected)
             {
                 case 0:
+
                     EditProfile(user);
+
                     break;
+
+
 
                 case 1:
-                    if(DeleteAccount(user)) return false;
-                    break;
 
-                case 2:
-                    return false;
+                    bool deleted = DeleteAccount(user);
+
+
+                    if (deleted)
+                    {
+                        return true;
+                    }
+
+                    break;
             }
         }
     }
+
+
+
+
+
+
     private void EditProfile(User user)
     {
-        while(true)
+        while (true)
         {
             string[] fields =
             {
@@ -94,50 +108,47 @@ public class Profile
                 "Back"
             };
 
+
+
             int selected = ConsoleMenu.Show(
                 "Edit Profile",
                 fields
             );
 
-            if(selected == -1 || selected == 4) return;
+
+
+            if (selected == -1 || selected == 4)
+            {
+                return;
+            }
+
+
 
             string field = fields[selected];
 
-            string? value = ConsoleHelper.ReadInput($"New {field} (F2 = Back): ");
-            if (field is "UserName")
+
+
+            string? value = ConsoleHelper.ReadInput(
+                $"New {field} (B + Enter = Back): "
+            );
+
+
+
+            if (value == null)
             {
-                bool isValid = SystemValidation.System.ValidateUsername(value, out string? errorMessage);
-                while (!isValid)
-                {
-                    SystemValidation.System.PrintColorizeMessage(errorMessage!, ConsoleColor.Red);
-                    value = ConsoleHelper.ReadInput($"New {field} (F2 = Back): ");
-                    isValid = SystemValidation.System.ValidateUsername(value, out errorMessage);
-                }
-            }
-            else if (field is "Password")
-            {
-                bool isValid = SystemValidation.System.ValidateUserPassword(value, out string? errorMessage);
-                while (!isValid)
-                {
-                    SystemValidation.System.PrintColorizeMessage(errorMessage!, ConsoleColor.Red);
-                    value = ConsoleHelper.ReadInput($"New {field} (F2 = Back): ");
-                    isValid = SystemValidation.System.ValidateUserPassword(value, out errorMessage);
-                }
-            }
-            else
-            {
-                bool isValid = SystemValidation.System.StringValidationInput(value, out string? errorMessage);
-                while (!isValid)
-                {
-                    SystemValidation.System.PrintColorizeMessage(errorMessage!, ConsoleColor.Red);
-                    value = ConsoleHelper.ReadInput($"New {field} (F2 = Back): ");
-                    isValid = SystemValidation.System.StringValidationInput(value, out errorMessage);
-                }
+                continue;
             }
 
-            bool result = user.Edit(field, value!);
 
-            if(result)
+
+            bool result = user.Edit(
+                field,
+                value
+            );
+
+
+
+            if (result)
             {
                 ConsoleHelper.PrintColorizeMessage(
                     "Profile Updated Successfully!",
@@ -151,28 +162,65 @@ public class Profile
                     ConsoleColor.Red
                 );
             }
-            Console.ReadKey();
+
+
+
+            ConsoleHelper.ReadInput(
+                "Press Enter to continue (B + Enter = Back): "
+            );
         }
     }
+
+
+
+
+
+
+
     private bool DeleteAccount(User user)
     {
-        string[] confirm = {"Yes, Delete", "No, Back"};
+        string[] options =
+        {
+            "Yes, Delete",
+            "No, Back"
+        };
 
-        int selected = ConsoleMenu.Show("Delete Account?", confirm);
 
-        if(selected == -1 || selected == 1) return false;
+
+        int selected = ConsoleMenu.Show(
+            "Delete Account?",
+            options
+        );
+
+
+
+        if (selected == -1 || selected == 1)
+        {
+            return false;
+        }
+
+
 
         bool result = user.Remove();
 
-        if(result)
+
+
+        if (result)
         {
             ConsoleHelper.PrintColorizeMessage(
                 "Account Deleted Successfully!",
                 ConsoleColor.Green
             );
-            Console.ReadKey();
+
+
+            Console.ReadLine();
+
+
             return true;
         }
+
+
+
         return false;
     }
 }
