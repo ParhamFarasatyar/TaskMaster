@@ -62,14 +62,7 @@ public class EditQuestion
         );
 
 
-        if(fieldSelected == -1)
-        {
-            return;
-        }
-
-
-
-        if(fieldSelected == 3)
+        if (fieldSelected == -1 || fieldSelected == 3)
         {
             return;
         }
@@ -89,37 +82,29 @@ public class EditQuestion
         int selected,
         int fieldSelected)
     {
-        Difficulty difficulty = Difficulty.Beginner;
-
-        string description = "";
-
-        string grade = "-1";
 
 
 
-        switch(fieldSelected)
+        switch (fieldSelected)
         {
 
             case 0:
-
-                string? descriptionInput;
-
-
-                while(true)
+                string description;
+                while (true)
                 {
-                    descriptionInput = ConsoleHelper.ReadInput(
+                    string descriptionInput = ConsoleHelper.ReadInput(
                         "New Description (F2 = Back): "
-                    );
+                    )!;
 
 
-                    if(descriptionInput == null)
+                    if (descriptionInput == null)
                     {
                         SelectField(selected);
                         return;
                     }
 
 
-                    if(SystemValidation.System.StringValidationInput(
+                    if (SystemValidation.System.StringValidationInput(
                         descriptionInput,
                         out string? errorMessage))
                     {
@@ -140,7 +125,7 @@ public class EditQuestion
 
 
             case 1:
-
+                Difficulty difficulty = Difficulty.Beginner;
                 string[] difficultyOptions =
                 {
                     "Beginner",
@@ -154,14 +139,7 @@ public class EditQuestion
                 );
 
 
-                if(difficultySelected == -1)
-                {
-                    SelectField(selected);
-                    return;
-                }
-
-
-                if(difficultySelected == 3)
+                if (difficultySelected == -1 || difficultySelected == 3)
                 {
                     SelectField(selected);
                     return;
@@ -177,25 +155,21 @@ public class EditQuestion
                 };
 
 
-                Question.Edit(
-                    selected,
-                    difficulty,
-                    fieldSelected
-                );
+                Question.Edit(selected, difficulty, fieldSelected);
                 break;
 
 
 
             case 2:
-
-                while(true)
+            int grade;
+                while (true)
                 {
                     string? gradeInput = ConsoleHelper.ReadInput(
                         "New Grade (F2 = Back): "
                     );
 
 
-                    if(gradeInput == null)
+                    if (gradeInput == null)
                     {
                         SelectField(selected);
                         return;
@@ -203,11 +177,11 @@ public class EditQuestion
 
 
 
-                    if(SystemValidation.System.Grade(
+                    if (SystemValidation.System.Grade(
                         gradeInput,
                         out string? errorMessage))
                     {
-                        grade = gradeInput;
+                        grade = int.Parse(gradeInput);
                         break;
                     }
 
@@ -218,11 +192,7 @@ public class EditQuestion
                         ConsoleColor.Red
                     );
                 }
-                Question.Edit(
-                    selected,
-                    int.Parse(grade),
-                    fieldSelected
-                );
+                Question.Edit(selected, grade, fieldSelected);
                 break;
         }
 
