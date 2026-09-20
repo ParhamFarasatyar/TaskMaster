@@ -166,7 +166,22 @@ public class EditQuestion
                     SelectField(selected);
                     return;
                 }
-                Question.Edit(selected, difficulty, fieldSelected);
+
+
+                difficulty = difficultySelected switch
+                {
+                    0 => Difficulty.Beginner,
+                    1 => Difficulty.MidLevel,
+                    2 => Difficulty.Advanced,
+                    _ => Difficulty.Beginner
+                };
+
+
+                Question.Edit(
+                    selected,
+                    difficulty,
+                    fieldSelected
+                );
                 break;
 
 
@@ -203,19 +218,15 @@ public class EditQuestion
                         ConsoleColor.Red
                     );
                 }
-                Question.Edit(selected, grade, fieldSelected);
+                Question.Edit(
+                    selected,
+                    int.Parse(grade),
+                    fieldSelected
+                );
                 break;
         }
         
-        Console.WriteLine();
-
-        Question.Edit(
-            selected,
-            newQuestion,
-            fieldSelected
-        );
-
-
+        
 
         ConsoleHelper.PrintColorizeMessage(
             "Question Updated Successfully!",
