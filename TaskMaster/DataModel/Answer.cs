@@ -59,4 +59,24 @@ public class Answer
 
         return answersArr;
     }
+
+
+    public static void AnswerStatus(string answerId)
+    {
+        List<Answer> answers = Database.Load<Answer>(DataType.Answers);
+        foreach (Answer ans in answers)
+        {
+            string answer = $"""
+             ┌─────────────────────────────
+             │ Task
+             ├─────────────────────────────
+             │ code: {ans.Code}
+             │ Date/Time: {ans.CreatedDate}
+             | Status: {ans.ApprovalStatus}
+             | Score: {ans.Grade}
+             └─────────────────────────────
+             """;
+            Console.WriteLine(answer);
+        }
+    }
 }
