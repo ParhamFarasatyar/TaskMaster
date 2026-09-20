@@ -41,7 +41,7 @@ public class User
         foreach (var property in properties)
         {
             if (property.Name == field && property.Name != "UserName") property.SetValue(user, data);
-            if (property.Name is "UserName")
+            else if (property.Name is "UserName" && field == "Username")
             {
                 if(users.FirstOrDefault(u => u.UserName == data) is null)
                 {
