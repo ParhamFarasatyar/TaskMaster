@@ -58,6 +58,7 @@ public class EditQuestion
                     Console.Write("Enter Question Description: ");
                     description = Console.ReadLine()!;
                 }
+                Question.Edit(selected, description, fieldSelected);
                 break;
             case 1:
                 string[] difficultyOptions =
@@ -66,8 +67,6 @@ public class EditQuestion
                 "MidLevel",
                 "Advanced"
                 };
-
-
                 int difficultySelected = ConsoleMenu.Show(
                     "Select Difficulty",
                     difficultyOptions
@@ -84,6 +83,7 @@ public class EditQuestion
                         difficulty = Difficulty.Advanced;
                         break;
                 }
+                Question.Edit(selected, difficulty, fieldSelected);
                 break;
             case 2:
                 Console.Write("New Grade: ");
@@ -94,14 +94,10 @@ public class EditQuestion
                     Console.Write("Enter Question Grade: ");
                     grade = Console.ReadLine()!;
                 }
+                Question.Edit(selected, grade, fieldSelected);
                 break;
         }
-
-
-
-        Question newquestion = new Question(description, int.Parse(grade), difficulty);
-
-        Question.Edit(selected, newquestion, fieldSelected);
+        
         Console.WriteLine();
 
         Console.WriteLine(
