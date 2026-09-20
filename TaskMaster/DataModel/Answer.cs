@@ -83,8 +83,5 @@ public class Answer
         }
     }
     
-    public void SetGrade(int grade)
-    {
-        Grade = grade;
-    }
+    public void SetGrade(int grade) => Grade = grade;
 }
