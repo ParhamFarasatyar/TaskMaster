@@ -6,13 +6,11 @@ public class DesignerMenu
 {
     public void Show(User user)
     {
-        bool exit = false;
-
-
-        while (!exit)
+        while (true)
         {
             string[] options =
             {
+                "Profile Info",
                 "Add Question",
                 "Edit Question",
                 "Remove Question",
@@ -27,9 +25,27 @@ public class DesignerMenu
             );
 
 
-            switch (selected)
+            // F2 = Back
+            if(selected == -1)
+            {
+                return;
+            }
+
+
+
+            switch(selected)
             {
                 case 0:
+
+                    Profile profile = new();
+
+                    profile.Show(user);
+
+                    break;
+
+
+
+                case 1:
 
                     QuestionCreator creator = new();
 
@@ -39,7 +55,7 @@ public class DesignerMenu
 
 
 
-                case 1:
+                case 2:
 
                     EditQuestion editQuestion = new();
 
@@ -49,7 +65,7 @@ public class DesignerMenu
 
 
 
-                case 2:
+                case 3:
 
                     RemoveQuestion removeQuestion = new();
 
@@ -59,7 +75,7 @@ public class DesignerMenu
 
 
 
-                case 3:
+                case 4:
 
                     ReviewAnswers reviewAnswers = new();
 
@@ -69,20 +85,16 @@ public class DesignerMenu
 
 
 
-                case 4:
+                case 5:
 
-                    exit = true;
+                    Console.Clear();
 
-                    break;
+                    MainMenu mainMenu = new();
+
+                    mainMenu.Show();
+
+                    return;
             }
         }
-
-
-        Console.Clear();
-
-
-        MainMenu mainMenu = new();
-
-        mainMenu.Show();
     }
 }
