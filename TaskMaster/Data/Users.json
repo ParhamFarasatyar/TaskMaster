@@ -1,14 +1,5 @@
 [
   {
-    "Role": "Intern",
-    "Name": "Aryan",
-    "LastName": "Test",
-    "UserName": "aryan123",
-    "Password": "12345Aa@",
-    "Level": "Beginner",
-    "Score": 0
-  },
-  {
     "Role": "Designer",
     "Name": "Aryan",
     "LastName": "Ebrahimi",

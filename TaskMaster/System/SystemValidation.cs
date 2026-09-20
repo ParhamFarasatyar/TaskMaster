@@ -7,7 +7,6 @@ public static class System
         if (string.IsNullOrWhiteSpace(input))
         {
             errorMessage = "Invalid input!\nEnter something GENIUS!!";
-            PrintColorizeMessage(errorMessage, ConsoleColor.Red);
             return false;
         }
         errorMessage = null;
@@ -16,23 +15,22 @@ public static class System
     
     public static bool Grade(string input, out string? errorMessage)
     {
-        int Input;
         errorMessage = null;
-        bool isValid = int.TryParse(input, out Input);
+        bool isValid = int.TryParse(input, out int Input);
         if (!isValid)
         {
-            errorMessage = "Invalid input!\nPlease enter a number.";
+            errorMessage = "Please enter a number.";
             return false;
         }
         if (
                 Input < 1 ||
                 Input > 5)
         {
-            isValid = false;
-            errorMessage = "Invalid input!\nthe grade must be from 1 to 5";
+            errorMessage = "the grade must be from 1 to 5";
+            return false;
         }
 
-        return isValid;
+        return true;
     }
     public static bool ValidateUsername(string? input, out string? errorMessage)
     {
