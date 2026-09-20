@@ -17,7 +17,8 @@ public class InternMenu
             };
 
 
-            int selected = ConsoleMenu.Show("Intern Menu", options);
+            int selected = ConsoleMenu.Show("Intern Menu", options
+            );
 
 
             // F2 = Back
@@ -43,7 +44,7 @@ public class InternMenu
 
                     AnswerQuestion answerQuestion = new();
 
-                    answerQuestion.Answer();
+                    answerQuestion.SubmitAnswer(user.UserName!);
 
                     break;
 
@@ -52,7 +53,7 @@ public class InternMenu
 
                     AnswersStatus answersStatus = new();
 
-                    answersStatus.Show();
+                    answersStatus.UpdateAnswerStatus();
 
                     break;
 
