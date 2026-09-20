@@ -10,7 +10,7 @@ public class User
     public string? LastName { get; private set; }
     public string? UserName { get; private set; }
     public string? Password { get; private set; }
-    public Level Level { get; private set; }
+    public Level? Level { get; private set; }
     public int Score { get; private set; }
     private List<User> GetUsers() => Database.Load<User>(DataType.Users);
     public User(Role role, string name, string lastName, string userName, string password, Level level, int score)
@@ -20,8 +20,8 @@ public class User
         LastName = lastName;
         UserName = userName;
         Password = password;
-        Level = level;
-        Score = score;
+        Level = Role == Role.Intern ? level : null;
+        Score = Role == Role.Intern ? score : -1;
     }
     public bool Add()
     {
