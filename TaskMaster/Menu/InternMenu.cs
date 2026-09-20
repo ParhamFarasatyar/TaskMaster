@@ -16,58 +16,32 @@ public class InternMenu
                 "Logout"
             };
 
-
             int selected = ConsoleMenu.Show(
                 "Intern Menu",
                 options
             );
 
-
-            // F2 = Back
-            if(selected == -1)
-            {
-                return;
-            }
-
-
+            if(selected == -1) return;
 
             switch(selected)
             {
                 case 0:
-
                     Profile profile = new();
-
-                    profile.Show(user);
-
+                    bool deleted = profile.Show(user);
+                    if(deleted) return;
                     break;
-
 
                 case 1:
-
                     AnswerQuestion answerQuestion = new();
-
                     answerQuestion.Answer();
-
                     break;
-
 
                 case 2:
-
                     AnswersStatus answersStatus = new();
-
                     answersStatus.Show();
-
                     break;
 
-
                 case 3:
-
-                    Console.Clear();
-
-                    MainMenu mainMenu = new();
-
-                    mainMenu.Show();
-
                     return;
             }
         }

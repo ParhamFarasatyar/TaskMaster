@@ -18,81 +18,42 @@ public class DesignerMenu
                 "Logout"
             };
 
-
             int selected = ConsoleMenu.Show(
                 "Designer Menu",
                 options
             );
 
-
-            // F2 = Back
-            if(selected == -1)
-            {
-                return;
-            }
-
-
+            if(selected == -1) return;
 
             switch(selected)
             {
                 case 0:
-
                     Profile profile = new();
-
-                    profile.Show(user);
-
+                    bool deleted = profile.Show(user);
+                    if (deleted) return;
                     break;
-
-
 
                 case 1:
-
                     QuestionCreator creator = new();
-
                     creator.Create();
-
                     break;
-
-
 
                 case 2:
-
                     EditQuestion editQuestion = new();
-
                     editQuestion.Edit();
-
                     break;
-
-
 
                 case 3:
-
                     RemoveQuestion removeQuestion = new();
-
                     removeQuestion.Remove();
-
                     break;
-
-
 
                 case 4:
-
                     ReviewAnswers reviewAnswers = new();
-
                     reviewAnswers.Review();
-
                     break;
 
-
-
-                case 5:
-
-                    Console.Clear();
-
-                    MainMenu mainMenu = new();
-
-                    mainMenu.Show();
-
+                case 5:                    
                     return;
             }
         }

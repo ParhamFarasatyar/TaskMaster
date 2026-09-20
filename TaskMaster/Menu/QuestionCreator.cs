@@ -1,5 +1,4 @@
 ﻿using TaskMaster.DataModel;
-
 namespace Menu;
 
 public class QuestionCreator
@@ -8,80 +7,93 @@ public class QuestionCreator
     {
         GetDescription();
     }
-
-
-
+    
     private void GetDescription()
     {
         Console.Clear();
-
-        string? description = ConsoleHelper.ReadInput(
-            "Description (F2 = Back): "
-        );
-
-
-        if (description == null)
+        
+        while (true)
         {
-            return;
-        }
-
-
-        GetGrade(description);
-    }
-
-
-
-    private void GetGrade(string description)
-    {
-        Console.Clear();
-
-
-        string? gradeInput = ConsoleHelper.ReadInput(
-            "Grade (F2 = Back): "
-        );
-
-
-        if (gradeInput == null)
-        {
-            GetDescription();
-            return;
-        }
-
-
-
-        if (!SystemValidation.System.Grade(
-                gradeInput,
-                out string? errorMessage))
-        {
-            ConsoleHelper.PrintColorizeMessage(
-                errorMessage!,
-                ConsoleColor.Red
+            string? description = ConsoleHelper.ReadInput(
+                "Description (B + Enter = Back): "
             );
-
-            Console.ReadLine();
-
+            
+            if (description == null)
+            {
+                return;
+            }
+            
+            if (!SystemValidation.System.StringValidationInput(
+                description,
+                out string? errorMessage))
+            {
+                ConsoleHelper.PrintColorizeMessage(
+                    errorMessage!,
+                    ConsoleColor.Red
+                );
+                
+                ConsoleHelper.ReadInput(
+                    "Press Enter to try again (B + Enter = Back): "
+                );
+                
+                continue;
+            }
+            
             GetGrade(description);
 
             return;
         }
-
-
-        int grade = int.Parse(gradeInput);
-
-
-
-        GetDifficulty(description, grade);
     }
+    private void GetGrade(string description)
+    {
+        Console.Clear();
+        
+        while (true)
+        {
+            string? gradeInput = ConsoleHelper.ReadInput(
+                "Grade (1-5) (B + Enter = Back): "
+            );
+            
+            if (gradeInput == null)
+            {
+                GetDescription();
 
-
-
+                return;
+            }
+            
+            if (!SystemValidation.System.Grade(
+                gradeInput,
+                out string? errorMessage))
+            {
+                ConsoleHelper.PrintColorizeMessage(
+                    errorMessage!,
+                    ConsoleColor.Red
+                );
+                
+                ConsoleHelper.ReadInput(
+                    "Press Enter to try again (B + Enter = Back): "
+                );
+                
+                continue;
+            }
+            
+            int grade = int.Parse(gradeInput);
+            
+            GetDifficulty(
+                description,
+                grade
+            );
+            
+            return;
+        }
+    }
+    
     private void GetDifficulty(
         string description,
         int grade)
     {
         Console.Clear();
-
-
+        
         string[] options =
         {
             "Beginner",
@@ -89,23 +101,19 @@ public class QuestionCreator
             "Advanced",
             "Back"
         };
-
-
+        
         int selected = ConsoleMenu.Show(
             "Select Difficulty",
             options
         );
-
-
-
-        if(selected == 3)
+        
+        if(selected == -1 || selected == 3)
         {
             GetGrade(description);
+
             return;
         }
-
-
-
+        
         Difficulty difficulty = selected switch
         {
             0 => Difficulty.Beginner,
@@ -113,25 +121,22 @@ public class QuestionCreator
             2 => Difficulty.Advanced,
             _ => Difficulty.Beginner
         };
-
-
-
+        
         Question question = new Question(
             description,
             grade,
             difficulty
         );
-
-
+        
         question.Add();
-
-
+        
         ConsoleHelper.PrintColorizeMessage(
             "Question Created Successfully!",
             ConsoleColor.Green
         );
-
-
-        Console.ReadLine();
+        
+        ConsoleHelper.ReadInput(
+            "Press Enter to continue (B + Enter = Back): "
+        );
     }
 }

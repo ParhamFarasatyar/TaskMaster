@@ -1,8 +1,9 @@
 ﻿namespace Menu;
 using UserModel;
+
 public class MainMenu
 {
-    public void Show()
+    public User? Show()
     {
         string[] options =
         {
@@ -11,76 +12,45 @@ public class MainMenu
             "Exit"
         };
 
-
         int selected = ConsoleMenu.Show(
             new string(' ', 4) + "Task Master",
             options
         );
-
-
-        switch (selected)
+        
+        if(selected == -1)
+        {
+            return null;
+        }
+        
+        switch(selected)
         {
             case 0:
-                Login();
-                break;
 
+                Login login = new();
 
+                return login.Enter();
+            
             case 1:
-                Register();
-                break;
 
+                Register register = new();
+                
+                User? user = register.Create();
 
+                if(user != null &&
+                   user.UserName == "__BACK__")
+                {
+                    return Show();
+                }
+                
+                return user;
+            
             case 2:
-                Exit();
-                break;
+
+                return null;
+            
+            default:
+
+                return null;
         }
-    }
-
-
-
-    private void Login()
-    {
-        Login login = new();
-
-        User? user = login.Enter();
-
-
-        if(user != null)
-        {
-            MenuManager manager = new();
-
-            manager.Show(user);
-        }
-        else
-        {
-            Show();
-        }
-    }
-
-
-
-    private void Register()
-    {
-        Register register = new();
-
-        User? user = register.Create();
-
-        if (user == null)
-        {
-            MainMenu mainMenu = new();
-            mainMenu.Show();
-            return;
-        }
-
-        MenuManager manager = new();
-
-        manager.Show(user!);
-    }
-
-
-
-    private void Exit()
-    {
-        Console.WriteLine("Goodbye!");
     }
 }

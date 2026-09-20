@@ -2,17 +2,33 @@
   {
     "Description": "asdfghjk",
     "Grade": 5,
+    "Difficulty": "Advanced",
     "Id": "06aea76d45244fe98c80168a730b587e",
     "CreatedAt": "2026-09-19T12:31:59.2327242+03:30",
-    "UpdatedAt": "2026-09-20T08:30:47.4297622+03:30",
-    "Difficulty": "Advanced"
+    "UpdatedAt": "2026-09-20T11:50:25.8393452+03:30"
   },
   {
     "Description": "sadfhgjhkyjuk",
     "Grade": 5,
+    "Difficulty": "MidLevel",
     "Id": "46daf7e723d944b9a02348bd5bf9e441",
     "CreatedAt": "2026-09-19T12:32:55.9213514+03:30",
-    "UpdatedAt": "2026-09-20T08:30:47.4297884+03:30",
-    "Difficulty": "MidLevel"
+    "UpdatedAt": "2026-09-20T11:50:25.8423081+03:30"
+  },
+  {
+    "Description": "asdfghjk",
+    "Grade": 4,
+    "Difficulty": "Advanced",
+    "Id": "ebfba1f5ac714e74a46eb2309491345c",
+    "CreatedAt": "2026-09-20T10:47:11.4321171+03:30",
+    "UpdatedAt": "2026-09-20T11:50:25.8423274+03:30"
+  },
+  {
+    "Description": "asdfghjkl;",
+    "Grade": 4,
+    "Difficulty": "MidLevel",
+    "Id": "953c7e168693466db5b84e40eb7afc7f",
+    "CreatedAt": "2026-09-20T11:50:25.807158+03:30",
+    "UpdatedAt": "2026-09-20T11:50:25.8085062+03:30"
   }
 ]
