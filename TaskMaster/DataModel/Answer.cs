@@ -69,7 +69,7 @@ public class Answer
         {
             string answer = $"""
              ┌─────────────────────────────
-             │ Task
+             │ Answer
              ├─────────────────────────────
              │ code: {ans.Code}
              │ Date/Time: {ans.CreatedDate}
