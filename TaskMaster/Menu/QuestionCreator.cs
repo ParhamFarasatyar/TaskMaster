@@ -1,4 +1,4 @@
-﻿using QuestionDatatype;
+﻿using TaskMaster.DataModel;
 
 namespace Menu;
 
@@ -15,17 +15,12 @@ public class QuestionCreator
     {
         Console.Clear();
 
-        Console.WriteLine("======================");
-        Console.WriteLine(" CREATE QUESTION ");
-        Console.WriteLine("======================");
-
-
         string? description = ConsoleHelper.ReadInput(
             "Description (F2 = Back): "
         );
 
 
-        if(description == null)
+        if (description == null)
         {
             return;
         }
@@ -46,19 +41,20 @@ public class QuestionCreator
         );
 
 
-        if(gradeInput == null)
+        if (gradeInput == null)
         {
             GetDescription();
-
             return;
         }
 
 
 
-        if(!int.TryParse(gradeInput, out int grade))
+        if (!SystemValidation.System.Grade(
+                gradeInput,
+                out string? errorMessage))
         {
             ConsoleHelper.PrintColorizeMessage(
-                "Invalid Grade",
+                errorMessage!,
                 ConsoleColor.Red
             );
 
@@ -70,10 +66,12 @@ public class QuestionCreator
         }
 
 
+        int grade = int.Parse(gradeInput);
+
+
 
         GetDifficulty(description, grade);
     }
-
 
 
 
@@ -99,10 +97,10 @@ public class QuestionCreator
         );
 
 
+
         if(selected == 3)
         {
             GetGrade(description);
-
             return;
         }
 
@@ -125,7 +123,7 @@ public class QuestionCreator
         );
 
 
-        // Save logic belongs to Question module
+        question.Add();
 
 
         ConsoleHelper.PrintColorizeMessage(

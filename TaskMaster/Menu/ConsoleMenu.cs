@@ -45,7 +45,9 @@ public class ConsoleMenu
             }
 
 
+
             key = Console.ReadKey(true).Key;
+
 
 
             if (key == ConsoleKey.DownArrow)
@@ -71,6 +73,7 @@ public class ConsoleMenu
 
 
         } while (key != ConsoleKey.Enter);
+
 
 
         return selectedIndex;

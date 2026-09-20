@@ -1,7 +1,7 @@
 using System.Security.Cryptography.X509Certificates;
 using DataBase;
 using UserModel;
-namespace QuestionDatatype;
+namespace TaskMaster.DataModel;
 
 public enum Difficulty { Beginner, MidLevel, Advanced }
 
@@ -28,40 +28,32 @@ public class Question
         //---------- Input validating ----------
         Database.Save(this, DataType.Questions);
     }
-    public static void Edit(string Id, Question values, int data)
+    public static void Edit(int index, Question values, int data)
     {
         List<Question> questions = Database.Load<Question>(DataType.Questions);
 
-        Question? question = questions.FirstOrDefault(t => t.Id == Id);
-
-        int index = questions.IndexOf(question!);
-
-        Question newquestion = new Question("", 0, Difficulty.Beginner);
-        newquestion = question!;
-        Console.WriteLine(question);
-        Console.WriteLine(newquestion);
+        Question question = questions[index];
         switch (data)
         {
+            case 0:
+                question.Description = values.Description;
+                break;
             case 1:
-                newquestion.Description = values.Description;
+                question.Difficulty = values.Difficulty;
                 break;
             case 2:
-                newquestion.Grade = values.Grade;
-                break;
-            case 3:
-                newquestion.Difficulty = values.Difficulty;
+                question.Grade = values.Grade;
                 break;
 
         }
-        newquestion.UpdatedAt = DateTime.Now;
-        questions[index] = newquestion;
-        DataBase.Database.Update(questions, DataType.Questions);
+        question.UpdatedAt = DateTime.Now;
+        Database.Update(questions, DataType.Questions);
     }
-    public static void Delete(int array)
+    public static void Delete(int index)
     {
         List<Question> questions = Database.Load<Question>(DataType.Questions);
 
-        Question? question = questions[array];
+        Question? question = questions[index];
 
         questions.Remove(question!);
 
@@ -69,8 +61,8 @@ public class Question
     }
     public static void ShowQuestions()
     {
-       List<Question> questions = Database.Load<Question>(DataType.Questions);
-       foreach(Question question in questions)
+        List<Question> questions = Database.Load<Question>(DataType.Questions);
+        foreach (Question question in questions)
         {
             string log = $"""
         ┌─────────────────────────────
@@ -83,8 +75,27 @@ public class Question
         | Updated at : {question.UpdatedAt}
         └─────────────────────────────
         """;
-        Console.WriteLine(log);
+            Console.WriteLine(log);
         }
+    }
+    public static string[] MenuQuestions()
+    {
+        List<Question> questions = Database.Load<Question>(DataType.Questions);
+        string[] Questions = new string[questions.Count];
+        for (int i = 0; i < questions.Count; i++)
+        {
+            string? description = questions[i].Description?.Length > 20 ? 
+            questions[i].Description?[..20] + "..." : questions[i].Description;
+            string questionItem = $"""
+        ┌────────────────────────────
+          │ Description : {description}
+          │ Difficulty  : {questions[i].Difficulty}
+          │ Score       : {questions[i].Grade}
+          └─────────────────────────────
+        """;
+            Questions[i] = questionItem;
+        }
+        return Questions;
     }
     public override string ToString()
     {
@@ -94,10 +105,10 @@ public class Question
         ├─────────────────────────────
         │ Description : {Description}
         │ Difficulty  : {Difficulty}
-        │ Score  : {Grade}
-        │ ID     : {Id}
-        | Created at : {CreatedAt}
-        | Updated at : {UpdatedAt}
+        │ Score       : {Grade}
+        │ ID          : {Id}
+        | Created at  : {CreatedAt:dd/mm/yyyy HH:mm}
+        | Updated at  : {UpdatedAt:dd/mm/yyyy HH:mm}
         └─────────────────────────────
         """;
     }

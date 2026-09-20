@@ -36,6 +36,7 @@ public class InternMenu
                     break;
 
 
+
                 case 1:
 
                     AnswerQuestion answerQuestion = new();
@@ -43,6 +44,7 @@ public class InternMenu
                     answerQuestion.Answer();
 
                     break;
+
 
 
                 case 2:
@@ -53,7 +55,8 @@ public class InternMenu
 
                     break;
 
-                
+
+
                 case 3:
 
                     exit = true;

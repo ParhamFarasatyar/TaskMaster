@@ -1,4 +1,4 @@
-namespace Menu;
+﻿namespace Menu;
 
 public static class ConsoleHelper
 {
@@ -27,6 +27,7 @@ public static class ConsoleHelper
             ConsoleKeyInfo key = Console.ReadKey(true);
 
 
+
             // F2 = Back
             if (key.Key == ConsoleKey.F2)
             {
@@ -35,12 +36,14 @@ public static class ConsoleHelper
             }
 
 
+
             // Enter = Finish
             if (key.Key == ConsoleKey.Enter)
             {
                 Console.WriteLine();
                 break;
             }
+
 
 
             // Backspace
@@ -55,6 +58,7 @@ public static class ConsoleHelper
 
                 continue;
             }
+
 
 
             input += key.KeyChar;

@@ -13,7 +13,7 @@ public class MainMenu
 
 
         int selected = ConsoleMenu.Show(
-            "    Task Master",
+            new string(' ', 4) + "Task Master",
             options
         );
 
