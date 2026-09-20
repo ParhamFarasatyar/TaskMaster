@@ -1,4 +1,4 @@
-﻿using QuestionDatatype;
+﻿using TaskMaster.DataModel;
 
 namespace Menu;
 
@@ -134,8 +134,7 @@ public class EditQuestion
                         ConsoleColor.Red
                     );
                 }
-
-
+                Question.Edit(selected, description, fieldSelected);
                 break;
 
 
@@ -149,8 +148,6 @@ public class EditQuestion
                     "Advanced",
                     "Back"
                 };
-
-
                 int difficultySelected = ConsoleMenu.Show(
                     "Select Difficulty",
                     difficultyOptions
@@ -169,18 +166,7 @@ public class EditQuestion
                     SelectField(selected);
                     return;
                 }
-
-
-
-                difficulty = difficultySelected switch
-                {
-                    0 => Difficulty.Beginner,
-                    1 => Difficulty.MidLevel,
-                    2 => Difficulty.Advanced,
-                    _ => Difficulty.Beginner
-                };
-
-
+                Question.Edit(selected, difficulty, fieldSelected);
                 break;
 
 
@@ -217,20 +203,11 @@ public class EditQuestion
                         ConsoleColor.Red
                     );
                 }
-
-
+                Question.Edit(selected, grade, fieldSelected);
                 break;
         }
-
-
-
-        Question newQuestion = new Question(
-            description,
-            int.Parse(grade),
-            difficulty
-        );
-
-
+        
+        Console.WriteLine();
 
         Question.Edit(
             selected,

@@ -1,5 +1,3 @@
-using Answer;
-
 namespace SystemValidation;
 
 public static class System
@@ -17,9 +15,8 @@ public static class System
     
     public static bool Grade(string input, out string? errorMessage)
     {
-        int Input;
         errorMessage = null;
-        bool isValid = int.TryParse(input, out Input);
+        bool isValid = int.TryParse(input, out int Input);
         if (!isValid)
         {
             errorMessage = "Invalid input!\nPlease enter a number.";
@@ -29,11 +26,11 @@ public static class System
                 Input < 1 ||
                 Input > 5)
         {
-            isValid = false;
             errorMessage = "Invalid input!\nthe grade must be from 1 to 5";
+            return false;
         }
 
-        return isValid;
+        return true;
     }
     public static bool ValidateUsername(string? input, out string? errorMessage)
     {
