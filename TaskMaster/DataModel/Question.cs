@@ -9,10 +9,10 @@ public class Question
 {
     public string? Description { get; private set; }
     public int Grade { get; private set; }
+    public Difficulty Difficulty { get; private set; }
     public string? Id { get; init; }
     public DateTime CreatedAt { get; init; }
     public DateTime UpdatedAt { get; private set; }
-    public Difficulty Difficulty { get; private set; }
 
     public Question(string description, int grade, Difficulty difficulty)
     {
@@ -25,10 +25,9 @@ public class Question
     }
     public void Add()
     {
-        //---------- Input validating ----------
         Database.Save(this, DataType.Questions);
     }
-    public static void Edit(int index, Question values, int data)
+    public static void Edit<T>(int index, T value, int data)
     {
         List<Question> questions = Database.Load<Question>(DataType.Questions);
 
@@ -36,13 +35,13 @@ public class Question
         switch (data)
         {
             case 0:
-                question.Description = values.Description;
+                question.Description = value!.ToString();
                 break;
             case 1:
-                question.Difficulty = values.Difficulty;
+                question.Difficulty = (Difficulty)(object)value!;
                 break;
             case 2:
-                question.Grade = values.Grade;
+                question.Grade = Convert.ToInt32(value);
                 break;
 
         }
