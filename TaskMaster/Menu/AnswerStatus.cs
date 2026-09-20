@@ -19,7 +19,7 @@ public class AnswersStatus
         
         answers[selectedIndex].SetGrade(grade);
         
-        Database.Save(answers[selectedIndex], DataType.Answers);
+        Database.Update(answers, DataType.Answers);
     }
 
 
