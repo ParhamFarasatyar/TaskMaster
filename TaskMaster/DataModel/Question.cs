@@ -1,6 +1,5 @@
-using System.Security.Cryptography.X509Certificates;
 using DataBase;
-using UserModel;
+using Microsoft.VisualBasic;
 namespace TaskMaster.DataModel;
 
 public enum Difficulty { Beginner, MidLevel, Advanced }
@@ -13,6 +12,7 @@ public class Question
     public string? Id { get; init; }
     public DateTime CreatedAt { get; init; }
     public DateTime UpdatedAt { get; private set; }
+    private static List<Question> GetQuestions() => Database.Load<Question>(DataType.Questions);
 
     public Question(string description, int grade, Difficulty difficulty)
     {
@@ -27,12 +27,11 @@ public class Question
     {
         Database.Save(this, DataType.Questions);
     }
-    public static void Edit<T>(int index, T value, int data)
+    public static void Edit<T>(int index, T value, int selectedfield)
     {
-        List<Question> questions = Database.Load<Question>(DataType.Questions);
-
+        List<Question> questions = GetQuestions();
         Question question = questions[index];
-        switch (data)
+        switch (selectedfield)
         {
             case 0:
                 question.Description = value!.ToString();
@@ -50,7 +49,7 @@ public class Question
     }
     public static void Delete(int index)
     {
-        List<Question> questions = Database.Load<Question>(DataType.Questions);
+        List<Question> questions = GetQuestions();
 
         Question? question = questions[index];
 
@@ -62,42 +61,27 @@ public class Question
     {
         string? description = question.Description?.Length > 20 ?
             question.Description?[..20] + "..." : question.Description;
-        string _question = $"""
+        string questionItem = $"""
         ┌─────────────────────────────
-        │ Task
-        ├─────────────────────────────
-        │ Description : {description}
-        │ Difficulty  : {question.Difficulty}
-        │ Score  : {question.Grade}
-        | Created at : {question.CreatedAt}
-        | Updated at : {question.UpdatedAt}
-        └─────────────────────────────
+          │ Task
+          ├─────────────────────────────
+          │ Description : {description}
+          │ Difficulty  : {question.Difficulty}
+          │ Score  : {question.Grade}
+          | Created at : {question.CreatedAt}
+          | Updated at : {question.UpdatedAt}
+          └─────────────────────────────
         """;
-        return _question;
+        return questionItem;
     }
     public static string[] MenuQuestions()
     {
-        List<Question> questions = Database.Load<Question>(DataType.Questions);
+        List<Question> questions = GetQuestions();
         string[] Questions = new string[questions.Count];
         for (int i = 0; i < questions.Count; i++)
         {
             Questions[i] = ShowQuestions(questions[i]);
         }
         return Questions;
-    }
-    public override string ToString()
-    {
-        return $"""
-        ┌─────────────────────────────
-         │ Task
-         ├─────────────────────────────
-         │ Description : {Description}
-         │ Difficulty  : {Difficulty}
-         │ Score       : {Grade}
-         │ ID          : {Id}
-         | Created at  : {CreatedAt:dd/mm/yyyy HH:mm}
-         | Updated at  : {UpdatedAt:dd/mm/yyyy HH:mm}
-         └─────────────────────────────
-        """;
     }
 }

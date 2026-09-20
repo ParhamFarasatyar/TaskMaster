@@ -40,40 +40,45 @@ public class MainMenu
 
 
 
-    // private void Login()
-    // {
-    //     Login login = new();
-    //
-    //     User? user = login.Enter();
-    //
-    //
-    //     if(user != null)
-    //     {
-    //         MenuManager manager = new();
-    //
-    //         manager.Show(user);
-    //     }
-    // }
-    //
-    //
-    //
-    // private void Register()
-    // {
-    //     Register register = new();
-    //
-    //     User? user = register.Create();
-    //
-    //     if (user == null)
-    //     {
-    //         MainMenu mainMenu = new();
-    //         mainMenu.Show();
-    //         return;
-    //     }
-    //
-    //     MenuManager manager = new();
-    //
-    //     manager.Show(user!);
-    // }
+    private void Login()
+    {
+        Login login = new();
+
+        User? user = login.Enter();
+
+
+        if(user != null)
+        {
+            MenuManager manager = new();
+
+            manager.Show(user);
+        }
+        else
+        {
+            Show();
+        }
+    }
+
+
+
+    private void Register()
+    {
+        Register register = new();
+
+        User? user = register.Create();
+
+        if (user == null)
+        {
+            MainMenu mainMenu = new();
+            mainMenu.Show();
+            return;
+        }
+
+        MenuManager manager = new();
+
+        manager.Show(user!);
+    }
+
 
     
     private void Exit()
