@@ -1,5 +1,4 @@
-﻿using System.Reflection.Metadata.Ecma335;
-using DataBase;
+﻿using DataBase;
 using QuestionDatatype;
 using TaskMaster.DataModel;
 
@@ -21,28 +20,6 @@ public class AnswerQuestion
 
         Database.Save(answer, DataType.Answers);
     }
-
-
-    // public string GetQuestionId()
-    // {
-    //     bool status = false;
-    //     string questionId = "";
-    //     
-    //     while (status)
-    //     {
-    //         Console.WriteLine("QuestionId: ");
-    //         questionId = Console.ReadLine();
-    //
-    //         status = SystemValidation.System.ValidateUsername(questionId, out string? errorMessage);
-    //
-    //         if (status == false)
-    //         {
-    //             SystemValidation.System.PrintColorizeMessage(errorMessage!, ConsoleColor.Red);
-    //         }
-    //     }
-    //
-    //     return questionId;
-    // }
 
 
     public string GetCode()
