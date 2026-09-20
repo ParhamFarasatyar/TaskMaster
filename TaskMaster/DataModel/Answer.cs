@@ -12,7 +12,7 @@ public class Answer
     public string QuestionId{ get; private set; }
     public string Code{ get; private set; }
     public int Grade{ get; private set; }
-    public int GoleGrade { get; private set; }
+    public int GoalGrade { get; private set; }
 
 
     public Answer(string questionId, string code, int goleGrade)
@@ -79,5 +79,10 @@ public class Answer
              """;
             Console.WriteLine(answer);
         }
+    }
+    
+    public void SetGrade(int grade)
+    {
+        Grade = grade;
     }
 }
