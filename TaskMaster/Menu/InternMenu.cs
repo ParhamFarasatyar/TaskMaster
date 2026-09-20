@@ -17,10 +17,7 @@ public class InternMenu
             };
 
 
-            int selected = ConsoleMenu.Show(
-                "Intern Menu",
-                options
-            );
+            int selected = ConsoleMenu.Show("Intern Menu", options);
 
 
             // F2 = Back
