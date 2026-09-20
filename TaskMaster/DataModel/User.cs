@@ -12,6 +12,7 @@ public class User
     public string? Password { get; private set; }
     public Level Level { get; private set; }
     public int Score { get; private set; }
+    private List<User> GetUsers() => Database.Load<User>(DataType.Users);
     public User(Role role, string name, string lastName, string userName, string password, Level level, int score)
     {
         Role = role;
@@ -24,7 +25,7 @@ public class User
     }
     public bool Add()
     {
-        List<User> users = Database.Load<User>(DataType.Users);
+        List<User> users = GetUsers();
         if (users.Any(u => u.UserName == UserName)) return false;
         
         Database.Save(this, DataType.Users);
@@ -32,28 +33,14 @@ public class User
     }
     public bool Edit(string field, string data)
     {
-        List<User> users = Database.Load<User>(DataType.Users);
-        int selectedUserIndex = users.FindIndex(u => u.UserName == UserName);
-        if (selectedUserIndex == -1) return false;
+        List<User> users = GetUsers();
+        User? user = users.Find(u => u.UserName == UserName);
+        if (user is null) return false;
 
-        switch (field)
+        var properties = typeof(User).GetProperties();
+        foreach (var property in properties)
         {
-            case "Name":
-                users[selectedUserIndex].Name = data;
-            break;
-
-            case "LastName":
-                users[selectedUserIndex].LastName = data;
-            break;
-
-            case "UserName":
-                if (users.Any(u => u.UserName != data)) users[selectedUserIndex].UserName = data;
-                else return false;
-            break;
-
-            case "Password":
-                users[selectedUserIndex].Password = data;
-            break;
+            if (property.Name == field) property.SetValue(user, data);
         }
 
         Database.Update(users, DataType.Users);
@@ -61,11 +48,11 @@ public class User
     }
     public bool Remove()
     {
-        List<User> users = Database.Load<User>(DataType.Users);
-        int selectedUserIndex = users.FindIndex(u => u.UserName == UserName);
-        if (selectedUserIndex == -1) return false;
+        List<User> users = GetUsers();
+        User? user = users.Find(u => u.UserName == UserName);
+        if (user is null) return false;
 
-        users.RemoveAt(selectedUserIndex);
+        users.Remove(user);
         Database.Update(users, DataType.Users);
         return true;
     }
