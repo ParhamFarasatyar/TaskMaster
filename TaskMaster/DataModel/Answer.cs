@@ -23,7 +23,7 @@ public class Answer
         Code = code;
         ApprovalStatus = State.Pending;
         Grade = -1;
-        GoleGrade = goleGrade;
+        GoalGrade = goleGrade;
     }
 
     
