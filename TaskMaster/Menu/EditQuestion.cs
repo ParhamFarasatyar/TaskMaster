@@ -1,5 +1,4 @@
 ﻿using TaskMaster.DataModel;
-
 namespace Menu;
 
 public class EditQuestion
@@ -7,44 +6,27 @@ public class EditQuestion
     public void Edit()
     {
         Console.Clear();
-
         Console.WriteLine("====================");
         Console.WriteLine("    EDIT QUESTION   ");
         Console.WriteLine("====================");
-
-
         string[] questions = Question.MenuQuestions();
-
-
         if (questions.Length == 0)
         {
             ConsoleHelper.ReadInput(
-                "No questions available. Press Enter (F2 = Back): "
+                "No questions available. Press Enter (B + Enter = Back): "
             );
-
             return;
         }
-
-
-
         int selected = ConsoleMenu.Show(
             "Select Question",
             questions
         );
-
-
         if (selected == -1)
         {
             return;
         }
-
-
-
         SelectField(selected);
     }
-
-
-
     private void SelectField(int selected)
     {
         string[] questionFields =
@@ -54,81 +36,44 @@ public class EditQuestion
             "Grade",
             "Back"
         };
-
-
         int fieldSelected = ConsoleMenu.Show(
             "Select Field",
             questionFields
         );
-
-
-        if(fieldSelected == -1)
+        if (fieldSelected == -1 || fieldSelected == 3)
         {
             return;
         }
-
-
-
-        if(fieldSelected == 3)
-        {
-            return;
-        }
-
-
-
         EditField(
             selected,
             fieldSelected
         );
     }
-
-
-
-
     private void EditField(
         int selected,
         int fieldSelected)
     {
-        Difficulty difficulty = Difficulty.Beginner;
-
-        string description = "";
-
-        string grade = "-1";
-
-
-
-        switch(fieldSelected)
+        switch (fieldSelected)
         {
-
             case 0:
-
-                string? descriptionInput;
-
-
-                while(true)
+                string description;
+                while (true)
                 {
-                    descriptionInput = ConsoleHelper.ReadInput(
-                        "New Description (F2 = Back): "
-                    );
-
-
-                    if(descriptionInput == null)
+                    string descriptionInput = ConsoleHelper.ReadInput(
+                        "New Description (B + Enter = Back): "
+                    )!;
+                    if (descriptionInput == null)
                     {
                         SelectField(selected);
                         return;
                     }
-
-
-                    if(SystemValidation.System.StringValidationInput(
+                    if (SystemValidation.System.StringValidationInput(
                         descriptionInput,
                         out string? errorMessage))
                     {
                         description = descriptionInput;
                         break;
                     }
-
-
-
                     ConsoleHelper.PrintColorizeMessage(
                         errorMessage!,
                         ConsoleColor.Red
@@ -136,11 +81,8 @@ public class EditQuestion
                 }
                 Question.Edit(selected, description, fieldSelected);
                 break;
-
-
-
             case 1:
-
+                Difficulty difficulty = Difficulty.Beginner;
                 string[] difficultyOptions =
                 {
                     "Beginner",
@@ -152,22 +94,11 @@ public class EditQuestion
                     "Select Difficulty",
                     difficultyOptions
                 );
-
-
-                if(difficultySelected == -1)
+                if (difficultySelected == -1 || difficultySelected == 3)
                 {
                     SelectField(selected);
                     return;
                 }
-
-
-                if(difficultySelected == 3)
-                {
-                    SelectField(selected);
-                    return;
-                }
-
-
                 difficulty = difficultySelected switch
                 {
                     0 => Difficulty.Beginner,
@@ -175,67 +106,42 @@ public class EditQuestion
                     2 => Difficulty.Advanced,
                     _ => Difficulty.Beginner
                 };
-
-
-                Question.Edit(
-                    selected,
-                    difficulty,
-                    fieldSelected
-                );
+                Question.Edit(selected, difficulty, fieldSelected);
                 break;
-
-
-
             case 2:
-
-                while(true)
+            int grade;
+                while (true)
                 {
                     string? gradeInput = ConsoleHelper.ReadInput(
-                        "New Grade (F2 = Back): "
+                        "New Grade (B + Enter = Back): "
                     );
-
-
-                    if(gradeInput == null)
+                    if (gradeInput == null)
                     {
                         SelectField(selected);
                         return;
                     }
-
-
-
-                    if(SystemValidation.System.Grade(
+                    if (SystemValidation.System.Grade(
                         gradeInput,
                         out string? errorMessage))
                     {
-                        grade = gradeInput;
+                        grade = int.Parse(gradeInput);
                         break;
                     }
-
-
-
                     ConsoleHelper.PrintColorizeMessage(
                         errorMessage!,
                         ConsoleColor.Red
                     );
                 }
-                Question.Edit(
-                    selected,
-                    int.Parse(grade),
-                    fieldSelected
-                );
+                Question.Edit(selected, grade, fieldSelected);
                 break;
         }
-
         Console.WriteLine();
-
         ConsoleHelper.PrintColorizeMessage(
             "Question Updated Successfully!",
             ConsoleColor.Green
         );
-
-
         ConsoleHelper.ReadInput(
-            "Press Enter to return (F2 = Back): "
+            "Press Enter to return (B + Enter = Back): "
         );
     }
 }

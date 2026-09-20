@@ -1,14 +1,46 @@
 ﻿namespace TaskMaster;
+
 using Menu;
 using UserModel;
+
 
 class Program
 {
     static void Main(string[] args)
     {
-        MainMenu mainMenu = new();
-        mainMenu.Show();
+        while(true)
+        {
+            MainMenu mainMenu = new();
+
+
+            User? user = mainMenu.Show();
+
+
+
+            if(user == null)
+            {
+                Console.WriteLine("Goodbye!");
+
+                break;
+            }
+
+
+
+            if(user.Role == Role.Intern)
+            {
+                InternMenu internMenu = new();
+
+                internMenu.Show(user);
+            }
+
+
+
+            else if(user.Role == Role.Designer)
+            {
+                DesignerMenu designerMenu = new();
+
+                designerMenu.Show(user);
+            }
+        }
     }
 }
-
-
