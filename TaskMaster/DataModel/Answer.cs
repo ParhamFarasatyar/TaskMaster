@@ -6,6 +6,7 @@ public enum State { Pending, Approve, Reject}
 
 public class Answer
 {
+    public string UserName { get; set; }
     public string AnswerId{ get; init; }
     public State ApprovalStatus{ get; private set; }
     public DateTime CreatedDate{ get; init; }
@@ -15,8 +16,9 @@ public class Answer
     public int GoalGrade { get; private set; }
 
 
-    public Answer(string questionId, string code, int goleGrade)
+    public Answer(string userName, string questionId, string code, int goleGrade)
     {
+        UserName = userName;
         AnswerId = Guid.NewGuid().ToString("N");
         QuestionId = questionId;
         CreatedDate = DateTime.Now;

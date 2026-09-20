@@ -1,12 +1,13 @@
 ﻿using DataBase;
 using QuestionDatatype;
 using TaskMaster.DataModel;
+using UserModel;
 
 namespace Menu;
 
 public class AnswerQuestion
 {
-    public void SubmitAnswer()
+    public void SubmitAnswer(string userName)
     {
         string[] savedQuestions = Question.MenuQuestions();
 
@@ -16,7 +17,7 @@ public class AnswerQuestion
 
         List<Question> questions = Database.Load<Question>(DataType.Questions);
 
-        Answer answer = new Answer(questions[selectedIndex].Id!, code, questions[selectedIndex].Grade);
+        Answer answer = new Answer(userName, questions[selectedIndex].Id!, code, questions[selectedIndex].Grade);
 
         Database.Save(answer, DataType.Answers);
     }
