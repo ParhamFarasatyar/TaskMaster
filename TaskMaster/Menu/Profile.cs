@@ -62,15 +62,47 @@ public class Profile
 
             string? value = ConsoleHelper.ReadInput($"New {field} (B + Enter = Back): ");
 
-            if (value == null) continue;
+            if (value?.ToLower() != "b")
+            {
+                if (field is "UserName")
+                {
+                    bool isValid = SystemValidation.System.ValidateUsername(value, out string? errorMessage);
+                    while (!isValid)
+                    {
+                        SystemValidation.System.PrintColorizeMessage(errorMessage!, ConsoleColor.Red);
+                        value = ConsoleHelper.ReadInput($"New {field} (B + Enter = Back): ");
+                        isValid = SystemValidation.System.ValidateUsername(value, out errorMessage);
+                    }
+                }
+                else if (field is "Password")
+                {
+                    bool isValid = SystemValidation.System.ValidateUserPassword(value, out string? errorMessage);
+                    while (!isValid)
+                    {
+                        SystemValidation.System.PrintColorizeMessage(errorMessage!, ConsoleColor.Red);
+                        value = ConsoleHelper.ReadInput($"New {field} (B + Enter = Back): ");
+                        isValid = SystemValidation.System.ValidateUserPassword(value, out errorMessage);
+                    }
+                }
+                else
+                {
+                    bool isValid = SystemValidation.System.StringValidationInput(value, out string? errorMessage);
+                    while (!isValid)
+                    {
+                        SystemValidation.System.PrintColorizeMessage(errorMessage!, ConsoleColor.Red);
+                        value = ConsoleHelper.ReadInput($"New {field} (B + Enter = Back): ");
+                        isValid = SystemValidation.System.StringValidationInput(value, out errorMessage);
+                    }
+                }
+            }
+            else return;
 
-            bool result = user.Edit(field, value);
+            bool result = user.Edit(field, value!);
             if (result)
             ConsoleHelper.PrintColorizeMessage("Profile Updated Successfully!", ConsoleColor.Green);
             else
             ConsoleHelper.PrintColorizeMessage("Update Failed!", ConsoleColor.Red);
-
-            ConsoleHelper.ReadInput("Press Enter to continue (B + Enter = Back): ");
+            Thread.Sleep(2000);
         }
     }
     private bool DeleteAccount(User user)
