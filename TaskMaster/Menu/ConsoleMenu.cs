@@ -59,10 +59,16 @@ public class ConsoleMenu
 
 
 
-            // F2 = Back
-            if (key == ConsoleKey.F2 && allowBack)
+            // B + Enter = Back
+            if (keyInfo.KeyChar == 'b' || keyInfo.KeyChar == 'B')
             {
-                return -1;
+                ConsoleKeyInfo enter = Console.ReadKey(true);
+
+                if (enter.Key == ConsoleKey.Enter)
+                {
+                    return -1;
+                }
+                
             }
 
 
