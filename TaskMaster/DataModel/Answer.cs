@@ -38,7 +38,7 @@ public class Answer
     }
 
 
-    public static string[] MenuAnswers()
+    public static string[] ShowAnswers()
     {
         List<Answer> answers = Database.Load<Answer>(DataType.Answers);
         string[] answersArr = new string[answers.Count];
@@ -47,11 +47,10 @@ public class Answer
         {
             string answerItem = $"""
              ┌────────────────────────────
-             │ QuestionId: {answers[i].QuestionId}
+             │ Code: {answers[i].Code}
+             │ Date/Time: {answers[i].CreatedDate:dd/mm/yyyy HH:mm}
              │ State: {answers[i].ApprovalStatus}
              │ Score: {answers[i].Grade}
-             │ Date/Time: {answers[i].CreatedDate:dd/mm/yyyy HH:mm}
-             │ Code: {answers[i].Code}
              └─────────────────────────────
            """;
             answersArr[i] = answerItem;
