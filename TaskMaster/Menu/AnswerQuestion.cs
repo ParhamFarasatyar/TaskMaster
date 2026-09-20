@@ -1,30 +1,52 @@
-﻿using TaskMaster.DataModel;
+﻿using System.Reflection.Metadata.Ecma335;
+using DataBase;
+using QuestionDatatype;
+using TaskMaster.DataModel;
 
 namespace Menu;
 
 public class AnswerQuestion
 {
-
-    public string GetQuestionId()
+    public void SubmitAnswer()
     {
-        bool status = false;
-        string questionId = "";
+        string[] answers = Answer.ShowAnswers();
         
-        while (status)
-        {
-            Console.WriteLine("QuestionId: ");
-            questionId = Console.ReadLine();
+        int selectedIndex = ConsoleMenu.Show("Answers", answers);
+        
+        Console.Clear();
+        
+        string code = GetCode();
+        
+        List<Question> questions = Database.Load<Question>(DataType.Questions);
 
-            status = SystemValidation.System.ValidateUsername(questionId, out string? errorMessage);
-
-            if (status == false)
-            {
-                SystemValidation.System.PrintColorizeMessage(errorMessage!, ConsoleColor.Red);
-            }
-        }
-
-        return questionId;
+        Answer answer = new Answer(questions[selectedIndex].Id!, code);
+        
+        Database.Save(answer, DataType.Answers);
     }
+    
+
+    
+    
+    // public string GetQuestionId()
+    // {
+    //     bool status = false;
+    //     string questionId = "";
+    //     
+    //     while (status)
+    //     {
+    //         Console.WriteLine("QuestionId: ");
+    //         questionId = Console.ReadLine();
+    //
+    //         status = SystemValidation.System.ValidateUsername(questionId, out string? errorMessage);
+    //
+    //         if (status == false)
+    //         {
+    //             SystemValidation.System.PrintColorizeMessage(errorMessage!, ConsoleColor.Red);
+    //         }
+    //     }
+    //
+    //     return questionId;
+    // }
 
 
     public string GetCode()
@@ -32,7 +54,7 @@ public class AnswerQuestion
         bool status = false;
         string code = "";
         
-        while (status)
+        while (!status)
         {
             
             Console.WriteLine("Code: ");
