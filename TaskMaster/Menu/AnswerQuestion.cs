@@ -35,9 +35,7 @@ public class AnswerQuestion
             status = SystemValidation.System.StringValidationInput(code, out string? errorMessage);
 
             if (status == false)
-            {
                 SystemValidation.System.PrintColorizeMessage(errorMessage!, ConsoleColor.Red);
-            }
         }
 
         return code;
