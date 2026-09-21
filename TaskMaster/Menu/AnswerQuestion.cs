@@ -30,7 +30,7 @@ public class AnswerQuestion
         while (!status)
         {
             Console.WriteLine("Code: ");
-            code = Console.ReadLine();
+            code = Console.ReadLine()!;
 
             status = SystemValidation.System.StringValidationInput(code, out string? errorMessage);
 
