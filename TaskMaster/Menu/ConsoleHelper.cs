@@ -15,11 +15,14 @@ public static class ConsoleHelper
 
 
 
+
+
     public static string? ReadInput(string message)
     {
         Console.Write(message);
 
         string input = "";
+
 
 
         while (true)
@@ -28,12 +31,38 @@ public static class ConsoleHelper
 
 
 
-            // F2 = Back
-            if (key.Key == ConsoleKey.F2)
+            // B + Enter = Back
+            if (key.KeyChar == 'b' || key.KeyChar == 'B')
             {
-                Console.WriteLine();
-                return null;
+                ConsoleKeyInfo nextKey = Console.ReadKey(true);
+
+
+                if (nextKey.Key == ConsoleKey.Enter)
+                {
+                    Console.WriteLine();
+
+                    return null;
+                }
+
+
+
+                // اگر بعد از B چیز دیگری وارد شد،
+                // B و آن کاراکتر را به عنوان ورودی عادی ذخیره کن
+
+                input += key.KeyChar;
+
+                Console.Write(key.KeyChar);
+
+
+
+                input += nextKey.KeyChar;
+
+                Console.Write(nextKey.KeyChar);
+
+
+                continue;
             }
+
 
 
 
@@ -41,8 +70,10 @@ public static class ConsoleHelper
             if (key.Key == ConsoleKey.Enter)
             {
                 Console.WriteLine();
+
                 break;
             }
+
 
 
 
@@ -56,8 +87,10 @@ public static class ConsoleHelper
                     Console.Write("\b \b");
                 }
 
+
                 continue;
             }
+
 
 
 
@@ -65,6 +98,7 @@ public static class ConsoleHelper
 
             Console.Write(key.KeyChar);
         }
+
 
 
         return input;

@@ -13,7 +13,7 @@ public class EditQuestion
         if (questions.Length == 0)
         {
             ConsoleHelper.ReadInput(
-                "No questions available. Press Enter (F2 = Back): "
+                "No questions available. Press Enter (B + Enter = Back): "
             );
             return;
         }
@@ -60,7 +60,7 @@ public class EditQuestion
                 while (true)
                 {
                     string descriptionInput = ConsoleHelper.ReadInput(
-                        "New Description (F2 = Back): "
+                        "New Description (B + Enter = Back): "
                     )!;
                     if (descriptionInput == null)
                     {
@@ -113,7 +113,7 @@ public class EditQuestion
                 while (true)
                 {
                     string? gradeInput = ConsoleHelper.ReadInput(
-                        "New Grade (F2 = Back): "
+                        "New Grade (B + Enter = Back): "
                     );
                     if (gradeInput == null)
                     {
@@ -141,7 +141,7 @@ public class EditQuestion
             ConsoleColor.Green
         );
         ConsoleHelper.ReadInput(
-            "Press Enter to return (F2 = Back): "
+            "Press Enter to return (B + Enter = Back): "
         );
     }
 }
