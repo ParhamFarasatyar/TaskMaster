@@ -1,7 +1,8 @@
-﻿using TaskMaster.DataModel;
-using DataBase;
+﻿using DataBase;
+using Menu;
+using TaskMaster.DataModel;
 
-namespace Menu;
+namespace TaskMaster.Menu;
 
 public class AnswersStatus
 {
@@ -23,12 +24,12 @@ public class AnswersStatus
     }
 
 
-    public State GetState()
+    private State GetState()
     {
         int selectedIndex = 0;
         State state = 0;
 
-        string[] options = { "Approve", "Reject" };
+        string[] options = ["Approve", "Reject"];
 
         Console.WriteLine("State: ");
         selectedIndex = ConsoleMenu.Show("Select State", options);
@@ -38,7 +39,7 @@ public class AnswersStatus
     }
 
 
-    public int GetGrade(State state, Answer answer)
+    private int GetGrade(State state, Answer answer)
     {
         int grade = state == State.Approve ? answer.GoalGrade : 0;
         

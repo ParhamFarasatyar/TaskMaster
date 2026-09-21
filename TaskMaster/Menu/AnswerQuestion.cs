@@ -1,8 +1,8 @@
 ﻿using DataBase;
+using Menu;
 using TaskMaster.DataModel;
-using UserModel;
 
-namespace Menu;
+namespace TaskMaster.Menu;
 
 public class AnswerQuestion
 {
@@ -22,7 +22,7 @@ public class AnswerQuestion
     }
 
 
-    public string GetCode()
+    private string GetCode()
     {
         bool status = false;
         string code = "";
@@ -30,14 +30,12 @@ public class AnswerQuestion
         while (!status)
         {
             Console.WriteLine("Code: ");
-            code = Console.ReadLine();
+            code = Console.ReadLine()!;
 
             status = SystemValidation.System.StringValidationInput(code, out string? errorMessage);
 
             if (status == false)
-            {
                 SystemValidation.System.PrintColorizeMessage(errorMessage!, ConsoleColor.Red);
-            }
         }
 
         return code;
