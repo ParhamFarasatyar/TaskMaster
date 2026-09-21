@@ -1,7 +1,8 @@
-﻿using TaskMaster.DataModel;
-using DataBase;
+﻿using DataBase;
+using Menu;
+using TaskMaster.DataModel;
 
-namespace Menu;
+namespace TaskMaster.Menu;
 
 public class AnswersStatus
 {
