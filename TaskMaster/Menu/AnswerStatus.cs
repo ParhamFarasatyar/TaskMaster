@@ -29,7 +29,7 @@ public class AnswersStatus
         int selectedIndex = 0;
         State state = 0;
 
-        string[] options = { "Approve", "Reject" };
+        string[] options = ["Approve", "Reject"];
 
         Console.WriteLine("State: ");
         selectedIndex = ConsoleMenu.Show("Select State", options);
