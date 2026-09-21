@@ -15,7 +15,7 @@ public class ReviewAnswers
         // Answers will be loaded from Database
         // by responsible module
 
-        string[] answers = Array.Empty<string>();
+        string[] answers = [];
 
 
         if (answers.Length == 0)
