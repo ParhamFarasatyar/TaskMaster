@@ -8,9 +8,9 @@ public class Register
     {
         Console.Clear();
 
-        Console.WriteLine("====================");
-        Console.WriteLine("      REGISTER      ");
-        Console.WriteLine("====================");
+        ConsoleHelper.PrintColorizeMessage("====================", ConsoleColor.DarkCyan);
+        ConsoleHelper.PrintColorizeMessage("      REGISTER      ", ConsoleColor.White);
+        ConsoleHelper.PrintColorizeMessage("====================", ConsoleColor.DarkCyan);
         
         string[] roles =
         {
@@ -46,20 +46,20 @@ public class Register
         
         Console.Clear();
 
-        string? name = ReadValue("Name (B + Enter = Back): ", ValidateName);
+        string? name = ReadValue("Name: ", ValidateName);
         if (name == null) return BackUser();
 
-        string? lastName = ReadValue("Last Name (B + Enter = Back): ", ValidateName);
+        string? lastName = ReadValue("Last Name: ", ValidateName);
         if (lastName == null) return BackUser();
 
-        string? username = ReadValue("Username (B + Enter = Back): ", ValidateUsername);
+        string? username = ReadValue("Username: ", ValidateUsername);
         if (username == null) return BackUser();
 
-        string? password = ReadValue("Password (B + Enter = Back): ", ValidatePassword, true);
+        string? password = ReadValue("Password: ", ValidatePassword, true);
         if (password == null) return BackUser();
 
         string? confirmPassword = ReadValue(
-            "Confirm Password (B + Enter = Back): ",
+            "Confirm Password: ",
             ValidatePassword,
             true
         );
@@ -73,7 +73,7 @@ public class Register
             );
 
             confirmPassword = ReadValue(
-                "Confirm Password (B + Enter = Back): ",
+                "Confirm Password: ",
                 ValidatePassword,
                 true
             );
@@ -99,7 +99,7 @@ public class Register
                 ConsoleColor.Red
             );
 
-            Thread.Sleep(2000);
+            ConsoleHelper.Countdown();
             Console.Clear();
 
             return BackUser();
@@ -110,7 +110,7 @@ public class Register
             ConsoleColor.Green
         );
 
-        Thread.Sleep(2000);
+        ConsoleHelper.Countdown();
         Console.Clear();
         
         return user;

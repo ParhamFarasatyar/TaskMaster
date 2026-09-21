@@ -22,26 +22,34 @@ public class ConsoleMenu
             {
                 Console.Clear();
             }
+
+            if (allowBack)
+            {
+                ConsoleHelper.PrintBackHint();
+            }
             
             if (!string.IsNullOrWhiteSpace(title))
             {
-                Console.WriteLine("====================");
-                Console.WriteLine(title);
-                Console.WriteLine("====================");
+                ConsoleHelper.PrintColorizeMessage("====================", ConsoleColor.DarkCyan);
+                ConsoleHelper.PrintColorizeMessage(title, ConsoleColor.White);
+                ConsoleHelper.PrintColorizeMessage("====================", ConsoleColor.DarkCyan);
             }
             
             for (int i = 0; i < options.Length; i++)
             {
                 if (i == selectedIndex)
                 {
-                    if (options[i] == "Logout" ||
-                        options[i] == "Delete Account")
+                    if (options[i] is "Exit" or "Logout" or "Delete Account")
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
                     }
+                    else if (options[i] == "Back")
+                    {
+                        Console.ForegroundColor = ConsoleColor.Gray;
+                    }
                     else
                     {
-                        Console.ForegroundColor = ConsoleColor.Cyan;
+                        Console.ForegroundColor = ConsoleColor.White;
                     }
                     
                     Console.WriteLine($"> {options[i]}");
@@ -50,7 +58,13 @@ public class ConsoleMenu
                 }
                 else
                 {
+                    Console.ForegroundColor = options[i] == "Back"
+                        ? ConsoleColor.Gray
+                        : options[i] is "Exit" or "Logout" or "Delete Account"
+                            ? ConsoleColor.Red
+                            : ConsoleColor.White;
                     Console.WriteLine($"  {options[i]}");
+                    Console.ResetColor();
                 }
             }
             

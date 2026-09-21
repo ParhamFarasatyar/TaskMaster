@@ -14,8 +14,11 @@ public class AnswersStatus
 
         if (savedAnswers.Length == 0)
         {
-            Console.WriteLine("No answers available.");
-            Thread.Sleep(2000);
+            ConsoleHelper.PrintColorizeMessage(
+                "No answers available.",
+                ConsoleColor.Yellow
+            );
+            ConsoleHelper.Countdown();
             return;
         }
 
@@ -41,7 +44,7 @@ public class AnswersStatus
 
         string[] options = ["Approve", "Reject"];
 
-        Console.WriteLine("State: ");
+        ConsoleHelper.PrintColorizeMessage("State:", ConsoleColor.White);
         selectedIndex = ConsoleMenu.Show("Select State", options);
         state = (State)(selectedIndex + 1);
 

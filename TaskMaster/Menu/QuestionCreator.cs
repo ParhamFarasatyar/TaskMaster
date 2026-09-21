@@ -15,7 +15,7 @@ public class QuestionCreator
         while (true)
         {
             string? description = ConsoleHelper.ReadInput(
-                "Description (B + Enter = Back): "
+                "Description: "
             );
             
             if (description == null)
@@ -33,7 +33,7 @@ public class QuestionCreator
                 );
                 
                 ConsoleHelper.ReadInput(
-                    "Press Enter to try again (B + Enter = Back): "
+                    "Press Enter to try again: "
                 );
                 
                 continue;
@@ -51,7 +51,7 @@ public class QuestionCreator
         while (true)
         {
             string? gradeInput = ConsoleHelper.ReadInput(
-                "Grade (1-5) (B + Enter = Back): "
+                "Grade (1-5): "
             );
             
             if (gradeInput == null)
@@ -71,7 +71,7 @@ public class QuestionCreator
                 );
                 
                 ConsoleHelper.ReadInput(
-                    "Press Enter to try again (B + Enter = Back): "
+                    "Press Enter to try again: "
                 );
                 
                 continue;
@@ -136,7 +136,7 @@ public class QuestionCreator
         );
         
         ConsoleHelper.ReadInput(
-            "Press Enter to continue (B + Enter = Back): "
+            "Press Enter to continue: "
         );
     }
 }

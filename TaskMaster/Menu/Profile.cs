@@ -86,7 +86,7 @@ public class Profile
             string field = fields[selected];
             
             string? value = ConsoleHelper.ReadInput(
-                $"New {field} (B = Back): "
+                $"New {field}: "
             );
             
             if (value == null)
@@ -138,7 +138,7 @@ public class Profile
                 );
                 
                 value = ConsoleHelper.ReadInput(
-                    $"New {field} (B = Back): "
+                    $"New {field}: "
                 );
                 
                 if (value == null)
@@ -205,7 +205,7 @@ public class Profile
                 );
             }
             
-            Thread.Sleep(2000);
+            ConsoleHelper.Countdown();
         }
     }
     
@@ -236,7 +236,7 @@ public class Profile
                 ConsoleColor.Green
             );
             
-            Thread.Sleep(2000);
+            ConsoleHelper.Countdown();
             
             return true;
         }

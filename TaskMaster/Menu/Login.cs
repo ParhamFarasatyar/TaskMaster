@@ -9,9 +9,9 @@ public class Login
         while (true)
         {
             Console.Clear();
-            Console.WriteLine("====================");
-            Console.WriteLine("        LOGIN       ");
-            Console.WriteLine("====================");
+            ConsoleHelper.PrintColorizeMessage("====================", ConsoleColor.DarkCyan);
+            ConsoleHelper.PrintColorizeMessage("        LOGIN       ", ConsoleColor.White);
+            ConsoleHelper.PrintColorizeMessage("====================", ConsoleColor.DarkCyan);
 
             string? username = ReadUsername();
             if (username == null) return BackUser();
@@ -31,7 +31,7 @@ public class Login
                 "Wrong username or password",
                 ConsoleColor.Red
             );
-            Thread.Sleep(2000);
+            ConsoleHelper.Countdown();
         }
     }
 
@@ -39,7 +39,7 @@ public class Login
     {
         while (true)
         {
-            string? value = ConsoleHelper.ReadInput("Username (B = Back): ");
+            string? value = ConsoleHelper.ReadInput("Username: ");
             if (value == null) return null;
 
             if (SystemValidation.System.ValidateUsername(value, out string? errorMessage))
@@ -53,7 +53,7 @@ public class Login
     {
         while (true)
         {
-            string? value = ConsoleHelper.ReadInput("Password (B = Back): ", true);
+            string? value = ConsoleHelper.ReadInput("Password: ", true);
             if (value == null) return null;
 
             if (SystemValidation.System.ValidateUserPassword(value, out string? errorMessage))

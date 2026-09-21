@@ -8,9 +8,9 @@ public class RemoveQuestion
     {
         Console.Clear();
 
-        Console.WriteLine("====================");
-        Console.WriteLine("   REMOVE QUESTION  ");
-        Console.WriteLine("====================");
+        ConsoleHelper.PrintColorizeMessage("====================", ConsoleColor.DarkCyan);
+        ConsoleHelper.PrintColorizeMessage("   REMOVE QUESTION  ", ConsoleColor.White);
+        ConsoleHelper.PrintColorizeMessage("====================", ConsoleColor.DarkCyan);
 
 
         // Questions will be loaded from Database
@@ -21,8 +21,11 @@ public class RemoveQuestion
 
         if (questions.Length == 0)
         {
-            Console.WriteLine("No questions available.");
-            Thread.Sleep(2000);
+            ConsoleHelper.PrintColorizeMessage(
+                "No questions available.",
+                ConsoleColor.Yellow
+            );
+            ConsoleHelper.Countdown();
             return;
         }
 
@@ -43,8 +46,9 @@ public class RemoveQuestion
         Console.Clear();
 
 
-        Console.WriteLine(
-            $"Selected Question: {questions[selected]}"
+        ConsoleHelper.PrintColorizeMessage(
+            $"Selected Question: {questions[selected]}",
+            ConsoleColor.White
         );
 
 
@@ -66,19 +70,21 @@ public class RemoveQuestion
         {
             Question.Delete(selected);
 
-            Console.WriteLine(
-                "Question Removed Successfully!"
+            ConsoleHelper.PrintColorizeMessage(
+                "Question Removed Successfully!",
+                ConsoleColor.Green
             );
         }
         else
         {
-            Console.WriteLine(
-                "Remove Cancelled"
+            ConsoleHelper.PrintColorizeMessage(
+                "Remove Cancelled",
+                ConsoleColor.Yellow
             );
         }
 
 
 
-        Thread.Sleep(2000);
+        ConsoleHelper.Countdown();
     }
 }

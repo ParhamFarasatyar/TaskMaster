@@ -1,4 +1,5 @@
 ﻿using DataBase;
+using Menu;
 
 namespace TaskMaster.DataModel;
 
@@ -70,7 +71,10 @@ public class Answer
         Answer? selectedAnswer = answers.FirstOrDefault(answer => answer.AnswerId == answerId);
         if (selectedAnswer is null)
         {
-            Console.WriteLine("Answer not found.");
+            ConsoleHelper.PrintColorizeMessage(
+                "Answer not found.",
+                ConsoleColor.Red
+            );
             return;
         }
 
@@ -86,7 +90,10 @@ public class Answer
                | Score: {ans.Grade}
                └─────────────────────────────
              """;
-            Console.WriteLine(answer);
+            ConsoleHelper.PrintColorizeMessage(
+                answer,
+                ConsoleColor.White
+            );
         }
     }
     

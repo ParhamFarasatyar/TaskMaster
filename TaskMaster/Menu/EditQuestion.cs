@@ -6,14 +6,14 @@ public class EditQuestion
     public void Edit()
     {
         Console.Clear();
-        Console.WriteLine("====================");
-        Console.WriteLine("    EDIT QUESTION   ");
-        Console.WriteLine("====================");
+        ConsoleHelper.PrintColorizeMessage("====================", ConsoleColor.DarkCyan);
+        ConsoleHelper.PrintColorizeMessage("    EDIT QUESTION   ", ConsoleColor.White);
+        ConsoleHelper.PrintColorizeMessage("====================", ConsoleColor.DarkCyan);
         string[] questions = Question.MenuQuestions();
         if (questions.Length == 0)
         {
             ConsoleHelper.ReadInput(
-                "No questions available. Press Enter (B + Enter = Back): "
+                "No questions available. Press Enter: "
             );
             return;
         }
@@ -60,7 +60,7 @@ public class EditQuestion
                 while (true)
                 {
                     string descriptionInput = ConsoleHelper.ReadInput(
-                        "New Description (B + Enter = Back): "
+                        "New Description: "
                     )!;
                     if (descriptionInput == null)
                     {
@@ -113,7 +113,7 @@ public class EditQuestion
                 while (true)
                 {
                     string? gradeInput = ConsoleHelper.ReadInput(
-                        "New Grade (B + Enter = Back): "
+                        "New Grade: "
                     );
                     if (gradeInput == null)
                     {
@@ -141,7 +141,7 @@ public class EditQuestion
             ConsoleColor.Green
         );
         ConsoleHelper.ReadInput(
-            "Press Enter to return (B + Enter = Back): "
+            "Press Enter to return: "
         );
     }
 }

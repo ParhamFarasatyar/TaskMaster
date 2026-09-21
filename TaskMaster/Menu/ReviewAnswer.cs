@@ -8,17 +8,20 @@ public class ReviewAnswers
     {
         Console.Clear();
         
-        Console.WriteLine("====================");
-        Console.WriteLine("   REVIEW ANSWERS   ");
-        Console.WriteLine("====================");
+        ConsoleHelper.PrintColorizeMessage("====================", ConsoleColor.DarkCyan);
+        ConsoleHelper.PrintColorizeMessage("   REVIEW ANSWERS   ", ConsoleColor.White);
+        ConsoleHelper.PrintColorizeMessage("====================", ConsoleColor.DarkCyan);
         
         List<Answer> answerList = Database.Load<Answer>(DataType.Answers);
         string[] answers = Answer.ShowAnswers();
         
         if (answers.Length == 0)
         {
-            Console.WriteLine("No answers available.");
-            Thread.Sleep(2000);
+            ConsoleHelper.PrintColorizeMessage(
+                "No answers available.",
+                ConsoleColor.Yellow
+            );
+            ConsoleHelper.Countdown();
             return;
         }
         
@@ -34,7 +37,10 @@ public class ReviewAnswers
         
         Console.Clear();
         
-        Console.WriteLine($"Selected Answer: {answers[selected]}");
+        ConsoleHelper.PrintColorizeMessage(
+            $"Selected Answer: {answers[selected]}",
+            ConsoleColor.White
+        );
         
         string[] reviewOptions = ["Approve", "Reject", "Change Point", "Back"];
 
@@ -50,13 +56,13 @@ public class ReviewAnswers
             case 0:
                 answerList[selected].SetApprovalStatus(State.Approve);
                 answerList[selected].SetGrade(answerList[selected].GoalGrade);
-                Console.WriteLine("Answer Approved");
+                ConsoleHelper.PrintColorizeMessage("Answer Approved", ConsoleColor.Green);
                 break;
             
             case 1:
                 answerList[selected].SetApprovalStatus(State.Reject);
                 answerList[selected].SetGrade(0);
-                Console.WriteLine("Answer Rejected");
+                ConsoleHelper.PrintColorizeMessage("Answer Rejected", ConsoleColor.Red);
                 break;
 
             case 2:
@@ -65,18 +71,18 @@ public class ReviewAnswers
                 if (!SystemValidation.System.Grade(gradeInput, out string? errorMessage))
                 {
                     ConsoleHelper.PrintColorizeMessage(errorMessage!, ConsoleColor.Red);
-                    Thread.Sleep(2000);
+                    ConsoleHelper.Countdown();
                     return;
                 }
 
                 answerList[selected].SetApprovalStatus(State.Approve);
                 answerList[selected].SetGrade(int.Parse(gradeInput));
-                Console.WriteLine("Answer grade updated");
+                ConsoleHelper.PrintColorizeMessage("Answer grade updated", ConsoleColor.Green);
                 break;
         }
 
         Database.Update(answerList, DataType.Answers);
         
-        Thread.Sleep(2000);
+        ConsoleHelper.Countdown();
     }
 }

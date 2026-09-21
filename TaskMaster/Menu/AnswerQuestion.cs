@@ -12,8 +12,11 @@ public class AnswerQuestion
 
         if (savedQuestions.Length == 0)
         {
-            Console.WriteLine("No questions available.");
-            Thread.Sleep(2000);
+            ConsoleHelper.PrintColorizeMessage(
+                "No questions available.",
+                ConsoleColor.Yellow
+            );
+            ConsoleHelper.Countdown();
             return;
         }
 
@@ -38,7 +41,8 @@ public class AnswerQuestion
 
         while (!status)
         {
-            Console.WriteLine("Code: ");
+            ConsoleHelper.PrintBackHint();
+            ConsoleHelper.PrintColorizeMessage("Code:", ConsoleColor.White);
             code = Console.ReadLine()!;
 
             status = SystemValidation.System.StringValidationInput(code, out string? errorMessage);
