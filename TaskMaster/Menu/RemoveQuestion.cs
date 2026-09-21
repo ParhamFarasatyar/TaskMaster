@@ -22,8 +22,7 @@ public class RemoveQuestion
         if (questions.Length == 0)
         {
             Console.WriteLine("No questions available.");
-            Console.WriteLine("Press Enter to return...");
-            Console.ReadLine();
+            Thread.Sleep(2000);
             return;
         }
 
@@ -80,12 +79,6 @@ public class RemoveQuestion
 
 
 
-        Console.WriteLine();
-
-        Console.WriteLine(
-            "Press Enter to return..."
-        );
-
-        Console.ReadLine();
+        Thread.Sleep(2000);
     }
 }

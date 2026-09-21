@@ -58,6 +58,28 @@ public class Register
         string? password = ReadValue("Password (B + Enter = Back): ", ValidatePassword, true);
         if (password == null) return BackUser();
 
+        string? confirmPassword = ReadValue(
+            "Confirm Password (B + Enter = Back): ",
+            ValidatePassword,
+            true
+        );
+        if (confirmPassword == null) return BackUser();
+
+        while (password != confirmPassword)
+        {
+            ConsoleHelper.PrintColorizeMessage(
+                "Passwords do not match.",
+                ConsoleColor.Red
+            );
+
+            confirmPassword = ReadValue(
+                "Confirm Password (B + Enter = Back): ",
+                ValidatePassword,
+                true
+            );
+            if (confirmPassword == null) return BackUser();
+        }
+
         User user = new User(
             role,
             name,
@@ -77,7 +99,8 @@ public class Register
                 ConsoleColor.Red
             );
 
-            Console.ReadLine();
+            Thread.Sleep(2000);
+            Console.Clear();
 
             return BackUser();
         }
@@ -87,7 +110,8 @@ public class Register
             ConsoleColor.Green
         );
 
-        Console.ReadLine();
+        Thread.Sleep(2000);
+        Console.Clear();
         
         return user;
     }

@@ -15,7 +15,7 @@ public class AnswersStatus
         if (savedAnswers.Length == 0)
         {
             Console.WriteLine("No answers available.");
-            Console.ReadLine();
+            Thread.Sleep(2000);
             return;
         }
 

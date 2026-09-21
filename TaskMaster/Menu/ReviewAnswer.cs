@@ -18,8 +18,7 @@ public class ReviewAnswers
         if (answers.Length == 0)
         {
             Console.WriteLine("No answers available.");
-            Console.WriteLine("Press Enter to return...");
-            Console.ReadLine();
+            Thread.Sleep(2000);
             return;
         }
         
@@ -66,7 +65,7 @@ public class ReviewAnswers
                 if (!SystemValidation.System.Grade(gradeInput, out string? errorMessage))
                 {
                     ConsoleHelper.PrintColorizeMessage(errorMessage!, ConsoleColor.Red);
-                    Console.ReadLine();
+                    Thread.Sleep(2000);
                     return;
                 }
 
@@ -78,8 +77,6 @@ public class ReviewAnswers
 
         Database.Update(answerList, DataType.Answers);
         
-        Console.WriteLine();
-        Console.WriteLine("Press Enter to return...");
-        Console.ReadLine();
+        Thread.Sleep(2000);
     }
 }

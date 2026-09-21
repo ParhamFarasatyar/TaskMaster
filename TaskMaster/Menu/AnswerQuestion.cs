@@ -13,7 +13,7 @@ public class AnswerQuestion
         if (savedQuestions.Length == 0)
         {
             Console.WriteLine("No questions available.");
-            Console.ReadLine();
+            Thread.Sleep(2000);
             return;
         }
 

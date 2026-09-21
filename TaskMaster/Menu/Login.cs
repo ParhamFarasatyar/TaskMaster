@@ -31,7 +31,7 @@ public class Login
                 "Wrong username or password",
                 ConsoleColor.Red
             );
-            Console.ReadLine();
+            Thread.Sleep(2000);
         }
     }
 
