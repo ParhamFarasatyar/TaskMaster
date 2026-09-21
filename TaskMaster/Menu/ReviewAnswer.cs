@@ -44,12 +44,12 @@ public class ReviewAnswers
 
 
         string[] reviewOptions =
-        {
+        [
             "Approve",
             "Reject",
             "Change Point",
             "Back"
-        };
+        ];
 
 
         int action = ConsoleMenu.Show(
