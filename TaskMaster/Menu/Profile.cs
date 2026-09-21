@@ -203,7 +203,7 @@ public class Profile
             
             bool result = user.Edit(
                 field,
-                value
+                value!
             );
             
             if (result)
