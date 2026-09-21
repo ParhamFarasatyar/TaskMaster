@@ -1,6 +1,5 @@
 ﻿using DataBase;
 using UserModel;
-
 namespace Menu;
 
 public class Login
@@ -8,111 +7,123 @@ public class Login
     public User? Enter()
     {
         Console.Clear();
-
-
+        
         Console.WriteLine("====================");
         Console.WriteLine("        LOGIN       ");
         Console.WriteLine("====================");
-
-
-
-        Console.Write("Username: ");
-        string username = Console.ReadLine()!;
-
-        bool isValid = SystemValidation.System.ValidateUsername(
-            username,
-            out string? errorMessage
+        
+        string? username = ConsoleHelper.ReadInput(
+            "Username (B = Back): "
         );
-
-
-        while (!isValid)
+        
+        if(username == null)
+        {
+            return BackUser();
+        }
+        
+        bool isValid =
+            SystemValidation.System.ValidateUsername(
+                username,
+                out string? errorMessage
+            );
+        
+        while(!isValid)
         {
             SystemValidation.System.PrintColorizeMessage(
                 errorMessage!,
                 ConsoleColor.Red
             );
-
-
-            Console.Write("Username: ");
-
-            username = Console.ReadLine()!;
-
-
-            isValid = SystemValidation.System.ValidateUsername(
-                username,
-                out errorMessage
+            
+            username = ConsoleHelper.ReadInput(
+                "Username (B = Back): "
             );
+            
+            if(username == null)
+            {
+                return BackUser();
+            }
+            
+            isValid =
+                SystemValidation.System.ValidateUsername(
+                    username,
+                    out errorMessage
+                );
+        }
+        
+        string? password = ConsoleHelper.ReadInput(
+            "Password (B = Back): "
+        );
+        
+        if(password == null)
+        {
+            return BackUser();
         }
 
-
-
-
-        Console.Write("Password: ");
-
-        string password = Console.ReadLine()!;
-
-
-        isValid = SystemValidation.System.ValidateUserPassword(
-            password,
-            out errorMessage
-        );
-
-
-        while (!isValid)
-        {
-            SystemValidation.System.PrintColorizeMessage(
-                errorMessage!,
-                ConsoleColor.Red
-            );
-
-
-            Console.Write("Password: ");
-
-            password = Console.ReadLine()!;
-
-
-            isValid = SystemValidation.System.ValidateUserPassword(
+        isValid =
+            SystemValidation.System.ValidateUserPassword(
                 password,
                 out errorMessage
             );
+
+        while(!isValid)
+        {
+            SystemValidation.System.PrintColorizeMessage(
+                errorMessage!,
+                ConsoleColor.Red
+            );
+            
+            password = ConsoleHelper.ReadInput(
+                "Password (B = Back): "
+            );
+            
+            if(password == null)
+            {
+                return BackUser();
+            }
+            
+            isValid =
+                SystemValidation.System.ValidateUserPassword(
+                    password,
+                    out errorMessage
+                );
         }
-
-
-
-
+        
         List<User> users =
-            Database.Load<User>(DataType.Users);
-
-
-
+            Database.Load<User>(
+                DataType.Users
+            );
+        
         User? user = users.FirstOrDefault(
             u =>
                 u.UserName == username &&
                 u.Password == password
         );
-
-
-
-        if (user == null)
+        
+        if(user == null)
         {
             ConsoleHelper.PrintColorizeMessage(
                 "Wrong username or password",
                 ConsoleColor.Red
             );
-
-
-            Console.WriteLine(
-                "Press Enter to try again..."
-            );
-
+            
             Console.ReadLine();
-
-
+            
             return Enter();
         }
-
-
-
+        
         return user;
+    }
+    
+    private User BackUser()
+    {
+        return new User(
+            Role.Intern,
+            "",
+            "",
+            "__BACK__",
+            "",
+            Level.Beginner,
+            0
+        );
     }
 }

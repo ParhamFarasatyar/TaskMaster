@@ -11,7 +11,7 @@ public class MainMenu
             "Register",
             "Exit"
         };
-
+        
         int selected = ConsoleMenu.Show(
             new string(' ', 4) + "Task Master",
             options
@@ -28,21 +28,29 @@ public class MainMenu
 
                 Login login = new();
 
-                return login.Enter();
+                User? loginUser = login.Enter();
+                
+                if(loginUser != null &&
+                   loginUser.UserName == "__BACK__")
+                {
+                    return Show();
+                }
+                
+                return loginUser;
             
             case 1:
 
                 Register register = new();
                 
-                User? user = register.Create();
-
-                if(user != null &&
-                   user.UserName == "__BACK__")
+                User? registerUser = register.Create();
+                
+                if(registerUser != null &&
+                   registerUser.UserName == "__BACK__")
                 {
                     return Show();
                 }
                 
-                return user;
+                return registerUser;
             
             case 2:
 
