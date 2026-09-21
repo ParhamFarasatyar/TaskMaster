@@ -1,8 +1,8 @@
-﻿namespace TaskMaster;
-
-using Menu;
+﻿using Menu;
 using UserModel;
 
+
+namespace TaskMaster;
 
 class Program
 {
