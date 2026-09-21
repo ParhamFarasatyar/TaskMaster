@@ -7,6 +7,11 @@ public class ConsoleMenu
         bool allowBack = true,
         bool clearScreen = true)
     {
+        if (options.Length == 0)
+        {
+            return -1;
+        }
+
         int selectedIndex = 0;
 
         ConsoleKey key;
@@ -64,6 +69,8 @@ public class ConsoleMenu
                 {
                     return -1;
                 }
+
+                continue;
             }
 
             if (key == ConsoleKey.DownArrow)

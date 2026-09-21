@@ -49,9 +49,7 @@ public class Profile
             
             int selected = ConsoleMenu.Show(
                 "Profile Options",
-                options,
-                true,
-                false
+                options
             );
             
             if (selected == -1 || selected == 2)
@@ -199,6 +197,11 @@ public class Profile
 
                         break;
                 }
+            }
+
+            if (value == null)
+            {
+                continue;
             }
             
             bool result = user.Edit(

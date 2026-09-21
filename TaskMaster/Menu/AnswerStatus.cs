@@ -12,13 +12,23 @@ public class AnswersStatus
 
         string[] savedAnswers = Answer.ShowAnswers();
 
+        if (savedAnswers.Length == 0)
+        {
+            Console.WriteLine("No answers available.");
+            Console.ReadLine();
+            return;
+        }
+
         int selectedIndex = ConsoleMenu.Show("Answer Status", savedAnswers);
+
+        if (selectedIndex == -1) return;
 
         State state = GetState();
 
         int grade = GetGrade(state, answers[selectedIndex]);
         
         answers[selectedIndex].SetGrade(grade);
+        answers[selectedIndex].SetApprovalStatus(state);
         
         Database.Update(answers, DataType.Answers);
     }

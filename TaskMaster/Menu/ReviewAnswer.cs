@@ -1,4 +1,6 @@
 ﻿namespace Menu;
+using DataBase;
+using TaskMaster.DataModel;
 
 public class ReviewAnswers
 {
@@ -10,7 +12,8 @@ public class ReviewAnswers
         Console.WriteLine("   REVIEW ANSWERS   ");
         Console.WriteLine("====================");
         
-        string[] answers = [];
+        List<Answer> answerList = Database.Load<Answer>(DataType.Answers);
+        string[] answers = Answer.ShowAnswers();
         
         if (answers.Length == 0)
         {
@@ -24,6 +27,11 @@ public class ReviewAnswers
             "Select Answer",
             answers
         );
+
+        if (selected == -1)
+        {
+            return;
+        }
         
         Console.Clear();
         
@@ -32,24 +40,43 @@ public class ReviewAnswers
         string[] reviewOptions = ["Approve", "Reject", "Change Point", "Back"];
 
         int action = ConsoleMenu.Show("Review Action", reviewOptions);
+
+        if (action == -1 || action == 3)
+        {
+            return;
+        }
         
         switch(action)
         {
             case 0:
+                answerList[selected].SetApprovalStatus(State.Approve);
+                answerList[selected].SetGrade(answerList[selected].GoalGrade);
                 Console.WriteLine("Answer Approved");
                 break;
             
             case 1:
+                answerList[selected].SetApprovalStatus(State.Reject);
+                answerList[selected].SetGrade(0);
                 Console.WriteLine("Answer Rejected");
                 break;
 
             case 2:
-                Console.WriteLine("Change Point Selected");
-                break;
+                string? gradeInput = ConsoleHelper.ReadInput("New grade (1-5, B + Enter = Back): ");
+                if (gradeInput == null) return;
+                if (!SystemValidation.System.Grade(gradeInput, out string? errorMessage))
+                {
+                    ConsoleHelper.PrintColorizeMessage(errorMessage!, ConsoleColor.Red);
+                    Console.ReadLine();
+                    return;
+                }
 
-            case 3:
-                return;
+                answerList[selected].SetApprovalStatus(State.Approve);
+                answerList[selected].SetGrade(int.Parse(gradeInput));
+                Console.WriteLine("Answer grade updated");
+                break;
         }
+
+        Database.Update(answerList, DataType.Answers);
         
         Console.WriteLine();
         Console.WriteLine("Press Enter to return...");

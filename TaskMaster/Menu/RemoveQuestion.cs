@@ -34,6 +34,11 @@ public class RemoveQuestion
             questions
         );
 
+        if (selected == -1)
+        {
+            return;
+        }
+
 
 
         Console.Clear();

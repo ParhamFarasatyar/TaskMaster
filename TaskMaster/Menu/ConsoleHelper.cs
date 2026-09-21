@@ -11,7 +11,7 @@ public static class ConsoleHelper
         Console.ResetColor();
     }
     
-    public static string? ReadInput(string message)
+    public static string? ReadInput(string message, bool hideInput = false)
     {
         Console.Write(message);
 
@@ -47,7 +47,7 @@ public static class ConsoleHelper
             
             input += key.KeyChar;
 
-            Console.Write(key.KeyChar);
+            Console.Write(hideInput ? '*' : key.KeyChar);
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System.Text.Json;
-using System.Text.Json.Serialization;
 namespace DataBase;
 using System.Text.Json.Serialization;
 
@@ -17,17 +16,23 @@ public static class Database
     };
     private static string GetPath(DataType type)
     {
-        string projectDirectory = Directory.GetParent(
-            Directory.GetCurrentDirectory()
-        )!
-        .Parent!
-        .Parent!
-        .FullName;
-        
-        string dataFolder = Path.Combine(
-            projectDirectory,
-            "Data"
-        );
+        string? directory = AppContext.BaseDirectory;
+        string? dataFolder = null;
+
+        while (directory is not null)
+        {
+            string directoryName = new DirectoryInfo(directory).Name;
+            string candidate = Path.Combine(directory, "Data");
+            if (directoryName is not ("bin" or "obj") && Directory.Exists(candidate))
+            {
+                dataFolder = candidate;
+                break;
+            }
+
+            directory = Directory.GetParent(directory)?.FullName;
+        }
+
+        dataFolder ??= Path.Combine(AppContext.BaseDirectory, "Data");
         
         if (!Directory.Exists(dataFolder))
         {

@@ -10,7 +10,16 @@ public class AnswerQuestion
     {
         string[] savedQuestions = Question.MenuQuestions();
 
+        if (savedQuestions.Length == 0)
+        {
+            Console.WriteLine("No questions available.");
+            Console.ReadLine();
+            return;
+        }
+
         int selectedIndex = ConsoleMenu.Show("Questions", savedQuestions);
+
+        if (selectedIndex == -1) return;
 
         string code = GetCode();
 

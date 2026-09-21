@@ -26,7 +26,8 @@ public class User
     public bool Add()
     {
         List<User> users = GetUsers();
-        if (users.Any(u => u.UserName == UserName)) return false;
+        if (users.Any(u => string.Equals(u.UserName, UserName, StringComparison.OrdinalIgnoreCase)))
+            return false;
         
         Database.Save(this, DataType.Users);
         return true;
@@ -37,19 +38,28 @@ public class User
         User? user = users.Find(u => u.UserName == UserName);
         if (user is null) return false;
 
-        var properties = typeof(User).GetProperties();
-        foreach (var property in properties)
+        switch (field)
         {
-            if (property.Name == field)
-            {
-                if (field is "UserName")
-                {
-                    if(users.FirstOrDefault(u => u.UserName == data) is null)
-                    user.UserName = data;
+            case "Name":
+                user.Name = data;
+                Name = data;
+                break;
+            case "LastName":
+                user.LastName = data;
+                LastName = data;
+                break;
+            case "UserName":
+                if (users.Any(u => u != user && string.Equals(u.UserName, data, StringComparison.OrdinalIgnoreCase)))
                     return false;
-                }
-                else property.SetValue(user, data);
-            }
+                user.UserName = data;
+                UserName = data;
+                break;
+            case "Password":
+                user.Password = data;
+                Password = data;
+                break;
+            default:
+                return false;
         }
 
         Database.Update(users, DataType.Users);
