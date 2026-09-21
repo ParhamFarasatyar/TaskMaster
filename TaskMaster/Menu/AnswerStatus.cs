@@ -24,7 +24,7 @@ public class AnswersStatus
     }
 
 
-    public State GetState()
+    private State GetState()
     {
         int selectedIndex = 0;
         State state = 0;
@@ -39,7 +39,7 @@ public class AnswersStatus
     }
 
 
-    public int GetGrade(State state, Answer answer)
+    private int GetGrade(State state, Answer answer)
     {
         int grade = state == State.Approve ? answer.GoalGrade : 0;
         

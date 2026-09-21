@@ -22,7 +22,7 @@ public class AnswerQuestion
     }
 
 
-    public string GetCode()
+    private string GetCode()
     {
         bool status = false;
         string code = "";
