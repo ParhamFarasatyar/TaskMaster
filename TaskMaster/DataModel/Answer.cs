@@ -16,7 +16,7 @@ public class Answer
     public int GoalGrade { get; private set; }
 
 
-    public Answer(string userName, string questionId, string code, int goleGrade)
+    public Answer(string userName, string questionId, string code, int goalGrade)
     {
         UserName = userName;
         AnswerId = Guid.NewGuid().ToString("N");
@@ -25,7 +25,7 @@ public class Answer
         Code = code;
         ApprovalStatus = State.Pending;
         Grade = -1;
-        GoalGrade = goleGrade;
+        GoalGrade = goalGrade;
     }
 
     
