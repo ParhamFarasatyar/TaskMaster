@@ -49,12 +49,13 @@ public class Answer
 
         for (int i = 0; i < answers.Count; i++)
         {
+            int score = answers[i].Grade == -1 ? answers[i].Grade + 1 : answers[i].Grade;
             string answerItem = $"""
              ┌────────────────────────────
              │ Code: {answers[i].Code}
              │ Date/Time: {answers[i].CreatedDate:dd/mm/yyyy HH:mm}
              │ State: {answers[i].ApprovalStatus}
-             │ Score: {answers[i].Grade}
+             │ Score: {score}
              └─────────────────────────────
            """;
             answersArr[i] = answerItem;
