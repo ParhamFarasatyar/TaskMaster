@@ -1,8 +1,8 @@
 ﻿using DataBase;
+using Menu;
 using TaskMaster.DataModel;
-using UserModel;
 
-namespace Menu;
+namespace TaskMaster.Menu;
 
 public class AnswerQuestion
 {
