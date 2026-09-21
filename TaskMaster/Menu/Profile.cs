@@ -27,12 +27,12 @@ public class Profile
                 $"Username  : {user.UserName}"
             );
             
-            if(user.Role == Role.Intern)
+            if (user.Role == Role.Intern)
             {
                 Console.WriteLine(
                     $"Level     : {user.Level}"
                 );
-                
+
                 Console.WriteLine(
                     $"Score     : {user.Score}"
                 );
@@ -49,15 +49,17 @@ public class Profile
             
             int selected = ConsoleMenu.Show(
                 "Profile Options",
-                options
+                options,
+                true,
+                false
             );
             
-            if(selected == -1 || selected == 2)
+            if (selected == -1 || selected == 2)
             {
                 return false;
             }
             
-            switch(selected)
+            switch (selected)
             {
                 case 0:
 
@@ -68,13 +70,12 @@ public class Profile
                 case 1:
 
                     bool deleted = DeleteAccount(user);
-
-
-                    if(deleted)
+                    
+                    if (deleted)
                     {
                         return true;
                     }
-
+                    
                     break;
             }
         }
@@ -82,7 +83,7 @@ public class Profile
     
     private void EditProfile(User user)
     {
-        while(true)
+        while (true)
         {
             string[] fields =
             {
@@ -92,13 +93,13 @@ public class Profile
                 "Password",
                 "Back"
             };
-
+            
             int selected = ConsoleMenu.Show(
                 "Edit Profile",
                 fields
             );
             
-            if(selected == -1 || selected == 4)
+            if (selected == -1 || selected == 4)
             {
                 return;
             }
@@ -109,16 +110,15 @@ public class Profile
                 $"New {field} (B = Back): "
             );
             
-            if(value == null)
+            if (value == null)
             {
                 return;
             }
             
             bool isValid = true;
-
             string? errorMessage = null;
             
-            switch(field)
+            switch (field)
             {
                 case "UserName":
 
@@ -151,7 +151,7 @@ public class Profile
                     break;
             }
             
-            while(!isValid)
+            while (!isValid)
             {
                 ConsoleHelper.PrintColorizeMessage(
                     errorMessage!,
@@ -162,12 +162,12 @@ public class Profile
                     $"New {field} (B = Back): "
                 );
                 
-                if(value == null)
+                if (value == null)
                 {
                     return;
                 }
                 
-                switch(field)
+                switch (field)
                 {
                     case "UserName":
 
@@ -206,7 +206,7 @@ public class Profile
                 value
             );
             
-            if(result)
+            if (result)
             {
                 ConsoleHelper.PrintColorizeMessage(
                     "Profile Updated Successfully!",
@@ -238,14 +238,14 @@ public class Profile
             options
         );
         
-        if(selected == -1 || selected == 1)
+        if (selected == -1 || selected == 1)
         {
             return false;
         }
         
         bool result = user.Remove();
         
-        if(result)
+        if (result)
         {
             ConsoleHelper.PrintColorizeMessage(
                 "Account Deleted Successfully!",
@@ -256,6 +256,7 @@ public class Profile
             
             return true;
         }
+        
         return false;
     }
 }

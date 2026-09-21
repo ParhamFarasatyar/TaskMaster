@@ -14,9 +14,7 @@ class Program
 
 
             User? user = mainMenu.Show();
-
-
-
+            
             if(user == null)
             {
                 Console.WriteLine("Goodbye!");
