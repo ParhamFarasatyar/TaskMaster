@@ -14,20 +14,17 @@ public static class ConsoleHelper
     public static string? ReadInput(string message)
     {
         Console.Write(message);
-        
+
         string input = "";
-        
+
         while (true)
         {
             ConsoleKeyInfo key = Console.ReadKey(true);
-            
-            // Enter = تایید ورودی
-            if (key.Key == ConsoleKey.Enter)
+
+            if(key.Key == ConsoleKey.Enter)
             {
                 Console.WriteLine();
                 
-                // فقط اگر کاربر دقیقاً b یا B وارد کرده باشد
-                // یعنی Back
                 if(input == "b" || input == "B")
                 {
                     return null;
@@ -36,8 +33,7 @@ public static class ConsoleHelper
                 return input;
             }
             
-            // Backspace
-            if (key.Key == ConsoleKey.Backspace)
+            if(key.Key == ConsoleKey.Backspace)
             {
                 if(input.Length > 0)
                 {
@@ -45,11 +41,10 @@ public static class ConsoleHelper
 
                     Console.Write("\b \b");
                 }
-                
+
                 continue;
             }
             
-            // ذخیره کاراکتر و نمایش روی کنسول
             input += key.KeyChar;
 
             Console.Write(key.KeyChar);

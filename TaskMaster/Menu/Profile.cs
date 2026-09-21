@@ -112,7 +112,7 @@ public class Profile
             
             if (value == null)
             {
-                return;
+                continue;
             }
             
             bool isValid = true;
@@ -164,7 +164,7 @@ public class Profile
                 
                 if (value == null)
                 {
-                    return;
+                    break;
                 }
                 
                 switch (field)
