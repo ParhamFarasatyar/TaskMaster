@@ -16,29 +16,13 @@ public static class Database
     };
     private static string GetPath(DataType type)
     {
-        string? directory = AppContext.BaseDirectory;
-        string? dataFolder = null;
+        string dataFolder = Path.Combine(
+            AppContext.BaseDirectory,
+            "Data"
+        );
 
-        while (directory is not null)
-        {
-            string directoryName = new DirectoryInfo(directory).Name;
-            string candidate = Path.Combine(directory, "Data");
-            if (directoryName is not ("bin" or "obj") && Directory.Exists(candidate))
-            {
-                dataFolder = candidate;
-                break;
-            }
+        Directory.CreateDirectory(dataFolder);
 
-            directory = Directory.GetParent(directory)?.FullName;
-        }
-
-        dataFolder ??= Path.Combine(AppContext.BaseDirectory, "Data");
-        
-        if (!Directory.Exists(dataFolder))
-        {
-            Directory.CreateDirectory(dataFolder);
-        }
-        
         return Path.Combine(
             dataFolder,
             $"{type}.json"
