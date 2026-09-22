@@ -1,4 +1,5 @@
-﻿using DataBase;
+﻿using System.Text.Json.Serialization;
+using DataBase;
 using Menu;
 
 namespace TaskMaster.DataModel;
@@ -9,10 +10,12 @@ public class Answer
 {
     public string UserName { get; set; }
     public string AnswerId{ get; init; }
+    [JsonInclude]
     public State ApprovalStatus{ get; private set; }
     public DateTime CreatedDate{ get; init; }
     public string QuestionId{ get; private set; }
     public string Code{ get; private set; }
+    [JsonInclude]
     public int Grade{ get; private set; }
     public int GoalGrade { get; private set; }
 
