@@ -1,4 +1,6 @@
 ﻿namespace Menu;
+using DataBase;
+using TaskMaster.DataModel;
 
 public class ReviewAnswers
 {
@@ -6,17 +8,20 @@ public class ReviewAnswers
     {
         Console.Clear();
         
-        Console.WriteLine("====================");
-        Console.WriteLine("   REVIEW ANSWERS   ");
-        Console.WriteLine("====================");
+        ConsoleHelper.PrintColorizeMessage("====================", ConsoleColor.DarkCyan);
+        ConsoleHelper.PrintColorizeMessage("   REVIEW ANSWERS   ", ConsoleColor.White);
+        ConsoleHelper.PrintColorizeMessage("====================", ConsoleColor.DarkCyan);
         
-        string[] answers = [];
+        List<Answer> answerList = Database.Load<Answer>(DataType.Answers);
+        string[] answers = Answer.ShowAnswers();
         
         if (answers.Length == 0)
         {
-            Console.WriteLine("No answers available.");
-            Console.WriteLine("Press Enter to return...");
-            Console.ReadLine();
+            ConsoleHelper.PrintColorizeMessage(
+                "No answers available.",
+                ConsoleColor.Yellow
+            );
+            ConsoleHelper.Countdown();
             return;
         }
         
@@ -24,35 +29,60 @@ public class ReviewAnswers
             "Select Answer",
             answers
         );
+
+        if (selected == -1)
+        {
+            return;
+        }
         
         Console.Clear();
         
-        Console.WriteLine($"Selected Answer: {answers[selected]}");
+        ConsoleHelper.PrintColorizeMessage(
+            $"Selected Answer: {answers[selected]}",
+            ConsoleColor.White
+        );
         
         string[] reviewOptions = ["Approve", "Reject", "Change Point", "Back"];
 
         int action = ConsoleMenu.Show("Review Action", reviewOptions);
+
+        if (action == -1 || action == 3)
+        {
+            return;
+        }
         
         switch(action)
         {
             case 0:
-                Console.WriteLine("Answer Approved");
+                answerList[selected].SetApprovalStatus(State.Approve);
+                answerList[selected].SetGrade(answerList[selected].GoalGrade);
+                ConsoleHelper.PrintColorizeMessage("Answer Approved", ConsoleColor.Green);
                 break;
             
             case 1:
-                Console.WriteLine("Answer Rejected");
+                answerList[selected].SetApprovalStatus(State.Reject);
+                answerList[selected].SetGrade(0);
+                ConsoleHelper.PrintColorizeMessage("Answer Rejected", ConsoleColor.Red);
                 break;
 
             case 2:
-                Console.WriteLine("Change Point Selected");
-                break;
+                string? gradeInput = ConsoleHelper.ReadInput("New grade (1-5, B + Enter = Back): ");
+                if (gradeInput == null) return;
+                if (!SystemValidation.System.Grade(gradeInput, out string? errorMessage))
+                {
+                    ConsoleHelper.PrintColorizeMessage(errorMessage!, ConsoleColor.Red);
+                    ConsoleHelper.Countdown();
+                    return;
+                }
 
-            case 3:
-                return;
+                answerList[selected].SetApprovalStatus(State.Approve);
+                answerList[selected].SetGrade(int.Parse(gradeInput));
+                ConsoleHelper.PrintColorizeMessage("Answer grade updated", ConsoleColor.Green);
+                break;
         }
+
+        Database.Update(answerList, DataType.Answers);
         
-        Console.WriteLine();
-        Console.WriteLine("Press Enter to return...");
-        Console.ReadLine();
+        ConsoleHelper.Countdown();
     }
 }

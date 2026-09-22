@@ -8,9 +8,9 @@ public class Register
     {
         Console.Clear();
 
-        Console.WriteLine("====================");
-        Console.WriteLine("      REGISTER      ");
-        Console.WriteLine("====================");
+        ConsoleHelper.PrintColorizeMessage("====================", ConsoleColor.DarkCyan);
+        ConsoleHelper.PrintColorizeMessage("      REGISTER      ", ConsoleColor.White);
+        ConsoleHelper.PrintColorizeMessage("====================", ConsoleColor.DarkCyan);
         
         string[] roles =
         {
@@ -46,101 +46,38 @@ public class Register
         
         Console.Clear();
 
-        string? name = ConsoleHelper.ReadInput(
-            "Name (B + Enter = Back): "
-        );
+        string? name = ReadValue("Name: ", ValidateName);
+        if (name == null) return BackUser();
 
-        if(name == null)
-        {
-            return new User(
-                Role.Intern,
-                "",
-                "",
-                "__BACK__",
-                "",
-                Level.Beginner,
-                0
-            );
-        }
-        
-        while(!SystemValidation.System.StringValidationInput(
-            name,
-            out string? errorMessage))
+        string? lastName = ReadValue("Last Name: ", ValidateName);
+        if (lastName == null) return BackUser();
+
+        string? username = ReadValue("Username: ", ValidateUsername);
+        if (username == null) return BackUser();
+
+        string? password = ReadValue("Password: ", ValidatePassword, true);
+        if (password == null) return BackUser();
+
+        string? confirmPassword = ReadValue(
+            "Confirm Password: ",
+            ValidatePassword,
+            true
+        );
+        if (confirmPassword == null) return BackUser();
+
+        while (password != confirmPassword)
         {
             ConsoleHelper.PrintColorizeMessage(
-                errorMessage!,
+                "Passwords do not match.",
                 ConsoleColor.Red
             );
-            
-            name = ConsoleHelper.ReadInput(
-                "Name (B + Enter = Back): "
+
+            confirmPassword = ReadValue(
+                "Confirm Password: ",
+                ValidatePassword,
+                true
             );
-
-
-            if(name == null)
-            {
-                return new User(
-                    Role.Intern,
-                    "",
-                    "",
-                    "__BACK__",
-                    "",
-                    Level.Beginner,
-                    0
-                );
-            }
-        }
-        
-        string? lastName = ConsoleHelper.ReadInput(
-            "Last Name (B + Enter = Back): "
-        );
-        
-        if(lastName == null)
-        {
-            return new User(
-                Role.Intern,
-                "",
-                "",
-                "__BACK__",
-                "",
-                Level.Beginner,
-                0
-            );
-        }
-
-        string? username = ConsoleHelper.ReadInput(
-            "Username (B + Enter = Back): "
-        );
-
-
-        if(username == null)
-        {
-            return new User(
-                Role.Intern,
-                "",
-                "",
-                "__BACK__",
-                "",
-                Level.Beginner,
-                0
-            );
-        }
-        
-        string? password = ConsoleHelper.ReadInput(
-            "Password (B + Enter = Back): "
-        );
-        
-        if(password == null)
-        {
-            return new User(
-                Role.Intern,
-                "",
-                "",
-                "__BACK__",
-                "",
-                Level.Beginner,
-                0
-            );
+            if (confirmPassword == null) return BackUser();
         }
 
         User user = new User(
@@ -162,9 +99,10 @@ public class Register
                 ConsoleColor.Red
             );
 
-            Console.ReadLine();
+            ConsoleHelper.Countdown();
+            Console.Clear();
 
-            return null;
+            return BackUser();
         }
         
         ConsoleHelper.PrintColorizeMessage(
@@ -172,8 +110,49 @@ public class Register
             ConsoleColor.Green
         );
 
-        Console.ReadLine();
+        ConsoleHelper.Countdown();
+        Console.Clear();
         
         return user;
+    }
+
+    private static string? ReadValue(
+        string prompt,
+        Func<string, (bool IsValid, string? Error)> validator,
+        bool hideInput = false)
+    {
+        while (true)
+        {
+            string? value = ConsoleHelper.ReadInput(prompt, hideInput);
+            if (value == null) return null;
+
+            (bool isValid, string? error) = validator(value);
+            if (isValid) return value;
+
+            ConsoleHelper.PrintColorizeMessage(error!, ConsoleColor.Red);
+        }
+    }
+
+    private static (bool, string?) ValidateName(string value)
+    {
+        bool valid = SystemValidation.System.StringValidationInput(value, out string? error);
+        return (valid, error);
+    }
+
+    private static (bool, string?) ValidateUsername(string value)
+    {
+        bool valid = SystemValidation.System.ValidateUsername(value, out string? error);
+        return (valid, error);
+    }
+
+    private static (bool, string?) ValidatePassword(string value)
+    {
+        bool valid = SystemValidation.System.ValidateUserPassword(value, out string? error);
+        return (valid, error);
+    }
+
+    private static User BackUser()
+    {
+        return new User(Role.Intern, "", "", "__BACK__", "", Level.Beginner, 0);
     }
 }

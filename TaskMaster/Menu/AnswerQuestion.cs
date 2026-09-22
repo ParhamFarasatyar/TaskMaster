@@ -10,7 +10,19 @@ public class AnswerQuestion
     {
         string[] savedQuestions = Question.MenuQuestions();
 
+        if (savedQuestions.Length == 0)
+        {
+            ConsoleHelper.PrintColorizeMessage(
+                "No questions available.",
+                ConsoleColor.Yellow
+            );
+            ConsoleHelper.Countdown();
+            return;
+        }
+
         int selectedIndex = ConsoleMenu.Show("Questions", savedQuestions);
+
+        if (selectedIndex == -1) return;
 
         string code = GetCode();
 
@@ -29,7 +41,8 @@ public class AnswerQuestion
 
         while (!status)
         {
-            Console.WriteLine("Code: ");
+            ConsoleHelper.PrintBackHint();
+            ConsoleHelper.PrintColorizeMessage("Code:", ConsoleColor.White);
             code = Console.ReadLine()!;
 
             status = SystemValidation.System.StringValidationInput(code, out string? errorMessage);

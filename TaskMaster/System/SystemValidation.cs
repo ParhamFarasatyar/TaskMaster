@@ -9,6 +9,11 @@ public static class System
             errorMessage = "Invalid input!\nEnter something GENIUS!!";
             return false;
         }
+        if (input != input.Trim())
+        {
+            errorMessage = "Invalid input!\nSpaces at the beginning or end are not allowed.";
+            return false;
+        }
         errorMessage = null;
         return true;
     }
@@ -81,9 +86,10 @@ public static class System
                 errorMessage = "Invalid input!\nWhite space isn't allowed in password.";
                 return false;
             }
-            if (char.IsPunctuation(character) && !(character == '@'))
+            if (char.IsPunctuation(character) && character is not ('@' or '#' or '$'))
             {
                 errorMessage = "Invalid input!\nPunctuation isn't allowed in password.(Except '@')";
+                return false;
             }
         }
         if (input.Contains('@') || input.Contains('#') || input.Contains('$')) hasSpecialCharacter = true;

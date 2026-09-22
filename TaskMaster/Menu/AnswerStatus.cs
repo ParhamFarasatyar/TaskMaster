@@ -12,13 +12,26 @@ public class AnswersStatus
 
         string[] savedAnswers = Answer.ShowAnswers();
 
+        if (savedAnswers.Length == 0)
+        {
+            ConsoleHelper.PrintColorizeMessage(
+                "No answers available.",
+                ConsoleColor.Yellow
+            );
+            ConsoleHelper.Countdown();
+            return;
+        }
+
         int selectedIndex = ConsoleMenu.Show("Answer Status", savedAnswers);
+
+        if (selectedIndex == -1) return;
 
         State state = GetState();
 
         int grade = GetGrade(state, answers[selectedIndex]);
         
         answers[selectedIndex].SetGrade(grade);
+        answers[selectedIndex].SetApprovalStatus(state);
         
         Database.Update(answers, DataType.Answers);
     }
@@ -31,7 +44,7 @@ public class AnswersStatus
 
         string[] options = ["Approve", "Reject"];
 
-        Console.WriteLine("State: ");
+        ConsoleHelper.PrintColorizeMessage("State:", ConsoleColor.White);
         selectedIndex = ConsoleMenu.Show("Select State", options);
         state = (State)(selectedIndex + 1);
 

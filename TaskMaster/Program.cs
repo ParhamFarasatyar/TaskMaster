@@ -17,7 +17,7 @@ class Program
             
             if(user == null)
             {
-                Console.WriteLine("Goodbye!");
+                ConsoleHelper.PrintColorizeMessage("Goodbye!", ConsoleColor.White);
 
                 break;
             }

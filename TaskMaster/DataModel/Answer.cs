@@ -1,4 +1,5 @@
 ﻿using DataBase;
+using Menu;
 
 namespace TaskMaster.DataModel;
 
@@ -54,7 +55,7 @@ public class Answer
              ┌────────────────────────────
              │ user name: {answers[i].UserName}
              │ Code: {answers[i].Code}
-             │ Date/Time: {answers[i].CreatedDate:dd/mm/yyyy HH:mm}
+             │ Date/Time: {answers[i].CreatedDate:dd/MM/yyyy HH:mm}
              │ State: {answers[i].ApprovalStatus}
              │ Score: {score}
              └─────────────────────────────
@@ -69,7 +70,17 @@ public class Answer
     public static void AnswerStatus(string answerId)
     {
         List<Answer> answers = Database.Load<Answer>(DataType.Answers);
-        foreach (Answer ans in answers)
+        Answer? selectedAnswer = answers.FirstOrDefault(answer => answer.AnswerId == answerId);
+        if (selectedAnswer is null)
+        {
+            ConsoleHelper.PrintColorizeMessage(
+                "Answer not found.",
+                ConsoleColor.Red
+            );
+            return;
+        }
+
+        foreach (Answer ans in new[] { selectedAnswer })
         {
             string answer = $"""
              ┌─────────────────────────────
@@ -81,9 +92,14 @@ public class Answer
                | Score: {ans.Grade}
                └─────────────────────────────
              """;
-            Console.WriteLine(answer);
+            ConsoleHelper.PrintColorizeMessage(
+                answer,
+                ConsoleColor.White
+            );
         }
     }
     
     public void SetGrade(int grade) => Grade = grade;
+
+    public void SetApprovalStatus(State state) => ApprovalStatus = state;
 }

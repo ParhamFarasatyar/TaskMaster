@@ -7,51 +7,30 @@ public class Profile
     {
         while (true)
         {
-            Console.Clear();
-            
-            Console.WriteLine("====================");
-            Console.WriteLine("       PROFILE      ");
-            Console.WriteLine("====================");
-            
-            Console.WriteLine();
-            
-            Console.WriteLine(
-                $"Role      : {user.Role}"
-            );
-            
-            Console.WriteLine(
-                $"Full Name : {user.Name} {user.LastName}"
-            );
-            
-            Console.WriteLine(
-                $"Username  : {user.UserName}"
-            );
-            
-            if (user.Role == Role.Intern)
-            {
-                Console.WriteLine(
-                    $"Level     : {user.Level}"
-                );
-
-                Console.WriteLine(
-                    $"Score     : {user.Score}"
-                );
-            }
-            
-            Console.WriteLine();
-            
             string[] options =
             {
                 "Edit Profile",
                 "Delete Account",
                 "Back"
             };
+
+            string profileInfo =
+                $"Profile\n\n" +
+                $"Role      : {user.Role}\n" +
+                $"Full Name : {user.Name} {user.LastName}\n" +
+                $"Username  : {user.UserName}\n" +
+                $"Password  : {user.Password}";
+
+            if (user.Role == Role.Intern)
+            {
+                profileInfo +=
+                    $"\nLevel     : {user.Level}" +
+                    $"\nScore     : {user.Score}";
+            }
             
             int selected = ConsoleMenu.Show(
-                "Profile Options",
-                options,
-                true,
-                false
+                profileInfo + "\n\nProfile Options",
+                options
             );
             
             if (selected == -1 || selected == 2)
@@ -107,7 +86,7 @@ public class Profile
             string field = fields[selected];
             
             string? value = ConsoleHelper.ReadInput(
-                $"New {field} (B = Back): "
+                $"New {field}: "
             );
             
             if (value == null)
@@ -159,7 +138,7 @@ public class Profile
                 );
                 
                 value = ConsoleHelper.ReadInput(
-                    $"New {field} (B = Back): "
+                    $"New {field}: "
                 );
                 
                 if (value == null)
@@ -200,6 +179,11 @@ public class Profile
                         break;
                 }
             }
+
+            if (value == null)
+            {
+                continue;
+            }
             
             bool result = user.Edit(
                 field,
@@ -221,7 +205,7 @@ public class Profile
                 );
             }
             
-            Thread.Sleep(2000);
+            ConsoleHelper.Countdown();
         }
     }
     
@@ -252,7 +236,7 @@ public class Profile
                 ConsoleColor.Green
             );
             
-            Console.ReadLine();
+            ConsoleHelper.Countdown();
             
             return true;
         }

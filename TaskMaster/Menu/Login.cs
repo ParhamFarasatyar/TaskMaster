@@ -6,112 +6,61 @@ public class Login
 {
     public User? Enter()
     {
-        Console.Clear();
-        
-        Console.WriteLine("====================");
-        Console.WriteLine("        LOGIN       ");
-        Console.WriteLine("====================");
-        
-        string? username = ConsoleHelper.ReadInput(
-            "Username (B = Back): "
-        );
-        
-        if(username == null)
+        while (true)
         {
-            return BackUser();
-        }
-        
-        bool isValid =
-            SystemValidation.System.ValidateUsername(
-                username,
-                out string? errorMessage
-            );
-        
-        while(!isValid)
-        {
-            SystemValidation.System.PrintColorizeMessage(
-                errorMessage!,
-                ConsoleColor.Red
-            );
-            
-            username = ConsoleHelper.ReadInput(
-                "Username (B = Back): "
-            );
-            
-            if(username == null)
-            {
-                return BackUser();
-            }
-            
-            isValid =
-                SystemValidation.System.ValidateUsername(
-                    username,
-                    out errorMessage
-                );
-        }
-        
-        string? password = ConsoleHelper.ReadInput(
-            "Password (B = Back): "
-        );
-        
-        if(password == null)
-        {
-            return BackUser();
-        }
+            Console.Clear();
+            ConsoleHelper.PrintColorizeMessage("====================", ConsoleColor.DarkCyan);
+            ConsoleHelper.PrintColorizeMessage("        LOGIN       ", ConsoleColor.White);
+            ConsoleHelper.PrintColorizeMessage("====================", ConsoleColor.DarkCyan);
 
-        isValid =
-            SystemValidation.System.ValidateUserPassword(
-                password,
-                out errorMessage
+            string? username = ReadUsername();
+            if (username == null) return BackUser();
+
+            string? password = ReadPassword();
+            if (password == null) return BackUser();
+
+            List<User> users = Database.Load<User>(DataType.Users);
+            User? user = users.FirstOrDefault(
+                u => string.Equals(u.UserName, username, StringComparison.OrdinalIgnoreCase)
+                     && u.Password == password
             );
 
-        while(!isValid)
-        {
-            SystemValidation.System.PrintColorizeMessage(
-                errorMessage!,
-                ConsoleColor.Red
-            );
-            
-            password = ConsoleHelper.ReadInput(
-                "Password (B = Back): "
-            );
-            
-            if(password == null)
-            {
-                return BackUser();
-            }
-            
-            isValid =
-                SystemValidation.System.ValidateUserPassword(
-                    password,
-                    out errorMessage
-                );
-        }
-        
-        List<User> users =
-            Database.Load<User>(
-                DataType.Users
-            );
-        
-        User? user = users.FirstOrDefault(
-            u =>
-                u.UserName == username &&
-                u.Password == password
-        );
-        
-        if(user == null)
-        {
+            if (user != null) return user;
+
             ConsoleHelper.PrintColorizeMessage(
                 "Wrong username or password",
                 ConsoleColor.Red
             );
-            
-            Console.ReadLine();
-            
-            return Enter();
+            ConsoleHelper.Countdown();
         }
-        
-        return user;
+    }
+
+    private string? ReadUsername()
+    {
+        while (true)
+        {
+            string? value = ConsoleHelper.ReadInput("Username: ");
+            if (value == null) return null;
+
+            if (SystemValidation.System.ValidateUsername(value, out string? errorMessage))
+                return value;
+
+            ConsoleHelper.PrintColorizeMessage(errorMessage!, ConsoleColor.Red);
+        }
+    }
+
+    private string? ReadPassword()
+    {
+        while (true)
+        {
+            string? value = ConsoleHelper.ReadInput("Password: ", true);
+            if (value == null) return null;
+
+            if (SystemValidation.System.ValidateUserPassword(value, out string? errorMessage))
+                return value;
+
+            ConsoleHelper.PrintColorizeMessage(errorMessage!, ConsoleColor.Red);
+        }
     }
     
     private User BackUser()

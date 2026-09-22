@@ -2,6 +2,28 @@
 
 public static class ConsoleHelper
 {
+    public static void PrintBackHint()
+    {
+        PrintColorizeMessage(
+            "Hint: Press B, then Enter to go back.",
+            ConsoleColor.DarkGray
+        );
+    }
+
+    public static void Countdown(int seconds = 3)
+    {
+        Console.ForegroundColor = ConsoleColor.DarkGray;
+
+        for (int remaining = seconds; remaining > 0; remaining--)
+        {
+            Console.Write($"\rReturning in {remaining}... ");
+            Thread.Sleep(1000);
+        }
+
+        Console.WriteLine("\rReturning now...       ");
+        Console.ResetColor();
+    }
+
     public static void PrintColorizeMessage(
         string message,
         ConsoleColor color)
@@ -11,9 +33,12 @@ public static class ConsoleHelper
         Console.ResetColor();
     }
     
-    public static string? ReadInput(string message)
+    public static string? ReadInput(string message, bool hideInput = false)
     {
+        PrintBackHint();
+        Console.ForegroundColor = ConsoleColor.White;
         Console.Write(message);
+        Console.ResetColor();
 
         string input = "";
 
@@ -47,7 +72,7 @@ public static class ConsoleHelper
             
             input += key.KeyChar;
 
-            Console.Write(key.KeyChar);
+            Console.Write(hideInput ? '*' : key.KeyChar);
         }
     }
 }
