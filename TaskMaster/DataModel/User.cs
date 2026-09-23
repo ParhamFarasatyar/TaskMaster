@@ -12,7 +12,7 @@ public class User
     public string? Password { get; private set; }
     public Level Level { get; private set; }
     public int Score { get; private set; }
-    private List<User> GetUsers() => Database.Load<User>(DataType.Users);
+    private static List<User> GetUsers() => Database.Load<User>(DataType.Users);
     public User(Role role, string name, string lastName, string userName, string password, Level level, int score)
     {
         Role = role;
@@ -74,5 +74,11 @@ public class User
         users.Remove(user);
         Database.Update(users, DataType.Users);
         return true;
+    }
+    public static void SetScore(string username, int grade)
+    {
+        List<User> users = GetUsers();
+        User user = users.FirstOrDefault(u => u.UserName == username)!;
+        user.Score += grade;
     }
 }
