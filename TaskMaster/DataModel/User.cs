@@ -80,5 +80,6 @@ public class User
         List<User> users = GetUsers();
         User user = users.FirstOrDefault(u => u.UserName == username)!;
         user.Score += grade;
+        Database.Update(users, DataType.Users);
     }
 }
