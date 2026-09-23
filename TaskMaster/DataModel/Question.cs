@@ -66,9 +66,9 @@ public class Question
           ├─────────────────────────────
           │ Description : {description}
           │ Difficulty  : {question.Difficulty}
-          │ Score  : {question.Grade}
-          | Created at : {question.CreatedAt}
-          | Updated at : {question.UpdatedAt}
+          │ Score       : {question.Grade}
+          | Created at  : {question.CreatedAt}
+          | Updated at  : {question.UpdatedAt}
           └─────────────────────────────
         """;
         return questionItem;
