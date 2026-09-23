@@ -100,8 +100,7 @@ public class Question
           | Updated at  : {questions[i].UpdatedAt}
           └─────────────────────────────
         """;
-            if (questions[i].Difficulty != difficulty) continue;
-            else
+            if(questions[i].Difficulty == difficulty)
             {
                 Questions[i] = questionItem;
             }
