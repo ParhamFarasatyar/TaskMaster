@@ -56,12 +56,12 @@ public class Answer
             int score = answers[i].Grade == -1 ? answers[i].Grade + 1 : answers[i].Grade;
             string answerItem = $"""
              ┌────────────────────────────
-             │ user name: {answers[i].UserName}
-             │ Code: {answers[i].Code}
-             │ Date/Time: {answers[i].CreatedDate:dd/MM/yyyy HH:mm}
-             │ State: {answers[i].ApprovalStatus}
-             │ Score: {score}
-             └─────────────────────────────
+               │ user name: {answers[i].UserName}
+               │ Code: {answers[i].Code}
+               │ Date/Time: {answers[i].CreatedDate:dd/MM/yyyy HH:mm}
+               │ State: {answers[i].ApprovalStatus}
+               │ Score: {score}
+               └─────────────────────────────
            """;
             answersArr[i] = answerItem;
         }
