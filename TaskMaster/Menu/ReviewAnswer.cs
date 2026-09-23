@@ -42,7 +42,12 @@ public class ReviewAnswers
             ConsoleColor.White
         );
         
-        string[] reviewOptions = ["Approve", "Reject", "Change Point", "Back"];
+        string[] reviewOptions = 
+        [
+            "Approve", 
+            "Reject", 
+            "Back"
+        ];
 
         int action = ConsoleMenu.Show("Review Action", reviewOptions);
 
@@ -63,21 +68,6 @@ public class ReviewAnswers
                 answerList[selected].SetApprovalStatus(State.Reject);
                 answerList[selected].SetGrade(0);
                 ConsoleHelper.PrintColorizeMessage("Answer Rejected", ConsoleColor.Red);
-                break;
-
-            case 2:
-                string? gradeInput = ConsoleHelper.ReadInput("New grade (1-5, B + Enter = Back): ");
-                if (gradeInput == null) return;
-                if (!SystemValidation.System.Grade(gradeInput, out string? errorMessage))
-                {
-                    ConsoleHelper.PrintColorizeMessage(errorMessage!, ConsoleColor.Red);
-                    ConsoleHelper.Countdown();
-                    return;
-                }
-
-                answerList[selected].SetApprovalStatus(State.Approve);
-                answerList[selected].SetGrade(int.Parse(gradeInput));
-                ConsoleHelper.PrintColorizeMessage("Answer grade updated", ConsoleColor.Green);
                 break;
         }
 
