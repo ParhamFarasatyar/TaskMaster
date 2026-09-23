@@ -1,4 +1,5 @@
-﻿using DataBase;
+﻿using System.Text.Json.Serialization;
+using DataBase;
 using Menu;
 
 namespace TaskMaster.DataModel;
@@ -9,15 +10,17 @@ public class Answer
 {
     public string UserName { get; set; }
     public string AnswerId{ get; init; }
+    [JsonInclude]
     public State ApprovalStatus{ get; private set; }
     public DateTime CreatedDate{ get; init; }
     public string QuestionId{ get; private set; }
     public string Code{ get; private set; }
+    [JsonInclude]
     public int Grade{ get; private set; }
     public int GoalGrade { get; private set; }
 
 
-    public Answer(string userName, string questionId, string code, int goleGrade)
+    public Answer(string userName, string questionId, string code, int goalGrade)
     {
         UserName = userName;
         AnswerId = Guid.NewGuid().ToString("N");
@@ -26,7 +29,7 @@ public class Answer
         Code = code;
         ApprovalStatus = State.Pending;
         Grade = -1;
-        GoalGrade = goleGrade;
+        GoalGrade = goalGrade;
     }
 
     
@@ -50,13 +53,15 @@ public class Answer
 
         for (int i = 0; i < answers.Count; i++)
         {
+            int score = answers[i].Grade == -1 ? answers[i].Grade + 1 : answers[i].Grade;
             string answerItem = $"""
              ┌────────────────────────────
-             │ Code: {answers[i].Code}
-             │ Date/Time: {answers[i].CreatedDate:dd/MM/yyyy HH:mm}
-             │ State: {answers[i].ApprovalStatus}
-             │ Score: {answers[i].Grade}
-             └─────────────────────────────
+               │ user name: {answers[i].UserName}
+               │ Code: {answers[i].Code}
+               │ Date/Time: {answers[i].CreatedDate:dd/MM/yyyy HH:mm}
+               │ State: {answers[i].ApprovalStatus}
+               │ Score: {score}
+               └─────────────────────────────
            """;
             answersArr[i] = answerItem;
         }
