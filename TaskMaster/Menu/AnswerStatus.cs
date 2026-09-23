@@ -22,40 +22,16 @@ public class AnswersStatus
             return;
         }
 
-        int selectedIndex = ConsoleMenu.Show("Answer Status", savedAnswers);
-
-        if (selectedIndex == -1) return;
-
-        State state = GetState();
-
-        int grade = GetGrade(state, answers[selectedIndex]);
         
-        answers[selectedIndex].SetGrade(grade);
-        answers[selectedIndex].SetApprovalStatus(state);
-        
-        Database.Update(answers, DataType.Answers);
+        ShowAnswers(savedAnswers);
+        Console.ReadKey();
     }
 
-
-    private State GetState()
+    private void ShowAnswers(string[] answers)
     {
-        int selectedIndex = 0;
-        State state = 0;
-
-        string[] options = ["Approve", "Reject"];
-
-        ConsoleHelper.PrintColorizeMessage("State:", ConsoleColor.White);
-        selectedIndex = ConsoleMenu.Show("Select State", options);
-        state = (State)(selectedIndex + 1);
-
-        return state;
-    }
-
-
-    private int GetGrade(State state, Answer answer)
-    {
-        int grade = state == State.Approve ? answer.GoalGrade : 0;
-        
-        return grade;
+        foreach (string answer in answers)
+        {
+            Console.WriteLine(answer);
+        }
     }
 }
