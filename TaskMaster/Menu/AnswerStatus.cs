@@ -24,6 +24,7 @@ public class AnswersStatus
 
         
         ShowAnswers(savedAnswers);
+        ConsoleHelper.PrintColorizeMessage("Enter any key to continue", ConsoleColor.Yellow);
         Console.ReadKey();
     }
 
