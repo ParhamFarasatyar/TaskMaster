@@ -81,7 +81,7 @@ public class Question
         }
         return Questions;
     }
-    public static string[] ValidateCanAnswer(Difficulty difficulty, string username)
+    public static string[] ValidateIfUserCanAnswer(Difficulty difficulty, string username)
     {
         List<Question> questions = GetQuestions();
         List<Answer> answers = Database.Load<Answer>(DataType.Answers);
@@ -93,6 +93,7 @@ public class Question
             foreach (Answer answer in answers)
             {
                 isAnswered = answer.QuestionId == questions[i].Id && answer.UserName == username;
+                if(isAnswered) questions.Remove(questions[i]);
             }
             string? description = questions[i].Description?.Length > 20 ?
             questions[i].Description?[..20] + "..." : questions[i].Description;
@@ -105,10 +106,7 @@ public class Question
           │ Score       : {questions[i].Grade}
           └─────────────────────────────
         """;
-            if (questions[i].Difficulty == difficulty && !isAnswered)
-            {
-                Questions.Add(questionItem);
-            }
+            if (questions[i].Difficulty == difficulty) Questions.Add(questionItem);
         }
         for (int i = 0; i < Questions.Count; i++)
         {
