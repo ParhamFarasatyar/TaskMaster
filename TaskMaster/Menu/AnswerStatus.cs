@@ -1,16 +1,17 @@
 ﻿using DataBase;
 using Menu;
 using TaskMaster.DataModel;
+using UserModel;
 
 namespace TaskMaster.Menu;
 
 public class AnswersStatus
 {
-    public void UpdateAnswerStatus()
+    public void UpdateAnswerStatus(string userName)
     {
         List<Answer> answers = Database.Load<Answer>(DataType.Answers);
 
-        string[] savedAnswers = Answer.ShowAnswers();
+        string[] savedAnswers = Answer.ShowAnswers(userName);
 
         if (savedAnswers.Length == 0)
         {
