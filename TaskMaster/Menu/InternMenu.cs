@@ -40,7 +40,7 @@ public class InternMenu
                 case 2:
                     AnswersStatus answersStatus = new();
 
-                    answersStatus.UpdateAnswerStatus();
+                    answersStatus.UpdateAnswerStatus(user.UserName!);
 
                     break;
 

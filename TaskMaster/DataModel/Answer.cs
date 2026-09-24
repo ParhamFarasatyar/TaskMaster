@@ -1,6 +1,7 @@
 ﻿using System.Text.Json.Serialization;
 using DataBase;
 using Menu;
+using UserModel;
 
 namespace TaskMaster.DataModel;
 
@@ -67,6 +68,34 @@ public class Answer
         }
 
         return answersArr;
+    }
+    
+    
+    public static string[] ShowAnswers(string userName)
+    {
+        List<Answer> answers = Database.Load<Answer>(DataType.Answers);
+        List<string> answer = new List<string>();
+        
+
+        for (int i = 0; i < answers.Count; i++)
+        {
+            if (answers[i].UserName != userName)
+            {
+                int score = answers[i].Grade == -1 ? answers[i].Grade + 1 : answers[i].Grade;
+                string answerItem = 
+                    $"""
+                       ┌────────────────────────────
+                         │ user name: {answers[i].UserName}
+                         │ Code: {answers[i].Code}
+                         │ Date/Time: {answers[i].CreatedDate:dd/MM/yyyy HH:mm}
+                         │ State: {answers[i].ApprovalStatus}
+                         │ Score: {score}
+                         └─────────────────────────────
+                     """;
+                answer.Add(answerItem);            }
+        }
+
+        return answer.ToArray();
     }
 
 
