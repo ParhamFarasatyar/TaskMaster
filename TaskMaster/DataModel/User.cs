@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using DataBase;
 namespace UserModel;
 
@@ -10,9 +11,10 @@ public class User
     public string? LastName { get; private set; }
     public string? UserName { get; private set; }
     public string? Password { get; private set; }
+    [JsonInclude]
     public Level Level { get; private set; }
     public int Score { get; private set; }
-    private List<User> GetUsers() => Database.Load<User>(DataType.Users);
+    private static List<User> GetUsers() => Database.Load<User>(DataType.Users);
     public User(Role role, string name, string lastName, string userName, string password, Level level, int score)
     {
         Role = role;
@@ -74,5 +76,21 @@ public class User
         users.Remove(user);
         Database.Update(users, DataType.Users);
         return true;
+    }
+    public static void SetScore(string username, int grade)
+    {
+        List<User> users = GetUsers();
+        User user = users.FirstOrDefault(u => u.UserName == username)!;
+        user.Score += grade;
+        Database.Update(users, DataType.Users);
+    }
+    public static void UpdateLevel(string username)
+    {
+        List<User> users = GetUsers();
+        User user = users.FirstOrDefault(u => u.UserName == username)!;
+        if (user.Score <= 10) user.Level = Level.Beginner;
+        else if (user.Score > 10 && user.Score <= 20) user.Level = Level.MidLevel;
+        else user.Level = Level.Advanced;
+        Database.Update(users, DataType.Users);
     }
 }

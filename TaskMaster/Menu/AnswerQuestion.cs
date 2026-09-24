@@ -25,6 +25,7 @@ public class AnswerQuestion
         if (selectedIndex == -1) return;
 
         string code = GetCode();
+        if (code.Equals("b", StringComparison.OrdinalIgnoreCase)) return;
 
         List<Question> questions = Database.Load<Question>(DataType.Questions);
 

@@ -1,6 +1,7 @@
 ﻿namespace Menu;
 using DataBase;
 using TaskMaster.DataModel;
+using UserModel;
 
 public class ReviewAnswers
 {
@@ -61,6 +62,8 @@ public class ReviewAnswers
             case 0:
                 answerList[selected].SetApprovalStatus(State.Approve);
                 answerList[selected].SetGrade(answerList[selected].GoalGrade);
+                User.SetScore(answerList[selected].UserName, answerList[selected].GoalGrade);
+                User.UpdateLevel(answerList[selected].UserName!);
                 ConsoleHelper.PrintColorizeMessage("Answer Approved", ConsoleColor.Green);
                 break;
             
