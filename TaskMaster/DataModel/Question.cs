@@ -81,12 +81,19 @@ public class Question
         }
         return Questions;
     }
-    public static string[] ValidateDifficulty(Difficulty difficulty)
+    public static string[] ValidateCanAnswer(Difficulty difficulty, string username)
     {
         List<Question> questions = GetQuestions();
-        string[] Questions = new string[questions.Count];
-        for (int i = 0; i <= questions.Count; i++)
+        List<Answer> answers = Database.Load<Answer>(DataType.Answers);
+        List<string> Questions = new List<string>();
+        string[] _questions = new string[Questions.Count];
+        for (int i = 0; i < questions.Count; i++)
         {
+            bool isAnswered = false;
+            foreach (Answer answer in answers)
+            {
+                isAnswered = answer.QuestionId == questions[i].Id && answer.UserName == username;
+            }
             string? description = questions[i].Description?.Length > 20 ?
             questions[i].Description?[..20] + "..." : questions[i].Description;
             string questionItem = $"""
@@ -96,15 +103,17 @@ public class Question
           │ Description : {description}
           │ Difficulty  : {questions[i].Difficulty}
           │ Score       : {questions[i].Grade}
-          | Created at  : {questions[i].CreatedAt}
-          | Updated at  : {questions[i].UpdatedAt}
           └─────────────────────────────
         """;
-            if(questions[i].Difficulty == difficulty)
+            if (questions[i].Difficulty == difficulty && !isAnswered)
             {
-                Questions[i] = questionItem;
+                Questions.Add(questionItem);
             }
         }
-        return Questions;
+        for (int i = 0; i < Questions.Count; i++)
+        {
+            Questions[i] = $"{i + 1}. {Questions[i]}";
+        }
+        return Questions.ToArray();
     }
 }
