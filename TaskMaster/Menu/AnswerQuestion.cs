@@ -1,14 +1,15 @@
 ﻿using DataBase;
 using Menu;
 using TaskMaster.DataModel;
+using UserModel;
 
 namespace TaskMaster.Menu;
 
 public class AnswerQuestion
 {
-    public void SubmitAnswer(string userName)
+    public void SubmitAnswer(string userName, Level level)
     {
-        string[] savedQuestions = Question.MenuQuestions();
+        string[] savedQuestions = Question.ValidateIfUserCanAnswer((Difficulty)level, userName);
 
         if (savedQuestions.Length == 0)
         {
