@@ -4,7 +4,7 @@ namespace Menu;
 
 public class DesignerMenu
 {
-    public void Show(User user)
+    public bool Show(User user)
     {
         while (true)
         {
@@ -23,14 +23,14 @@ public class DesignerMenu
                 options
             );
 
-            if(selected == -1) return;
+            if(selected == -1) return true;
 
             switch(selected)
             {
                 case 0:
                     Profile profile = new();
                     bool deleted = profile.Show(user);
-                    if (deleted) return;
+                    if (deleted) return false;
                     break;
 
                 case 1:
@@ -54,7 +54,7 @@ public class DesignerMenu
                     break;
 
                 case 5:                    
-                    return;
+                    return true;
             }
         }
     }

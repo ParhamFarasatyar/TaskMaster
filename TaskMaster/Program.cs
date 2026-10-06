@@ -28,7 +28,11 @@ class Program
             {
                 InternMenu internMenu = new();
 
-                internMenu.Show(user);
+                bool shouldContinue = internMenu.Show(user);
+                if (!shouldContinue)
+                {
+                    continue;
+                }
             }
 
 
@@ -37,7 +41,11 @@ class Program
             {
                 DesignerMenu designerMenu = new();
 
-                designerMenu.Show(user);
+                bool shouldContinue = designerMenu.Show(user);
+                if (!shouldContinue)
+                {
+                    continue;
+                }
             }
         }
     }
