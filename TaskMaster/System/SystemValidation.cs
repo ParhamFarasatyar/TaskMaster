@@ -81,6 +81,7 @@ public static class System
             if (char.IsDigit(character)) hasDigit = true;
             if (char.IsLower(character)) hasLower = true;
             if (char.IsUpper(character)) hasUpper = true;
+            if (character == '@' || character == '#' || character == '$') hasSpecialCharacter = true;
             if (char.IsWhiteSpace(character))
             {
                 errorMessage = "Invalid input!\nWhite space isn't allowed in password.";
@@ -92,7 +93,11 @@ public static class System
                 return false;
             }
         }
-        if (input.Contains('@') || input.Contains('#') || input.Contains('$')) hasSpecialCharacter = true;
+        if (input.Any(char.IsControl))
+        {
+            errorMessage = "Invalid Input!\nUnicodes aren't allowed";
+            return false;
+        }
 
         if (!hasDigit || !hasUpper || !hasLower || !hasSpecialCharacter)
         {
