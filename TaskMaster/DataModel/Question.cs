@@ -1,15 +1,20 @@
 using DataBase;
+using System.Text.Json.Serialization;
 namespace TaskMaster.DataModel;
 
 public enum Difficulty { Beginner, MidLevel, Advanced }
 
 public class Question
 {
+    [JsonInclude]
     public string? Description { get; private set; }
+    [JsonInclude]
     public int Grade { get; private set; }
+    [JsonInclude]
     public Difficulty Difficulty { get; private set; }
     public string? Id { get; init; }
     public DateTime CreatedAt { get; init; }
+    [JsonInclude]
     public DateTime UpdatedAt { get; private set; }
     private static List<Question> GetQuestions() => Database.Load<Question>(DataType.Questions);
 
@@ -81,23 +86,36 @@ public class Question
         }
         return Questions;
     }
-    public static string[] ValidateIfUserCanAnswer(Difficulty difficulty, string username)
+    public static List<Question> GetQuestionsUserCanAnswer(Difficulty difficulty, string username)
     {
         List<Question> questions = GetQuestions();
         List<Answer> answers = Database.Load<Answer>(DataType.Answers);
-        List<string> Questions = new List<string>();
-        string[] _questions = new string[Questions.Count];
+        HashSet<string> answeredQuestionIds = answers
+            .Where(answer => string.Equals(answer.UserName, username, StringComparison.OrdinalIgnoreCase))
+            .Select(answer => answer.QuestionId)
+            .ToHashSet(StringComparer.Ordinal);
+
+        return questions
+            .Where(question =>
+                question.Difficulty == difficulty &&
+                question.Id != null &&
+                !answeredQuestionIds.Contains(question.Id))
+            .ToList();
+    }
+
+    public static string[] FormatQuestions(List<Question> questions)
+    {
+        string[] formattedQuestions = new string[questions.Count];
+
         for (int i = 0; i < questions.Count; i++)
         {
-            bool isAnswered = false;
-            foreach (Answer answer in answers)
+            string? description = questions[i].Description;
+            if (description?.Length > 20)
             {
-                isAnswered = answer.QuestionId == questions[i].Id && answer.UserName == username;
-                if(isAnswered) questions.Remove(questions[i]);
+                description = description[..20] + "...";
             }
-            string? description = questions[i].Description?.Length > 20 ?
-            questions[i].Description?[..20] + "..." : questions[i].Description;
-            string questionItem = $"""
+
+            formattedQuestions[i] = $"{i + 1}. " + $"""
         ┌─────────────────────────────
           │ Task
           ├─────────────────────────────
@@ -106,12 +124,8 @@ public class Question
           │ Score       : {questions[i].Grade}
           └─────────────────────────────
         """;
-            if (questions[i].Difficulty == difficulty) Questions.Add(questionItem);
         }
-        for (int i = 0; i < Questions.Count; i++)
-        {
-            Questions[i] = $"{i + 1}. {Questions[i]}";
-        }
-        return Questions.ToArray();
+
+        return formattedQuestions;
     }
 }
