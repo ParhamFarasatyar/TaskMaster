@@ -54,10 +54,15 @@ public class Question
     public static void Delete(int index)
     {
         List<Question> questions = GetQuestions();
+        Question question = questions[index];
+        questions.RemoveAt(index);
 
-        Question? question = questions[index];
-
-        questions.Remove(question!);
+        if (question.Id is not null)
+        {
+            List<Answer> answers = Database.Load<Answer>(DataType.Answers);
+            answers.RemoveAll(answer => answer.QuestionId == question.Id);
+            Database.Update(answers, DataType.Answers);
+        }
 
         Database.Update(questions, DataType.Questions);
     }
@@ -115,7 +120,7 @@ public class Question
                 description = description[..20] + "...";
             }
 
-            formattedQuestions[i] = $"{i + 1}. " + $"""
+            formattedQuestions[i] = $"""
         ┌─────────────────────────────
           │ Task
           ├─────────────────────────────
