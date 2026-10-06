@@ -14,7 +14,10 @@ public class ReviewAnswers
         ConsoleHelper.PrintColorizeMessage("====================", ConsoleColor.DarkCyan);
         
         List<Answer> answerList = Database.Load<Answer>(DataType.Answers);
-        string[] answers = Answer.ShowAnswers();
+        List<Answer> pendingAnswers = answerList
+            .Where(answer => answer.ApprovalStatus == State.Pending)
+            .ToList();
+        string[] answers = Answer.ShowAnswers(pendingAnswers);
         
         if (answers.Length == 0)
         {
@@ -52,7 +55,7 @@ public class ReviewAnswers
 
         int action = ConsoleMenu.Show("Review Action", reviewOptions);
 
-        if (action == -1 || action == 3)
+        if (action == -1 || action == 2)
         {
             return;
         }
@@ -60,16 +63,16 @@ public class ReviewAnswers
         switch(action)
         {
             case 0:
-                answerList[selected].SetApprovalStatus(State.Approve);
-                answerList[selected].SetGrade(answerList[selected].GoalGrade);
-                User.SetScore(answerList[selected].UserName, answerList[selected].GoalGrade);
-                User.UpdateLevel(answerList[selected].UserName!);
+                pendingAnswers[selected].SetApprovalStatus(State.Approve);
+                pendingAnswers[selected].SetGrade(pendingAnswers[selected].GoalGrade);
+                User.SetScore(pendingAnswers[selected].UserName, pendingAnswers[selected].GoalGrade);
+                User.UpdateLevel(pendingAnswers[selected].UserName!);
                 ConsoleHelper.PrintColorizeMessage("Answer Approved", ConsoleColor.Green);
                 break;
             
             case 1:
-                answerList[selected].SetApprovalStatus(State.Reject);
-                answerList[selected].SetGrade(0);
+                pendingAnswers[selected].SetApprovalStatus(State.Reject);
+                pendingAnswers[selected].SetGrade(0);
                 ConsoleHelper.PrintColorizeMessage("Answer Rejected", ConsoleColor.Red);
                 break;
         }
