@@ -1,6 +1,7 @@
 ﻿using TaskMaster.Menu;
 using UserModel;
 
+
 namespace Menu;
 
 public class InternMenu
@@ -33,7 +34,7 @@ public class InternMenu
                 case 1:
                     AnswerQuestion answerQuestion = new();
 
-                    answerQuestion.SubmitAnswer(user.UserName!);
+                    answerQuestion.SubmitAnswer(user.UserName!, user.Level);
 
                     break;
 

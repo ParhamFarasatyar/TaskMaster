@@ -9,8 +9,6 @@ public class AnswersStatus
 {
     public void UpdateAnswerStatus(string userName)
     {
-        List<Answer> answers = Database.Load<Answer>(DataType.Answers);
-
         string[] savedAnswers = Answer.ShowAnswers(userName);
 
         if (savedAnswers.Length == 0)
@@ -31,6 +29,10 @@ public class AnswersStatus
 
     private void ShowAnswers(string[] answers)
     {
+        Console.Clear();
+        ConsoleHelper.PrintColorizeMessage("====================", ConsoleColor.DarkCyan);
+        ConsoleHelper.PrintColorizeMessage("Answers Status", ConsoleColor.White);
+        ConsoleHelper.PrintColorizeMessage("====================", ConsoleColor.DarkCyan);
         foreach (string answer in answers)
         {
             Console.WriteLine(answer);

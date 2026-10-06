@@ -1,14 +1,16 @@
-﻿using DataBase;
+using DataBase;
 using Menu;
 using TaskMaster.DataModel;
+using UserModel;
 
 namespace TaskMaster.Menu;
 
 public class AnswerQuestion
 {
-    public void SubmitAnswer(string userName)
+    public void SubmitAnswer(string userName, Level level)
     {
-        string[] savedQuestions = Question.MenuQuestions();
+        List<Question> availableQuestions = Question.GetQuestionsUserCanAnswer((Difficulty)level, userName);
+        string[] savedQuestions = Question.FormatQuestions(availableQuestions);
 
         if (savedQuestions.Length == 0)
         {
@@ -27,9 +29,8 @@ public class AnswerQuestion
         string code = GetCode();
         if (code.Equals("b", StringComparison.OrdinalIgnoreCase)) return;
 
-        List<Question> questions = Database.Load<Question>(DataType.Questions);
-
-        Answer answer = new Answer(userName, questions[selectedIndex].Id!, code, questions[selectedIndex].Grade);
+        Question selectedQuestion = availableQuestions[selectedIndex];
+        Answer answer = new Answer(userName, selectedQuestion.Id!, code, selectedQuestion.Grade);
 
         Database.Save(answer, DataType.Answers);
     }
