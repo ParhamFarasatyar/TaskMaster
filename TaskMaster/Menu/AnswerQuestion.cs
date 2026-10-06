@@ -30,7 +30,7 @@ public class AnswerQuestion
         if (code.Equals("b", StringComparison.OrdinalIgnoreCase)) return;
 
         Question selectedQuestion = availableQuestions[selectedIndex];
-        Answer answer = new Answer(userName, selectedQuestion.Id!, code, selectedQuestion.Grade);
+        Answer answer = new Answer(userName, selectedQuestion.Id!, code, selectedQuestion.Grade, selectedQuestion.Description!);
 
         Database.Save(answer, DataType.Answers);
     }

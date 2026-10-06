@@ -19,9 +19,10 @@ public class Answer
     [JsonInclude]
     public int Grade{ get; private set; }
     public int GoalGrade { get; private set; }
+    public string Description { get; private set; }
 
 
-    public Answer(string userName, string questionId, string code, int goalGrade)
+    public Answer(string userName, string questionId, string code, int goalGrade, string description)
     {
         UserName = userName;
         AnswerId = Guid.NewGuid().ToString("N");
@@ -31,6 +32,7 @@ public class Answer
         ApprovalStatus = State.Pending;
         Grade = -1;
         GoalGrade = goalGrade;
+        Description = description;
     }
 
     
@@ -60,8 +62,9 @@ public class Answer
         {
             int score = answers[i].Grade == -1 ? answers[i].Grade + 1 : answers[i].Grade;
             string answerItem = $"""
-             ┌────────────────────────────
-               │ user name: {answers[i].UserName}
+               ┌────────────────────────────
+               │ Description: {answers[i].Description}
+               │ User name: {answers[i].UserName}
                │ Code: {answers[i].Code}
                │ Date/Time: {answers[i].CreatedDate:dd/MM/yyyy HH:mm}
                │ State: {answers[i].ApprovalStatus}
