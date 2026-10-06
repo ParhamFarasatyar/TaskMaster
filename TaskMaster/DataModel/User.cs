@@ -1,5 +1,6 @@
 using System.Text.Json.Serialization;
 using DataBase;
+using TaskMaster.DataModel;
 namespace UserModel;
 
 public enum Level { Beginner, MidLevel, Advanced }
@@ -75,6 +76,15 @@ public class User
 
         users.Remove(user);
         Database.Update(users, DataType.Users);
+
+        if (!string.IsNullOrEmpty(user.UserName))
+        {
+            List<Answer> answers = Database.Load<Answer>(DataType.Answers);
+            answers.RemoveAll(answer =>
+                string.Equals(answer.UserName, user.UserName, StringComparison.OrdinalIgnoreCase));
+            Database.Update(answers, DataType.Answers);
+        }
+
         return true;
     }
     public static void SetScore(string username, int grade)
