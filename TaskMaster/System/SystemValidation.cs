@@ -115,4 +115,18 @@ public static class System
         Console.WriteLine(message);
         Console.ResetColor();
     }
+    public static (string, string) GetSqlAuthenticationInfo()
+    {
+        string username =
+        Environment.GetEnvironmentVariable("SQL_Username")
+        ?? throw new InvalidOperationException(
+            "SQL_Username environment variable is not set.");
+
+        string password =
+            Environment.GetEnvironmentVariable("SQL_Password")
+            ?? throw new InvalidOperationException(
+                "SQL_Password environment variable is not set.");
+        
+        return (username, password);
+    }
 }
