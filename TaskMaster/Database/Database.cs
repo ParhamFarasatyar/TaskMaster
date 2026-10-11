@@ -1,11 +1,17 @@
 ﻿using System.Text.Json;
 namespace DataBase;
 using System.Text.Json.Serialization;
+using Microsoft.Data.SqlClient;
+using UserModel;
 
 public enum DataType { Users, Questions, Answers }
 
 public static class Database
 {
+    private static string GetConnectionString(string username, string password)
+    {
+        return $"Server=.;Database=TaskMaster;User Id={username};Password={password};TrustServerCertificate=True;";
+    }
     private static readonly JsonSerializerOptions options = new()
     {
         WriteIndented = true,
@@ -29,32 +35,39 @@ public static class Database
         );
     }
     
-    public static void Save<T>(T data, DataType type)
+    public static void SaveUser(User data)
     {
-        string path = GetPath(type);
-        
-        List<T> dataList;
-        
-        if (File.Exists(path))
+        try
         {
-            dataList = Load<T>(type);
+            (string username, string password) = SystemValidation.System.GetSqlAuthenticationInfo();
+
+            string connectionString = GetConnectionString(username, password);
+            using SqlConnection connection = new(connectionString);
+            connection.Open();
+            
+            string sql = """
+                INSERT INTO Users
+                VALUES(@Name, @LastName, @UserName, @Password, @Level, @Score, @Role)
+            """;
+
+            SqlCommand command = new(sql, connection);
+
+            command.Parameters.AddWithValue("@Name", data.Name);
+            command.Parameters.AddWithValue("@LastName", data.LastName);
+            command.Parameters.AddWithValue("@UserName", data.UserName);
+            command.Parameters.AddWithValue("@Password", data.Password);
+            command.Parameters.AddWithValue("@Level", data.Level);
+            command.Parameters.AddWithValue("@Score", data.Score);
+            command.Parameters.AddWithValue("@Role", data.Role);
+
+            command.ExecuteNonQuery();
+            connection.Close();
         }
-        else
+        catch (InvalidOperationException e)
         {
-            dataList = new List<T>();
+            SystemValidation.System.PrintColorizeMessage(e.Message, ConsoleColor.Red);
+            return;
         }
-        
-        dataList.Add(data);
-        
-        string json = JsonSerializer.Serialize(
-            dataList,
-            options
-        );
-        
-        File.WriteAllText(
-            path,
-            json
-        );
     }
     
     public static List<T> Load<T>(DataType type)
