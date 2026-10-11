@@ -38,7 +38,7 @@ public class Answer
     
     public void AnswerQuestion()
     {
-        Database.Save(this,DataType.Answers);
+        // Database.Save(this,DataType.Answers);
     }
     
     public void SetApprovalStatus(int state, int answerIndex)

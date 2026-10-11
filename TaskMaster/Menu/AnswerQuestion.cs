@@ -32,7 +32,7 @@ public class AnswerQuestion
         Question selectedQuestion = availableQuestions[selectedIndex];
         Answer answer = new Answer(userName, selectedQuestion.Id!, code, selectedQuestion.Grade, selectedQuestion.Description!);
 
-        Database.Save(answer, DataType.Answers);
+        // Database.Save(answer, DataType.Answers);
     }
 
 

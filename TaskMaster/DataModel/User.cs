@@ -32,7 +32,7 @@ public class User
         if (users.Any(u => string.Equals(u.UserName, UserName, StringComparison.OrdinalIgnoreCase)))
             return false;
         
-        Database.Save(this, DataType.Users);
+        Database.SaveUser(this);
         return true;
     }
     public bool Edit(string field, string data)
