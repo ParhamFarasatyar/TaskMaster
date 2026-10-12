@@ -9,7 +9,8 @@ public class EditQuestion
         ConsoleHelper.PrintColorizeMessage("====================", ConsoleColor.DarkCyan);
         ConsoleHelper.PrintColorizeMessage("    EDIT QUESTION   ", ConsoleColor.White);
         ConsoleHelper.PrintColorizeMessage("====================", ConsoleColor.DarkCyan);
-        string[] questions = Question.MenuQuestions();
+        List<int> questionIds = new();
+        string[] questions = Question.MenuQuestions(out questionIds);
         if (questions.Length == 0)
         {
             ConsoleHelper.ReadInput(

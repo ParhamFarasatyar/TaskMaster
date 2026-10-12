@@ -66,30 +66,11 @@ public class Question
 
         Database.Update(questions, DataType.Questions);
     }
-    public static string[] MenuQuestions()
+    public static string[] MenuQuestions(out List<int> QuestionIds)
     {
-        List<Question> questions = GetQuestions();
-
-
-        string[] Questions = new string[questions.Count];
-        for (int i = 0; i < questions.Count; i++)
-        {
-            string? description = questions[i].Description?.Length > 20 ?
-            questions[i].Description?[..20] + "..." : questions[i].Description;
-            string questionItem = $"""
-        ┌─────────────────────────────
-          │ Task
-          ├─────────────────────────────
-          │ Description : {description}
-          │ Difficulty  : {questions[i].Difficulty}
-          │ Score       : {questions[i].Grade}
-          | Created at  : {questions[i].CreatedAt}
-          | Updated at  : {questions[i].UpdatedAt}
-          └─────────────────────────────
-        """;
-            Questions[i] = questionItem;
-        }
-        return Questions;
+        List<int> questionIds = new();
+        QuestionIds = questionIds;
+        return Database.LoadQuestions(out questionIds);
     }
     public static List<Question> GetQuestionsUserCanAnswer(Difficulty difficulty, string username)
     {

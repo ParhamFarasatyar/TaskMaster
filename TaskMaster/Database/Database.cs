@@ -1,5 +1,6 @@
 ﻿using System.Text.Json;
 namespace DataBase;
+
 using System.Text.Json.Serialization;
 using Microsoft.Data.SqlClient;
 using UserModel;
@@ -35,7 +36,7 @@ public static class Database
             $"{type}.json"
         );
     }
-    
+
     public static void SaveUser(User data)
     {
         try
@@ -45,7 +46,7 @@ public static class Database
             string connectionString = GetConnectionString(username, password);
             using SqlConnection connection = new(connectionString);
             connection.Open();
-            
+
             string sql = """
                 INSERT INTO Users
                 VALUES(@Name, @LastName, @UserName, @Password, @Level, @Score, @Role)
@@ -70,38 +71,136 @@ public static class Database
             return;
         }
     }
-    
+
+    public static User? LoadUser(int userId)
+    {
+        try
+        {
+            (string username, string password) = SystemValidation.System.GetSqlAuthenticationInfo();
+
+            string connectionString = GetConnectionString(username, password);
+            using SqlConnection connection = new(connectionString);
+            connection.Open();
+
+            string sql = $"""
+                SELECT TOP 1 * FROM Users
+                WHERE Id = {userId}
+            """;
+
+            SqlCommand command = new(sql, connection);
+
+            SqlDataReader reader = command.ExecuteReader();
+            reader.Read();
+
+            User user = new(
+                (Role)Convert.ToInt32(reader["Role"]),
+                reader["Name"].ToString()!,
+                reader["LastName"].ToString()!,
+                reader["UserName"].ToString()!,
+                reader["Password"].ToString()!,
+                (Level)Convert.ToInt32(reader["Level"]),
+                Convert.ToInt32(reader["Score"])
+            );
+
+            connection.Close();
+
+            return user;
+        }
+        catch (InvalidOperationException e)
+        {
+            SystemValidation.System.PrintColorizeMessage(e.Message, ConsoleColor.Red);
+            return null;
+        }
+    }
+
+
     public static List<T> Load<T>(DataType type)
     {
         string path = GetPath(type);
-        
+
         if (!File.Exists(path))
         {
             return new List<T>();
         }
-        
+
         string json = File.ReadAllText(path);
-        
+
         if (string.IsNullOrWhiteSpace(json))
         {
             return new List<T>();
         }
-        
+
         return JsonSerializer.Deserialize<List<T>>(json, options)
-               ?? new List<T>();
+            ?? new List<T>();
     }
-    
+    public static void SaveQuestion(Question question)
+    {
+        string username = SystemValidation.System.GetSqlAuthenticationInfo().Item1;
+        string password = SystemValidation.System.GetSqlAuthenticationInfo().Item2;
+        string ConnectionString = GetConnectionString(username, password);
+        using SqlConnection connection = new(ConnectionString);
+        connection.Open();
+        string command = """
+        INSERT INTO Questions
+        Values(@Description, @Grade, @Difficulty, @CreatedAt, @UpdatedAt)
+        """;
+        SqlCommand sqlCommand = new(command, connection);
+        sqlCommand.Parameters.AddWithValue("@Description", question.Description);
+        sqlCommand.Parameters.AddWithValue("@Grade", question.Grade);
+        sqlCommand.Parameters.AddWithValue("@Difficulty", question.Difficulty);
+        sqlCommand.Parameters.AddWithValue("@CreatedAt", question.CreatedAt);
+        sqlCommand.Parameters.AddWithValue("@UpdatedAt", question.UpdatedAt);
+        int RowsAffected = sqlCommand.ExecuteNonQuery();
+        Console.WriteLine($"{RowsAffected} rows affected");
+    }
+
+    public static string[] LoadQuestions(out List<int> Ids)
+    {
+        List<string> questions = new();
+        List<int> QuestionIds = new();
+        string username = SystemValidation.System.GetSqlAuthenticationInfo().Item1;
+        string password = SystemValidation.System.GetSqlAuthenticationInfo().Item2;
+        string ConnectionString = GetConnectionString(username, password);
+        using SqlConnection connection = new(ConnectionString);
+        connection.Open();
+        string command = """
+        SELECT * FROM Questions
+        """;
+        SqlCommand sqlCommand = new(command, connection);
+        SqlDataReader dataReader = sqlCommand.ExecuteReader();
+
+        while (dataReader.Read())
+        {
+            string? description = dataReader["Description"].ToString()?.Length > 20 ?
+            dataReader["Description"].ToString()?[..20] + "..." : dataReader["Description"].ToString();
+            Difficulty difficulty = (Difficulty)dataReader["Difficulty"];
+            string questionItem = $"""
+        ┌─────────────────────────────
+          │ Task
+          ├─────────────────────────────
+          │ Description : {description}
+          │ Difficulty  : {difficulty.ToString()}
+          │ Score       : {dataReader["Grade"].ToString()}
+          └─────────────────────────────
+        """;
+        questions.Add(questionItem);
+        QuestionIds.Add(Convert.ToInt32(dataReader["Id"]));
+        }
+
+        Ids = QuestionIds;
+        return questions.ToArray();
+    }
     public static void Update<T>(
         List<T> data,
         DataType type)
     {
         string path = GetPath(type);
-        
+
         string json = JsonSerializer.Serialize(
             data,
             options
         );
-        
+
         File.WriteAllText(
             path,
             json
