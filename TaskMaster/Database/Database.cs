@@ -1,4 +1,7 @@
-﻿using System.Text.Json;
+﻿using System.IO.Pipes;
+using System.Text.Json;
+using TaskMaster.DataModel;
+
 namespace DataBase;
 using System.Text.Json.Serialization;
 using Microsoft.Data.SqlClient;
@@ -234,5 +237,36 @@ public static class Database
         using SqlCommand command = new(sql, connection);
         command.Parameters.AddWithValue("@UserId", userId);
         int rowAffected = command.ExecuteNonQuery();
+    }
+
+
+
+    public static void SaveAnswer(Answer answer)
+    {
+        (string username, string password) = SystemValidation.System.GetSqlAuthenticationInfo();
+
+        string connectionString = GetConnectionString(username, password);
+
+        using SqlConnection connection = new SqlConnection(connectionString);
+        
+        connection.Open();
+                                                                // enter table
+        string sql = """
+                     INSERT INTO (Table)
+                     VALUES (@userName, @approvalStatus, @creadDate, @code, @grade, @descriptoin)
+                     """;
+
+        SqlCommand command = new SqlCommand(sql, connection);
+
+        command.Parameters.AddWithValue("@userName", answer.UserName);
+        command.Parameters.AddWithValue("@approvalStatus", answer.ApprovalStatus);
+        command.Parameters.AddWithValue("@createdDate", answer.CreatedDate);
+        command.Parameters.AddWithValue("@code", answer.Code);
+        command.Parameters.AddWithValue("@grade", answer.Grade);
+        command.Parameters.AddWithValue("@description", answer.Description);
+
+        command.ExecuteNonQuery();
+
+        command.Clone();
     }
 }
