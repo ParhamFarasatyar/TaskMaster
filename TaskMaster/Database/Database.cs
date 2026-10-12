@@ -10,7 +10,7 @@ public static class Database
 {
     private static string GetConnectionString(string username, string password)
     {
-        return $"Server=.;Database=TaskMaster;User Id={username};Password={password};TrustServerCertificate=True;";
+        return $"Server=192.168.1.138,1433;Database=TaskMaster;User Id={username};Password={password};TrustServerCertificate=True;";
     }
     private static readonly JsonSerializerOptions options = new()
     {
@@ -146,5 +146,68 @@ public static class Database
             path,
             json
         );
+    }
+
+    public static void UpdateUser(int userId, string field, string data)
+    {
+        (string username, string password) = SystemValidation.System.GetSqlAuthenticationInfo();
+
+        string connectionString = GetConnectionString(username, password);
+        using SqlConnection connection = new(connectionString);
+        connection.Open();
+
+        string sql;
+        if (field == "Name")
+        {
+            sql = $"""
+                UPDATE Users
+                SET Name = '{data}'
+                WHERE Id = {userId}
+            """;
+
+            using SqlCommand command = new(sql, connection);
+            int rowAffected = command.ExecuteNonQuery();
+        }
+        else if (field == "LastName")
+        {
+            sql = $"""
+                UPDATE Users
+                SET LastName = '{data}'
+                WHERE Id = {userId}
+            """;
+
+            using SqlCommand command = new(sql, connection);
+            int rowAffected = command.ExecuteNonQuery();
+        }
+        else if (field == "UserName")
+        {
+            sql = $"""
+                UPDATE Users
+                SET UserName = '{data}'
+                WHERE Id = {userId}
+            """;
+
+            using SqlCommand command = new(sql, connection);
+            int rowAffected = command.ExecuteNonQuery();
+        }
+        else if (field == "Password")
+        {
+            sql = $"""
+                UPDATE Users
+                SET Password = '{data}'
+                WHERE Id = {userId}
+            """;
+
+            using SqlCommand command = new(sql, connection);
+            int rowAffected = command.ExecuteNonQuery();
+        }
+        else
+        {
+            SystemValidation.System.PrintColorizeMessage(
+                "Invalid field selected!",
+                ConsoleColor.Red
+            );
+            return;
+        }
     }
 }
