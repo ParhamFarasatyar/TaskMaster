@@ -269,4 +269,32 @@ public static class Database
 
         command.Clone();
     }
+
+
+
+    public static void LoadAnswer()
+    {
+        (string username, string password) = SystemValidation.System.GetSqlAuthenticationInfo();
+
+        string connectionString = GetConnectionString(username, password);
+
+        using SqlConnection connection = new SqlConnection(connectionString);
+        
+        connection.Open();
+        
+                                                    // enter table
+        string sql = """
+                     SELECT *
+                     FROM (Answer)
+                     """;
+
+        SqlCommand command = new SqlCommand();
+
+        SqlDataReader reader = command.ExecuteReader();
+
+        while (reader.Read())
+        {
+            Console.WriteLine(/* anything that should be printed */);
+        }
+    }
 }
