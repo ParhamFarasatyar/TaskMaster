@@ -81,13 +81,14 @@ public static class Database
             string connectionString = GetConnectionString(username, password);
             using SqlConnection connection = new(connectionString);
             connection.Open();
-
-            string sql = $"""
+            
+            string sql = """
                 SELECT TOP 1 * FROM Users
-                WHERE Id = {userId}
+                WHERE Id = @UserId
             """;
 
             SqlCommand command = new(sql, connection);
+            command.Parameters.AddWithValue("@UserId", userId);
 
             SqlDataReader reader = command.ExecuteReader();
             reader.Read();
@@ -220,44 +221,52 @@ public static class Database
         {
             sql = $"""
                 UPDATE Users
-                SET Name = '{data}'
-                WHERE Id = {userId}
+                SET Name = @Name
+                WHERE Id = @UserId
             """;
 
             using SqlCommand command = new(sql, connection);
+            command.Parameters.AddWithValue("@Name", data);
+            command.Parameters.AddWithValue("@UserId", userId);
             int rowAffected = command.ExecuteNonQuery();
         }
         else if (field == "LastName")
         {
             sql = $"""
                 UPDATE Users
-                SET LastName = '{data}'
-                WHERE Id = {userId}
+                SET LastName = @LastName
+                WHERE Id = @UserId
             """;
 
             using SqlCommand command = new(sql, connection);
+            command.Parameters.AddWithValue("@LastName", data);
+            command.Parameters.AddWithValue("@UserId", userId);
             int rowAffected = command.ExecuteNonQuery();
         }
         else if (field == "UserName")
         {
             sql = $"""
                 UPDATE Users
-                SET UserName = '{data}'
-                WHERE Id = {userId}
+                SET UserName = @UserName
+                WHERE Id = @UserId
             """;
 
             using SqlCommand command = new(sql, connection);
+            command.Parameters.AddWithValue("@UserName", data);
+            command.Parameters.AddWithValue("@UserId", userId);
             int rowAffected = command.ExecuteNonQuery();
         }
         else if (field == "Password")
         {
             sql = $"""
                 UPDATE Users
-                SET Password = '{data}'
-                WHERE Id = {userId}
+                SET Password = @Password
+                WHERE Id = @UserId
             """;
 
             using SqlCommand command = new(sql, connection);
+            command.Parameters.AddWithValue("@Password", data);
+            command.Parameters.AddWithValue("@UserId", userId);
             int rowAffected = command.ExecuteNonQuery();
         }
         else
@@ -268,5 +277,21 @@ public static class Database
             );
             return;
         }
+    }
+    public static void DeleteUser(int userId)
+    {
+        (string username, string password) = SystemValidation.System.GetSqlAuthenticationInfo();
+
+        string connectionString = GetConnectionString(username, password);
+        using SqlConnection connection = new(connectionString);
+        connection.Open();
+
+        string sql = $"""
+            DELETE Users
+            WHERE Id = @UserId
+        """;
+        using SqlCommand command = new(sql, connection);
+        command.Parameters.AddWithValue("@UserId", userId);
+        int rowAffected = command.ExecuteNonQuery();
     }
 }
