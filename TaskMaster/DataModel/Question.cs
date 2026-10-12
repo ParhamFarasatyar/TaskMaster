@@ -29,7 +29,7 @@ public class Question
     }
     public void Add()
     {
-        // Database.Save(this, DataType.Questions);
+        Database.SaveQuestion(this);
     }
     public static void Edit<T>(int index, T value, int selectedfield)
     {

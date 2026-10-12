@@ -3,6 +3,7 @@ namespace DataBase;
 using System.Text.Json.Serialization;
 using Microsoft.Data.SqlClient;
 using UserModel;
+using TaskMaster.DataModel;
 
 public enum DataType { Users, Questions, Answers }
 
@@ -68,6 +69,26 @@ public static class Database
             SystemValidation.System.PrintColorizeMessage(e.Message, ConsoleColor.Red);
             return;
         }
+    }
+    public static void SaveQuestion(Question question)
+    {
+        string username = SystemValidation.System.GetSqlAuthenticationInfo().Item1;
+        string password = SystemValidation.System.GetSqlAuthenticationInfo().Item2;
+        string ConnectionString = GetConnectionString(username, password);
+        SqlConnection connection = new(ConnectionString);
+        connection.Open();
+        string sqlcommand = """
+        INSERT INTO Questions
+        VALUES(@Description, @Grade, @Difficulty, @CreatedAt, @UpdatedAt)
+        """;
+        SqlCommand command = new(sqlcommand);
+        command.Parameters.AddWithValue("@Description" , question.Description);
+        command.Parameters.AddWithValue("@Grade" , question.Grade);
+        command.Parameters.AddWithValue("@Difficulty" , question.Difficulty);
+        command.Parameters.AddWithValue("@CreatedAt" , question.CreatedAt);
+        command.Parameters.AddWithValue("@UpdatedAt" , question.UpdatedAt);
+        int sqlDataReader = command.ExecuteNonQuery();
+        Console.WriteLine($"{sqlDataReader} Rows affected");
     }
     
     public static List<T> Load<T>(DataType type)

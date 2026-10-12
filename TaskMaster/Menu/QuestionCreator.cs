@@ -129,6 +129,7 @@ public class QuestionCreator
         );
         
         question.Add();
+        Thread.Sleep(5000);
         
         ConsoleHelper.PrintColorizeMessage(
             "Question Created Successfully!",
