@@ -69,6 +69,47 @@ public static class Database
             return;
         }
     }
+
+    public static User? LoadUser(int userId)
+    {
+        try
+        {
+            (string username, string password) = SystemValidation.System.GetSqlAuthenticationInfo();
+
+            string connectionString = GetConnectionString(username, password);
+            using SqlConnection connection = new(connectionString);
+            connection.Open();
+            
+            string sql = $"""
+                SELECT TOP 1 * FROM Users
+                WHERE Id = {userId}
+            """;
+
+            SqlCommand command = new(sql, connection);
+
+            SqlDataReader reader = command.ExecuteReader();
+            reader.Read();
+
+            User user = new(
+                (Role)Convert.ToInt32(reader["Role"]),
+                reader["Name"].ToString()!,
+                reader["LastName"].ToString()!,
+                reader["UserName"].ToString()!,
+                reader["Password"].ToString()!,
+                (Level)Convert.ToInt32(reader["Level"]),
+                Convert.ToInt32(reader["Score"])
+            );
+
+            connection.Close();
+
+            return user;
+        }
+        catch (InvalidOperationException e)
+        {
+            SystemValidation.System.PrintColorizeMessage(e.Message, ConsoleColor.Red);
+            return null;
+        }
+    }
     
     public static List<T> Load<T>(DataType type)
     {
