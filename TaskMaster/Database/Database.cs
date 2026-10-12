@@ -210,4 +210,19 @@ public static class Database
             return;
         }
     }
+    public static void DeleteUser(int userId)
+    {
+        (string username, string password) = SystemValidation.System.GetSqlAuthenticationInfo();
+
+        string connectionString = GetConnectionString(username, password);
+        using SqlConnection connection = new(connectionString);
+        connection.Open();
+
+        string sql = $"""
+            DELETE Users
+            WHERE Id = {userId}
+        """;
+        using SqlCommand command = new(sql, connection);
+        int rowAffected = command.ExecuteNonQuery();
+    }
 }
