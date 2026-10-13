@@ -1,5 +1,8 @@
+using System.IO.Pipes;
 using TaskMaster.DataModel;
 using Microsoft.Data.SqlClient;
+using UserModel;
+
 
 namespace DataBase;
 
@@ -10,6 +13,45 @@ public static class AnswerDatabase
         return $"Server=192.168.1.138,1433;Database=TaskMaster;User Id={username};Password={password};TrustServerCertificate=True;";
     }
     
+    
+    public static List<(int, int)> GetAnswers()
+    {
+        List<(int, int)> answers = new ();
+        
+        (string username, string password) = SystemValidation.System.GetSqlAuthenticationInfo();
+
+        string connectionString = GetConnectionString(username, password);
+        
+        using SqlConnection connection = new SqlConnection(connectionString);
+
+        connection.Open();
+        
+        string sql = """
+                     SELECT 
+                         UserId,
+                         QuestionId
+                     FROM Answers
+                     """;
+
+        SqlCommand command = new SqlCommand(sql, connection);
+
+        SqlDataReader reader = command.ExecuteReader();
+
+        while (reader.Read())
+        {
+            int userId = (int)reader["UserId"];
+            int questionId = (int)reader["QuestionId"];
+            
+            answers.Add((questionId, questionId));
+        }
+
+        return answers;
+    }
+    
+    
+    
+    
+    
     public static void SaveAnswer(Answer answer)
     {
         (string username, string password) = SystemValidation.System.GetSqlAuthenticationInfo();
@@ -19,51 +61,60 @@ public static class AnswerDatabase
         using SqlConnection connection = new SqlConnection(connectionString);
 
         connection.Open();
-        // enter table
+        
         string sql = """
-                     INSERT INTO (Table)
-                     VALUES (@userName, @approvalStatus, @creadDate, @code, @grade, @descriptoin)
+                     INSERT INTO Answers
+                     VALUES (@UserId, @QuestionId, @Code, @ApprovalStatus, @Grade, @GoalGrade, @CreatedAt)
                      """;
 
         SqlCommand command = new SqlCommand(sql, connection);
 
-        command.Parameters.AddWithValue("@userName", answer.UserName);
-        command.Parameters.AddWithValue("@approvalStatus", answer.ApprovalStatus);
-        command.Parameters.AddWithValue("@createdDate", answer.CreatedDate);
-        command.Parameters.AddWithValue("@code", answer.Code);
-        command.Parameters.AddWithValue("@grade", answer.Grade);
-        command.Parameters.AddWithValue("@description", answer.Description);
+        command.Parameters.AddWithValue("@UserId", answer.UserName);
+        command.Parameters.AddWithValue("@QuestionId", answer.ApprovalStatus);
+        command.Parameters.AddWithValue("@Code", answer.CreatedDate);
+        command.Parameters.AddWithValue("@ApprovalStatus", answer.Code);
+        command.Parameters.AddWithValue("@Grade", answer.Grade);
+        command.Parameters.AddWithValue("@GoalGrade", answer.Grade);
+        command.Parameters.AddWithValue("@CreatedAt", answer.Description);
 
         command.ExecuteNonQuery();
 
         command.Clone();
     }
     
-    
-    public static void LoadAnswer()
-    {
-        (string username, string password) = SystemValidation.System.GetSqlAuthenticationInfo();
-
-        string connectionString = GetConnectionString(username, password);
-
-        using SqlConnection connection = new SqlConnection(connectionString);
-
-        connection.Open();
-
-        // enter table
-        string sql = """
-                     SELECT *
-                     FROM (Answer)
-                     """;
-
-        SqlCommand command = new SqlCommand();
-
-        SqlDataReader reader = command.ExecuteReader();
-
-        while (reader.Read())
-        {
-            Console.WriteLine(/* anything that should be printed */);
-        }
-    }
+//     
+//     public static void LoadAnswer(string userName)
+//     {
+//         (string username, string password) = SystemValidation.System.GetSqlAuthenticationInfo();
+//
+//         string connectionString = GetConnectionString(username, password);
+//
+//         using SqlConnection connection = new SqlConnection(connectionString);
+//
+//         connection.Open();
+//
+//         string sql = """
+//                      SELECT *
+//                      FROM Answers
+//                      """;
+//
+//         SqlCommand command = new SqlCommand();
+//
+//         SqlDataReader reader = command.ExecuteReader();
+//
+//         while (reader.Read())
+//         {
+//             $"""
+//                      ┌────────────────────────────
+//                      │ Username: {userName}
+//                      │ Code: {answers[i].UserName}
+//                      │ ApprovalStatus: {answers[i].Code}
+//                      │ Grade: {answers[i].CreatedDate:dd/MM/yyyy HH:mm}
+//                      │ GoalGrade: {answers[i].ApprovalStatus}
+//                      │ CreatedAt: {score}
+//                      └─────────────────────────────
+//              """;
+//         }
+//     }
 }
 
