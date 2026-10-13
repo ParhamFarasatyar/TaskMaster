@@ -67,7 +67,7 @@ public static class AnswerDatabase
                      VALUES (@UserId, @QuestionId, @Code, @ApprovalStatus, @Grade, @GoalGrade, @CreatedAt)
                      """;
 
-        SqlCommand command = new SqlCommand(sql, connection);
+        using SqlCommand command = new SqlCommand(sql, connection);
 
         command.Parameters.AddWithValue("@UserId", answer.UserName);
         command.Parameters.AddWithValue("@QuestionId", answer.ApprovalStatus);
@@ -98,7 +98,7 @@ public static class AnswerDatabase
                       FROM Answers
                       """;
 
-         SqlCommand command = new SqlCommand();
+         using SqlCommand command = new SqlCommand();
 
          SqlDataReader reader = command.ExecuteReader();
 
