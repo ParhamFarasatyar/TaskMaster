@@ -70,7 +70,7 @@ public static class Database
         }
     }
 
-    public static User? LoadUser(int userId)
+    public static List<string>? LoadUser()
     {
         try
         {
@@ -81,29 +81,22 @@ public static class Database
             connection.Open();
             
             string sql = """
-                SELECT TOP 1 * FROM Users
-                WHERE Id = @UserId
+                SELECT UserName FROM Users
             """;
 
             SqlCommand command = new(sql, connection);
-            command.Parameters.AddWithValue("@UserId", userId);
 
             SqlDataReader reader = command.ExecuteReader();
-            reader.Read();
 
-            User user = new(
-                (Role)Convert.ToInt32(reader["Role"]),
-                reader["Name"].ToString()!,
-                reader["LastName"].ToString()!,
-                reader["UserName"].ToString()!,
-                reader["Password"].ToString()!,
-                (Level)Convert.ToInt32(reader["Level"]),
-                Convert.ToInt32(reader["Score"])
-            );
+            List<string> users = new List<string>();
+            while (reader.Read())
+            {
+                users.Add(reader["UserName"].ToString()!);
+            }
 
             connection.Close();
 
-            return user;
+            return users;
         }
         catch (InvalidOperationException e)
         {
