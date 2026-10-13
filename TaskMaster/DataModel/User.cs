@@ -1,6 +1,4 @@
-using System.Text.Json.Serialization;
 using DataBase;
-using TaskMaster.DataModel;
 namespace UserModel;
 
 public enum Level { Beginner, MidLevel, Advanced }
@@ -12,10 +10,9 @@ public class User
     public string? LastName { get; private set; }
     public string? UserName { get; private set; }
     public string? Password { get; private set; }
-    [JsonInclude]
     public Level Level { get; private set; }
     public int Score { get; private set; }
-    private static List<User> GetUsers() => Database.Load<User>(DataType.Users);
+    private static List<User>? GetUsers() => Database.LoadUser();
     public User(Role role, string name, string lastName, string userName, string password, Level level, int score)
     {
         Role = role;
@@ -28,79 +25,47 @@ public class User
     }
     public bool Add()
     {
-        List<User> users = GetUsers();
-        if (users.Any(u => string.Equals(u.UserName, UserName, StringComparison.OrdinalIgnoreCase)))
+        List<User>? users = GetUsers();
+        if (users!.Any(u => string.Equals(u.UserName, UserName, StringComparison.OrdinalIgnoreCase)) ||
+            (users is null))
             return false;
-        
+
         Database.SaveUser(this);
         return true;
     }
     public bool Edit(string field, string data)
     {
-        List<User> users = GetUsers();
-        User? user = users.Find(u => u.UserName == UserName);
+        List<User>? users = GetUsers();
+        User? user = users?.Find(u => u.UserName == UserName);
         if (user is null) return false;
 
-        switch (field)
-        {
-            case "Name":
-                user.Name = data;
-                Name = data;
-                break;
-            case "LastName":
-                user.LastName = data;
-                LastName = data;
-                break;
-            case "UserName":
-                if (users.Any(u => u != user && string.Equals(u.UserName, data, StringComparison.OrdinalIgnoreCase)))
-                    return false;
-                user.UserName = data;
-                UserName = data;
-                break;
-            case "Password":
-                user.Password = data;
-                Password = data;
-                break;
-            default:
-                return false;
-        }
-
-        Database.Update(users, DataType.Users);
+        Database.UpdateUser(user.UserName!, field, data);
         return true;
     }
     public bool Remove()
     {
-        List<User> users = GetUsers();
-        User? user = users.Find(u => u.UserName == UserName);
+        List<User>? usersId = GetUsers();
+        User? user = usersId?.Find(u => u.UserName == UserName);
         if (user is null) return false;
 
-        users.Remove(user);
-        Database.Update(users, DataType.Users);
-
-        if (!string.IsNullOrEmpty(user.UserName))
-        {
-            List<Answer> answers = Database.Load<Answer>(DataType.Answers);
-            answers.RemoveAll(answer =>
-                string.Equals(answer.UserName, user.UserName, StringComparison.OrdinalIgnoreCase));
-            Database.Update(answers, DataType.Answers);
-        }
+        Database.DeleteUser(Convert.ToInt32(user));
 
         return true;
     }
     public static void SetScore(string username, int grade)
     {
-        List<User> users = GetUsers();
-        User user = users.FirstOrDefault(u => u.UserName == username)!;
+        List<User>? users = GetUsers();
+        User user = users!.FirstOrDefault(u => u.UserName == username)!;
         user.Score += grade;
-        Database.Update(users, DataType.Users);
+        Database.UpdateUser(user.UserName!, "Grade", user.Score.ToString());
     }
     public static void UpdateLevel(string username)
     {
-        List<User> users = GetUsers();
+        List<User> users = GetUsers()!;
         User user = users.FirstOrDefault(u => u.UserName == username)!;
         if (user.Score <= 10) user.Level = Level.Beginner;
         else if (user.Score > 10 && user.Score <= 20) user.Level = Level.MidLevel;
         else user.Level = Level.Advanced;
-        Database.Update(users, DataType.Users);
+        Database.UpdateUser(user.UserName!, "Level", ((int)user.Level).ToString());
     }
 }

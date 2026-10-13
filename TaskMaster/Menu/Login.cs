@@ -19,8 +19,8 @@ public class Login
             string? password = ReadPassword();
             if (password == null) return BackUser();
 
-            List<User> users = Database.Load<User>(DataType.Users);
-            User? user = users.FirstOrDefault(
+            List<User>? users = Database.LoadUser();
+            User? user = users?.FirstOrDefault(
                 u => string.Equals(u.UserName, username, StringComparison.OrdinalIgnoreCase)
                      && u.Password == password
             );
