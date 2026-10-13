@@ -1,28 +1,17 @@
 ﻿using TaskMaster.DataModel;
+using TaskMaster.Services;
 namespace Menu;
 
 public class QuestionCreator
 {
     public void Create()
     {
-        GetDescription();
-    }
-    
-    private void GetDescription()
-    {
+        // ---------- GetDescription ----------
         Console.Clear();
-        
+        string? description = ConsoleHelper.ReadInput("Description: ");
         while (true)
         {
-            string? description = ConsoleHelper.ReadInput(
-                "Description: "
-            );
-            
-            if (description == null)
-            {
-                return;
-            }
-            
+
             if (!SystemValidation.System.StringValidationInput(
                 description,
                 out string? errorMessage))
@@ -31,69 +20,47 @@ public class QuestionCreator
                     errorMessage!,
                     ConsoleColor.Red
                 );
-                
+
                 ConsoleHelper.ReadInput(
                     "Press Enter to try again: "
                 );
-                
-                continue;
             }
-            
-            GetGrade(description);
-
-            return;
+            else
+            {
+                break;
+            }
         }
-    }
-    private void GetGrade(string description)
-    {
+        // ---------- Get Grade ----------
         Console.Clear();
-        
-        while (true)
-        {
-            string? gradeInput = ConsoleHelper.ReadInput(
+        string? gradeInput = ConsoleHelper.ReadInput(
                 "Grade (1-5): "
             );
-            
-            if (gradeInput == null)
-            {
-                GetDescription();
+        while (true)
+        {
 
-                return;
-            }
-            
             if (!SystemValidation.System.Grade(
-                gradeInput,
+                gradeInput!,
                 out string? errorMessage))
             {
                 ConsoleHelper.PrintColorizeMessage(
                     errorMessage!,
                     ConsoleColor.Red
                 );
-                
+
                 ConsoleHelper.ReadInput(
                     "Press Enter to try again: "
                 );
-                
-                continue;
             }
-            
-            int grade = int.Parse(gradeInput);
-            
-            GetDifficulty(
-                description,
-                grade
-            );
-            
-            return;
+            else
+            {
+                break;
+            }
         }
-    }
-    
-    private void GetDifficulty(
-        string description,
-        int grade)
-    {
+        int grade = int.Parse(gradeInput!);
+
+        // Get Difficulty
         Console.Clear();
-        
+
         string[] options =
         {
             "Beginner",
@@ -101,19 +68,17 @@ public class QuestionCreator
             "Advanced",
             "Back"
         };
-        
+
         int selected = ConsoleMenu.Show(
             "Select Difficulty",
             options
         );
-        
-        if(selected == -1 || selected == 3)
-        {
-            GetGrade(description);
 
+        if (selected == -1 || selected == 3)
+        {
             return;
         }
-        
+
         Difficulty difficulty = selected switch
         {
             0 => Difficulty.Beginner,
@@ -121,21 +86,20 @@ public class QuestionCreator
             2 => Difficulty.Advanced,
             _ => Difficulty.Beginner
         };
-        
+
         Question question = new Question(
-            description,
+            description!,
             grade,
             difficulty
         );
-        
-        question.Add();
-        Thread.Sleep(5000);
-        
+
+        QuestionService.Add(question);
+
         ConsoleHelper.PrintColorizeMessage(
             "Question Created Successfully!",
             ConsoleColor.Green
         );
-        
+
         ConsoleHelper.ReadInput(
             "Press Enter to continue: "
         );

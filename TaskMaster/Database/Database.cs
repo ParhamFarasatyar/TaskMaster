@@ -134,7 +134,7 @@ public static class Database
         return JsonSerializer.Deserialize<List<T>>(json, options)
             ?? new List<T>();
     }
-    public static void SaveQuestion(Question question)
+    public static void SaveQuestion(TaskMaster.DataModel.Question question)
     {
         string username = SystemValidation.System.GetSqlAuthenticationInfo().Item1;
         string password = SystemValidation.System.GetSqlAuthenticationInfo().Item2;

@@ -1,4 +1,4 @@
-﻿using TaskMaster.DataModel;
+﻿using TaskMaster.Services;
 
 namespace Menu;
 
@@ -16,7 +16,8 @@ public class RemoveQuestion
         // Questions will be loaded from Database
         // by responsible module
 
-        string[] questions = Question.MenuQuestions();
+        List<int> questionIds = new();
+        string[] questions = QuestionService.MenuQuestions(out questionIds);
 
 
         if (questions.Length == 0)
@@ -68,7 +69,7 @@ public class RemoveQuestion
 
         if (confirm == 0)
         {
-            Question.Delete(selected);
+            QuestionService.Delete(questionIds[selected]);
 
             ConsoleHelper.PrintColorizeMessage(
                 "Question Removed Successfully!",
