@@ -15,6 +15,7 @@
 # .NET build files
 bin/
 obj/
+TaskMaster/appsettings.json
 
 # IDE settings
 .idea/
