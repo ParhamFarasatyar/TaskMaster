@@ -116,5 +116,28 @@ public static class AnswerDatabase
               """;
          }
      }
+     
+
+     public static void UpdateApprovalStatus(int status, int answerId)
+     {
+         (string username, string password) = SystemValidation.System.GetSqlAuthenticationInfo();
+
+         string connectionString = GetConnectionString(username, password);
+
+         using SqlConnection connection = new SqlConnection(connectionString);
+
+         connection.Open();
+
+         string sql = """
+                      UPDATE ANSWER
+                      SET ApprovalStatus = @Status
+                      WHERE Id = @AnswerId
+                      """;
+         
+         using SqlCommand command = new SqlCommand(sql, connection);
+
+         command.Parameters.AddWithValue("@Status", (State)status);
+         command.Parameters.AddWithValue("@AnswerId", answerId);
+     }
 }
 
