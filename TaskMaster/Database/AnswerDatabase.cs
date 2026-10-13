@@ -82,39 +82,39 @@ public static class AnswerDatabase
         command.Clone();
     }
     
-//     
-//     public static void LoadAnswer(string userName)
-//     {
-//         (string username, string password) = SystemValidation.System.GetSqlAuthenticationInfo();
-//
-//         string connectionString = GetConnectionString(username, password);
-//
-//         using SqlConnection connection = new SqlConnection(connectionString);
-//
-//         connection.Open();
-//
-//         string sql = """
-//                      SELECT *
-//                      FROM Answers
-//                      """;
-//
-//         SqlCommand command = new SqlCommand();
-//
-//         SqlDataReader reader = command.ExecuteReader();
-//
-//         while (reader.Read())
-//         {
-//             $"""
-//                      ┌────────────────────────────
-//                      │ Username: {userName}
-//                      │ Code: {answers[i].UserName}
-//                      │ ApprovalStatus: {answers[i].Code}
-//                      │ Grade: {answers[i].CreatedDate:dd/MM/yyyy HH:mm}
-//                      │ GoalGrade: {answers[i].ApprovalStatus}
-//                      │ CreatedAt: {score}
-//                      └─────────────────────────────
-//              """;
-//         }
-//     }
+     
+     public static void LoadAnswer(string userName)
+     {
+         (string username, string password) = SystemValidation.System.GetSqlAuthenticationInfo();
+
+         string connectionString = GetConnectionString(username, password);
+
+         using SqlConnection connection = new SqlConnection(connectionString);
+
+         connection.Open();
+
+         string sql = """
+                      SELECT *
+                      FROM Answers
+                      """;
+
+         SqlCommand command = new SqlCommand();
+
+         SqlDataReader reader = command.ExecuteReader();
+
+         while (reader.Read())
+         {
+             string answers = $"""
+                      ┌────────────────────────────
+                      │ Username: {userName}
+                      │ Code: {reader["Code"]}
+                      │ ApprovalStatus: {reader["ApprovalStatus"]}
+                      │ Grade: {reader["Grade"]}
+                      │ GoalGrade: {reader["GoalGrade"]}
+                      │ CreatedAt: {reader["CreateAt"]}
+                      └─────────────────────────────
+              """;
+         }
+     }
 }
 
