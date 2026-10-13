@@ -67,7 +67,7 @@ public static class AnswerDatabase
                      VALUES (@UserId, @QuestionId, @Code, @ApprovalStatus, @Grade, @GoalGrade, @CreatedAt)
                      """;
 
-        SqlCommand command = new SqlCommand(sql, connection);
+        using SqlCommand command = new SqlCommand(sql, connection);
 
         command.Parameters.AddWithValue("@UserId", answer.UserName);
         command.Parameters.AddWithValue("@QuestionId", answer.ApprovalStatus);
@@ -98,7 +98,7 @@ public static class AnswerDatabase
                       FROM Answers
                       """;
 
-         SqlCommand command = new SqlCommand();
+         using SqlCommand command = new SqlCommand();
 
          SqlDataReader reader = command.ExecuteReader();
 
@@ -115,6 +115,29 @@ public static class AnswerDatabase
                       └─────────────────────────────
               """;
          }
+     }
+     
+
+     public static void UpdateApprovalStatus(int status, int answerId)
+     {
+         (string username, string password) = SystemValidation.System.GetSqlAuthenticationInfo();
+
+         string connectionString = GetConnectionString(username, password);
+
+         using SqlConnection connection = new SqlConnection(connectionString);
+
+         connection.Open();
+
+         string sql = """
+                      UPDATE ANSWER
+                      SET ApprovalStatus = @Status
+                      WHERE Id = @AnswerId
+                      """;
+         
+         using SqlCommand command = new SqlCommand(sql, connection);
+
+         command.Parameters.AddWithValue("@Status", (State)status);
+         command.Parameters.AddWithValue("@AnswerId", answerId);
      }
 }
 
