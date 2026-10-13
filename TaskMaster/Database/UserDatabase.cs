@@ -11,7 +11,7 @@ public static class Database
         return $"Server=192.168.1.138,1433;Database=TaskMaster;User Id={username};Password={password};TrustServerCertificate=True;";
     }
     
-    public static void SaveUser(User data)
+    public static bool SaveUser(User data)
     {
         try
         {
@@ -38,11 +38,12 @@ public static class Database
 
             command.ExecuteNonQuery();
             connection.Close();
+            return true;
         }
         catch (InvalidOperationException e)
         {
             SystemValidation.System.PrintColorizeMessage(e.Message, ConsoleColor.Red);
-            return;
+            return false;
         }
     }
 

@@ -1,9 +1,16 @@
-﻿using DataBase;
+﻿using Services;
 using UserModel;
 namespace Menu;
 
 public class Register
 {
+    private readonly UserRegistrationService _registrationService;
+
+    public Register(UserRegistrationService registrationService)
+    {
+        _registrationService = registrationService;
+    }
+
     public User? Create()
     {
         Console.Clear();
@@ -80,22 +87,31 @@ public class Register
             if (confirmPassword == null) return BackUser();
         }
 
-        User user = new User(
+        UserRegistrationResult result = _registrationService.Register(
             role,
             name,
             lastName,
             username,
-            password,
-            Level.Beginner,
-            0
+            password
         );
 
-        bool isRegistered = user.Add();
-
-        if(!isRegistered)
+        if (result.Status == UserRegistrationStatus.UsernameAlreadyExists)
         {
             ConsoleHelper.PrintColorizeMessage(
                 "Register failed! Username already exists.",
+                ConsoleColor.Red
+            );
+
+            ConsoleHelper.Countdown();
+            Console.Clear();
+
+            return BackUser();
+        }
+
+        if (result.Status == UserRegistrationStatus.SaveFailed)
+        {
+            ConsoleHelper.PrintColorizeMessage(
+                "Register failed! The user could not be saved.",
                 ConsoleColor.Red
             );
 
@@ -113,7 +129,7 @@ public class Register
         ConsoleHelper.Countdown();
         Console.Clear();
         
-        return user;
+        return result.User;
     }
 
     private static string? ReadValue(

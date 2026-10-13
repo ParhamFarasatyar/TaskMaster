@@ -1,5 +1,7 @@
 ﻿namespace Menu;
 using UserModel;
+using DataBase;
+using Services;
 
 public class MainMenu
 {
@@ -40,7 +42,11 @@ public class MainMenu
             
             case 1:
 
-                Register register = new();
+                Register register = new(
+                    new UserRegistrationService(
+                        new SqlUserRepository()
+                    )
+                );
                 
                 User? registerUser = register.Create();
                 

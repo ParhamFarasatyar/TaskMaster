@@ -23,16 +23,6 @@ public class User
         Level = level;
         Score = score;
     }
-    public bool Add()
-    {
-        List<User>? users = GetUsers();
-        if (users!.Any(u => string.Equals(u.UserName, UserName, StringComparison.OrdinalIgnoreCase)) ||
-            (users is null))
-            return false;
-
-        Database.SaveUser(this);
-        return true;
-    }
     public bool Edit(string field, string data)
     {
         List<User>? users = GetUsers();
