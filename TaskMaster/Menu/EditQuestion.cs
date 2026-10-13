@@ -1,4 +1,5 @@
 ﻿using TaskMaster.DataModel;
+using TaskMaster.Services;
 namespace Menu;
 
 public class EditQuestion
@@ -9,7 +10,12 @@ public class EditQuestion
         ConsoleHelper.PrintColorizeMessage("====================", ConsoleColor.DarkCyan);
         ConsoleHelper.PrintColorizeMessage("    EDIT QUESTION   ", ConsoleColor.White);
         ConsoleHelper.PrintColorizeMessage("====================", ConsoleColor.DarkCyan);
-        string[] questions = Question.MenuQuestions();
+
+        // ---------- Selecting Question ----------
+
+        string[] questions = QuestionService.MenuQuestions(out List<int> questionIds);
+        Console.WriteLine(questionIds.Count());
+        Thread.Sleep(5000);
         if (questions.Length == 0)
         {
             ConsoleHelper.ReadInput(
@@ -25,10 +31,10 @@ public class EditQuestion
         {
             return;
         }
-        SelectField(selected);
-    }
-    private void SelectField(int selected)
-    {
+        int questionId = questionIds[selected];
+
+        // ---------- Selecting Field ----------
+
         string[] questionFields =
         {
             "Description",
@@ -44,15 +50,9 @@ public class EditQuestion
         {
             return;
         }
-        EditField(
-            selected,
-            fieldSelected
-        );
-    }
-    private void EditField(
-        int selected,
-        int fieldSelected)
-    {
+
+        // ---------- Geting Value ----------
+
         switch (fieldSelected)
         {
             case 0:
@@ -64,7 +64,7 @@ public class EditQuestion
                     )!;
                     if (descriptionInput == null)
                     {
-                        SelectField(selected);
+                        
                         return;
                     }
                     if (SystemValidation.System.StringValidationInput(
@@ -79,7 +79,7 @@ public class EditQuestion
                         ConsoleColor.Red
                     );
                 }
-                Question.Edit(selected, description, fieldSelected);
+                QuestionService.Edit(questionId, description, fieldSelected);
                 break;
             case 1:
                 Difficulty difficulty = Difficulty.Beginner;
@@ -96,7 +96,6 @@ public class EditQuestion
                 );
                 if (difficultySelected == -1 || difficultySelected == 3)
                 {
-                    SelectField(selected);
                     return;
                 }
                 difficulty = difficultySelected switch
@@ -106,10 +105,10 @@ public class EditQuestion
                     2 => Difficulty.Advanced,
                     _ => Difficulty.Beginner
                 };
-                Question.Edit(selected, difficulty, fieldSelected);
+                QuestionService.Edit(questionId, difficulty, fieldSelected);
                 break;
             case 2:
-            int grade;
+                int grade;
                 while (true)
                 {
                     string? gradeInput = ConsoleHelper.ReadInput(
@@ -117,7 +116,6 @@ public class EditQuestion
                     );
                     if (gradeInput == null)
                     {
-                        SelectField(selected);
                         return;
                     }
                     if (SystemValidation.System.Grade(
@@ -132,7 +130,7 @@ public class EditQuestion
                         ConsoleColor.Red
                     );
                 }
-                Question.Edit(selected, grade, fieldSelected);
+                QuestionService.Edit(questionId, grade, fieldSelected);
                 break;
         }
         Console.WriteLine();
