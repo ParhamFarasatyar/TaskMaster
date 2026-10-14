@@ -1,238 +1,81 @@
 # TaskMaster
 
-TaskMaster is a .NET console application designed for a lightweight task-evaluation workflow. It models a small training platform where users are assigned roles, questions are created and managed, and answers are submitted, reviewed, and scored.
+TaskMaster is a .NET console application for a training workflow. Designers create and maintain questions, interns submit answers, and designers review submissions to award points and progress intern levels.
 
-The project is built around a simple console menu system and uses local JSON files as its database layer. It is not a web application or API; it is a self-contained desktop-like application for learning and internal task management.
+## Features
 
-## What the project does
+- User registration, login, profile editing, and account deletion
+- Designer and intern menus
+- Question creation, editing, and deletion
+- Questions filtered by intern level; a user cannot submit another answer to a question they have already answered
+- Answer submission, status tracking, and designer review
+- Approving an answer updates its status, grade, intern score, and level in one SQL transaction
 
-TaskMaster supports two main user roles:
+## Requirements
 
-- Designer
-  - Registers and logs in
-  - Creates coding/design tasks with a description, difficulty, and score
-  - Edits or removes existing tasks
-  - Reviews submitted answers from interns
-  - Approves or rejects answers
-  - Awards score to interns and updates their level
+- .NET 10 SDK
+- SQL Server (local or remote)
+- A SQL Server database and an account with permission to create and update tables
 
-- Intern
-  - Registers and logs in
-  - Views their profile and account details
-  - Answers tasks available for their current level
-  - Checks the status of their submitted answers
-  - Gains score when a designer approves an answer
+The application creates its `Users`, `Questions`, and `Answers` tables on first startup. Create the database itself before running the application:
 
-The project implements a complete loop of:
+```sql
+CREATE DATABASE TaskMaster;
+```
 
-1. User registration and login
-2. Role-based navigation
-3. Task creation and management
-4. Answer submission
-5. Review and approval workflow
-6. Score and level progression
+Configure the connection string in `TaskMaster/appsettings.json`. This file is ignored by Git because it may contain credentials. The application copies it to the output directory when building or publishing. Example:
 
-## Core logic and behavior
+```json
+{
+  "ConnectionStrings": {
+    "TaskMaster": "Server=localhost;Database=TaskMaster;User ID=YOUR_USERNAME;Password=YOUR_PASSWORD;Encrypt=True;TrustServerCertificate=True"
+  }
+}
+```
 
-### 1. User system
-The app manages users through the `User` model in `TaskMaster/DataModel/User.cs`.
+Replace `YOUR_USERNAME` and `YOUR_PASSWORD` with your SQL Server credentials. Change `Server=localhost` to the SQL Server host and instance you actually installed (for example, `localhost\SQLEXPRESS` for a default SQL Express instance). `TrustServerCertificate=True` is useful for a local development instance with a self-signed certificate. For production, configure a trusted SQL Server certificate and omit that option.
 
-User properties include:
+Run the application from the project directory:
 
-- `Role` (`Designer` or `Intern`)
-- `Name`
-- `LastName`
-- `UserName`
-- `Password`
-- `Level` (`Beginner`, `MidLevel`, `Advanced`)
-- `Score`
+```powershell
+dotnet build .\TaskMaster.csproj
+dotnet run --project .\TaskMaster.csproj
+```
 
-The user model includes these important behaviors:
+Or from the parent directory:
 
-- `Add()` creates a new user only if the username is unique
-- `Edit()` updates profile information, with username uniqueness validation
-- `Remove()` deletes the user and removes their answers from storage
-- `SetScore()` adds points to a user's score
-- `UpdateLevel()` recalculates their progression tier based on score
+```powershell
+dotnet build .\TaskMaster\TaskMaster.csproj
+dotnet run --project .\TaskMaster\TaskMaster.csproj
+```
 
-Score rules implemented in the code:
+## Clean Architecture layout
 
-- `Score <= 10` → `Beginner`
-- `10 < Score <= 20` → `MidLevel`
-- `Score > 20` → `Advanced`
+The console app remains a single .NET project, organized into Clean Architecture layers:
 
-### 2. Question system
-Questions are represented by the `Question` class in `TaskMaster/DataModel/Question.cs`.
+- `Domain/Entities` contains the user, question, and answer models without database or console dependencies.
+- `Application/Abstractions/Persistence` defines the persistence ports used by the application.
+- `Application/Services` contains registration, authentication, profile, question, and answer use cases. It depends on the domain and interfaces, not SQL Server.
+- `Infrastructure/Persistence/SqlServer` implements the repository ports and database initialization with SQL Server.
+- `Presentation/Cli/Menus` contains the console UI and display formatters; `Presentation/Cli/Validation` contains input validation.
+- `Presentation/Program.cs` is the composition root: it wires SQL Server implementations into application services and starts the menus.
 
-Each question contains:
+Dependency direction is inward: Infrastructure implements Application abstractions, and Presentation is the only layer that references the SQL Server implementation directly (for startup composition). The SQL statements are parameterized, update-column names are allowlisted, and answer review plus score progression is atomic.
 
-- `Description`
-- `Grade`
-- `Difficulty` (`Beginner`, `MidLevel`, `Advanced`)
-- `Id`
-- `CreatedAt`
-- `UpdatedAt`
-
-Designer actions:
-
-- Create a question by entering: description, grade (1–5), and difficulty
-- Edit question fields (description, difficulty, grade)
-- Remove a question and delete any related answers for that task
-
-The app also filters available questions for each intern using:
-
-- question difficulty matching the intern's current level
-- excluding already answered questions for that user
-
-This logic is handled by `Question.GetQuestionsUserCanAnswer(...)`.
-
-### 3. Answer system
-Answers are represented by the `Answer` class in `TaskMaster/DataModel/Answer.cs`.
-
-Each answer includes:
-
-- `UserName`
-- `AnswerId`
-- `ApprovalStatus` (`Pending`, `Approve`, `Reject`)
-- `CreatedDate`
-- `QuestionId`
-- `Code`
-- `Grade`
-- `GoalGrade`
-- `Description`
-
-Interns submit code answers tied to a selected task. Designers later review pending answers and choose to:
-
-- Approve: sets status to `Approve`, assigns the goal grade, adds the grade to the user's score, and updates the level
-- Reject: sets status to `Reject` and assigns grade `0`
-
-### 4. Menu-driven application flow
-The UI is fully console-based. The app uses menu classes under `TaskMaster/Menu/` to guide the user through actions.
-
-Main flow:
-
-- `Program.cs` starts the app in a loop
-- `MainMenu` presents `Login`, `Register`, or `Exit`
-- Based on the authenticated user role:
-  - `InternMenu` opens intern features
-  - `DesignerMenu` opens designer features
-
-These menus are implemented with `ConsoleMenu.Show(...)`, which supports keyboard navigation and selection with arrow keys and Enter.
-
-### 5. Validation and UX rules
-Validation rules are centralized in `TaskMaster/System/SystemValidation.cs`.
-
-The app validates:
-
-- non-empty strings
-- trimmed input
-- username length and character rules
-- password strength requirements
-- grade range (`1` to `5`)
-
-The CLI also includes helper methods for message colors, countdown transitions, and input handling, giving the app a polished terminal experience.
-
-## Data storage
-The application persists state in JSON files instead of a relational database.
-
-The storage layer is in `TaskMaster/Database/Database.cs`.
-
-It stores data under the runtime output directory, in a `Data` folder, for example:
-
-- `TaskMaster/bin/Debug/net10.0/Data/Users.json`
-- `TaskMaster/bin/Debug/net10.0/Data/Questions.json`
-- `TaskMaster/bin/Debug/net10.0/Data/Answers.json`
-
-The JSON files are managed by `Database.Save(...)`, `Database.Load(...)`, and `Database.Update(...)`.
-
-This means the app is effectively a local, file-based data system rather than a hosted multi-user platform.
-
-## Project structure
+The application creates or updates the `Users`, `Questions`, and `Answers` tables on startup. Existing `Answers` tables are migrated by dropping the obsolete `AnswerId` column; answer records and their identity keys are retained. Back up an existing SQL database before using the application. JSON files from older builds are not automatically imported; preserve and migrate any data you need before switching the application to SQL Server.
 
 ```text
 TaskMaster/
-├── DataModel/
-│   ├── Answer.cs
-│   ├── Question.cs
-│   └── User.cs
-├── Database/
-│   └── Database.cs
-├── Menu/
-│   ├── AnswerQuestion.cs
-│   ├── AnswerStatus.cs
-│   ├── ConsoleHelper.cs
-│   ├── ConsoleMenu.cs
-│   ├── DesignerMenu.cs
-│   ├── EditQuestion.cs
-│   ├── InternMenu.cs
-│   ├── Login.cs
-│   ├── MainMenu.cs
-│   ├── MenuManager.cs
-│   ├── Profile.cs
-│   ├── QuestionCreator.cs
-│   ├── Register.cs
-│   ├── RemoveQuestion.cs
-│   └── ReviewAnswer.cs
-├── System/
-│   └── SystemValidation.cs
-├── Program.cs
-├── TaskMaster.csproj
-└── obj/ and bin/ (generated build artifacts)
+├── Domain/
+│   └── Entities/
+├── Application/
+│   ├── Abstractions/Persistence/
+│   └── Services/
+├── Infrastructure/
+│   └── Persistence/SqlServer/
+├── Presentation/
+│   ├── Cli/Menus/
+│   ├── Cli/Validation/
+│   └── Program.cs
+└── TaskMaster.csproj
 ```
-
-## How the application works in practice
-
-A typical flow looks like this:
-
-1. The user launches the app.
-2. They either log in or create a new account.
-3. If they are a designer:
-   - they create tasks
-   - interns submit answers
-   - the designer approves or rejects answers
-   - user scores are updated
-4. If they are an intern:
-   - they answer tasks matching their level
-   - they check answer status
-   - their score changes only after review approval
-
-This creates a simple evaluation cycle where the designer acts as an instructor and the intern acts as a learner.
-
-## Getting started
-
-### Requirements
-
-- .NET SDK compatible with `net10.0`
-- A terminal or command prompt
-
-### Run the project
-
-From the repository root:
-
-```bash
-dotnet build "TaskMaster\TaskMaster.csproj"
-dotnet run --project "TaskMaster\TaskMaster.csproj"
-```
-
-Or, from inside the project directory:
-
-```bash
-cd TaskMaster
-dotnet run
-```
-
-## Notes and limitations
-
-This project is a strong demonstration of a console-based task management flow, but it is intentionally simple and has some limitations:
-
-- Data is stored locally in JSON files, not in a database server
-- Passwords are stored in plain JSON and are not hashed or encrypted
-- There is no web API, authentication server, or multi-user backend
-- The application is designed for in-terminal usage and local learning scenarios
-- There are no automated tests in the project at the moment
-
-## Summary
-
-TaskMaster is essentially a mini internal training system for creating and reviewing tasks. It combines role-based menus, user management, task handling, answer tracking, scoring, and level progression in a single console application.
-
-It is a practical example of how a small business workflow can be modeled using C#, JSON storage, and a menu-driven interface.
