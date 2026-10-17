@@ -19,10 +19,6 @@ public class Question
         Grade = grade;
         Difficulty = difficulty;
     }
-    public Question(string description, int grade, Difficulty difficulty, int id)
-        : this(description, grade, difficulty, id, DateTime.Now, DateTime.Now)
-    {
-    }
 
     public Question(
         string description,
