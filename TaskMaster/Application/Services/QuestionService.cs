@@ -18,7 +18,7 @@ public sealed class QuestionService
 
     public List<Question> GetAvailable(Difficulty difficulty, string username) =>
         _questions.GetAvailable(difficulty, username)
-            .Where(question => question.Difficulty <= difficulty)
+            .Where(question => question.Difficulty == difficulty)
             .ToList();
 
     public void Edit(int id, string field, object value)
